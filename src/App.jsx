@@ -174,12 +174,12 @@ export default function App() {
           </div>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center space-x-1">
+          <div className="hidden lg:flex items-center space-x-1 flex-nowrap">
             {NAV_LINKS.map((link) => (
               <button
                 key={link.id}
                 onClick={() => navigateTo(link.id)}
-                className={`px-3 py-2 text-sm font-semibold rounded-md transition-colors ${
+                className={`px-3 py-2 text-sm font-semibold rounded-md transition-colors whitespace-nowrap ${
                   activePage === link.id 
                     ? '' 
                     : 'text-gray-600'
@@ -202,7 +202,10 @@ export default function App() {
                 {link.name}
               </button>
             ))}
-            <div className="ml-4">
+            <div className="ml-4 flex items-center gap-3">
+               <Button variant="outline" className="shadow-lg transform hover:-translate-y-0.5" onClick={() => navigateTo('contact')}>
+                  Contact
+               </Button>
                <Button variant="primary" className="shadow-lg transform hover:-translate-y-0.5">
                   Donate
                </Button>
@@ -232,7 +235,8 @@ export default function App() {
                 {link.name}
               </button>
             ))}
-            <div className="pt-4 px-4">
+            <div className="pt-4 px-4 space-y-3">
+              <Button variant="outline" className="w-full" onClick={() => navigateTo('contact')}>Contact</Button>
               <Button variant="primary" className="w-full">Donate</Button>
             </div>
           </div>
