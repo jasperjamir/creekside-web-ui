@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Heart, MapPin, Phone, Mail, ChevronRight, ArrowRight, Star, Users, Smile, BarChart, BookOpen, User, HandHeart } from 'lucide-react';
+import heroImage from './assets/images/hero-image.png';
 
 // --- Assets & Constants ---
 const LOGO_URL = "https://static.wixstatic.com/media/d09b7d_a74d0a2393f94bc8b622fc84e85214b5~mv2.jpg/v1/fill/w_200,h_176,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Creekside_logo_2x2_120dpi_2019.jpg";
@@ -315,8 +316,8 @@ export default function App() {
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1588075592446-39e67379d169?q=80&w=2541&auto=format&fit=crop" 
-            alt="Students learning" 
+            src={heroImage} 
+            alt="Adult and child engaged in art activity at Creekside School" 
             className="w-full h-full object-cover"
           />
           {/* Dominant background gradient overlay */}
