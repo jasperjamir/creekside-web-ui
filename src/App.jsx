@@ -23,10 +23,10 @@ const NAV_LINKS = [
   { name: 'Home', id: 'home' },
   { name: 'Who We Are', id: 'who-we-are' },
   { name: 'What We Do', id: 'what-we-do' },
-  { name: 'Events & Updates', id: 'events' },
-  { name: 'For Families', id: 'families' },
-  { name: 'Support Us', id: 'support' },
-  { name: 'Join Our Team', id: 'join' },
+  { name: 'Events', id: 'events' },
+  { name: 'Families', id: 'families' },
+  { name: 'Support', id: 'support' },
+  { name: 'Join Us', id: 'join' },
 ];
 
 const PILLARS = [
