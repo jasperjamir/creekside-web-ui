@@ -15,7 +15,7 @@ const COLORS = {
   },
   green: '#A4D16A',
   yellow: '#FAC60B',
-  cream: '#FDF6E8',z
+  cream: '#FDF6E8',
   white: '#FFFFFF',
 };
 

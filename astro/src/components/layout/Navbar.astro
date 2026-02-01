@@ -24,13 +24,14 @@ const currentPath = Astro.url.pathname;
           return (
             <a
               href={link.href}
-              class={`px-3 py-2 text-sm font-semibold rounded-md transition-colors whitespace-nowrap ${
+              class={`px-3 py-2 text-sm font-semibold rounded-md transition-colors whitespace-nowrap nav-link ${
                 isActive ? '' : 'text-gray-600'
               }`}
               style={isActive 
                 ? { color: COLORS.blue.royal, backgroundColor: `${COLORS.blue.light}4D` }
                 : { color: 'inherit' }
               }
+              data-link-id={link.id}
             >
               {link.name}
             </a>
@@ -95,4 +96,25 @@ const currentPath = Astro.url.pathname;
       closeIcon?.classList.toggle('hidden');
     });
   }
+
+  // Add hover effects for desktop nav links
+  const navLinks = document.querySelectorAll('.nav-link') as NodeListOf<HTMLElement>;
+  const colors = {
+    blueRoyal: '#2658B2',
+    blueLight: '#B9D9EB'
+  };
+
+  navLinks.forEach(link => {
+    const isActive = link.style.color === colors.blueRoyal;
+    
+    if (!isActive) {
+      link.addEventListener('mouseenter', () => {
+        link.style.color = colors.blueRoyal;
+      });
+      
+      link.addEventListener('mouseleave', () => {
+        link.style.color = '';
+      });
+    }
+  });
 </script>
