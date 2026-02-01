@@ -1,0 +1,28 @@
+---
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import PreFooter from '../components/layout/PreFooter.astro';
+import BaseHead from '../components/BaseHead.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'The Creekside School - Specialized Education for Students with Profound Autism' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+  <body>
+    <Navbar />
+    <main>
+      <slot />
+    </main>
+    <PreFooter />
+    <Footer />
+  </body>
+</html>
