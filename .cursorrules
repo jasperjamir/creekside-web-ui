@@ -1,0 +1,80 @@
+# Creekside Website Development Rules
+
+## Component Usage Rules
+
+### 1. Common Components Must Be Used
+- **ALWAYS** use components from `src/components/ui/` for UI elements (Button, SectionHeading, PillarCard, etc.)
+- **ALWAYS** use components from `src/components/layout/` for layout elements (Navbar, Footer, PreFooter)
+- **NEVER** recreate UI components inline in page files
+- **NEVER** duplicate component logic across pages
+
+### 2. Page Structure Requirements
+- All pages MUST use `BaseLayout.astro` or appropriate layout component
+- All pages MUST import and use common UI components from `src/components/ui/`
+- Page-specific sections should be in `src/sections/[page-name]/` directory
+- Shared sections should be in `src/components/sections/`
+
+### 3. Import Patterns
+- Use absolute imports from `src/components/` when possible
+- Example: `import Button from '@components/ui/Button.astro'`
+- Example: `import Navbar from '@components/layout/Navbar.astro'`
+
+### 4. Constants Usage
+- **ALWAYS** import colors, navigation links, and data from `src/constants/`
+- **NEVER** hardcode color values, navigation items, or data in page files
+- Use: `import { COLORS, NAV_LINKS, PILLARS } from '@constants'`
+
+### 5. Component Composition
+- Pages should compose sections, not contain inline markup
+- Each section should be a separate component file
+- Sections should use common UI components internally
+
+### 6. File Organization
+- Page files: `src/pages/[page-name]/index.astro` or `src/pages/[page-name].astro`
+- Section files: `src/sections/[page-name]/[SectionName].astro`
+- UI components: `src/components/ui/[ComponentName].astro`
+- Layout components: `src/components/layout/[ComponentName].astro`
+
+### 7. Code Reusability
+- If a component is used in 2+ places, it MUST be in `src/components/`
+- If a section is page-specific but complex, it should be in `src/sections/[page-name]/`
+- If a section is used across multiple pages, it should be in `src/components/sections/`
+
+### 8. Prohibited Patterns
+- ❌ Inline component definitions in page files
+- ❌ Duplicate component logic across files
+- ❌ Hardcoded colors, navigation items, or data
+- ❌ Creating new UI components when existing ones can be used
+- ❌ Bypassing layout components
+
+### 9. Required Patterns
+- ✅ Import and use Button from `@components/ui/Button.astro`
+- ✅ Import and use SectionHeading from `@components/ui/SectionHeading.astro`
+- ✅ Import and use Navbar/Footer from `@components/layout/`
+- ✅ Import constants from `@constants`
+- ✅ Use BaseLayout or appropriate layout wrapper
+- ✅ Break complex pages into section components
+
+### 10. Example Page Structure
+```astro
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Button from '@components/ui/Button.astro';
+import SectionHeading from '@components/ui/SectionHeading.astro';
+import HeroSection from '@sections/home/HeroSection.astro';
+import { COLORS, NAV_LINKS } from '@constants';
+---
+
+<BaseLayout>
+  <HeroSection />
+  <section>
+    <SectionHeading>Title</SectionHeading>
+    <Button variant="primary">Action</Button>
+  </section>
+</BaseLayout>
+```
+
+## Enforcement
+- When creating or editing page files, ensure all common components are imported and used
+- When creating new components, check if similar functionality exists in `src/components/` first
+- Refactor inline components to use common components when found
