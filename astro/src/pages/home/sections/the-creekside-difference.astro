@@ -1,13 +1,20 @@
 ---
 import { COLORS } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
+
+interface Props {
+  heading: string;
+  body: string;
+}
+
+const { heading, body } = Astro.props;
 ---
 
 <section class="py-20" style={{ backgroundColor: COLORS.cream }}>
   <div class="container mx-auto px-4 lg:px-8 text-center max-w-4xl">
-    <SectionHeading>The Creekside Difference</SectionHeading>
+    <SectionHeading>{heading}</SectionHeading>
     <p class="text-xl md:text-2xl text-gray-700 leading-relaxed font-light mt-8">
-      "At Creekside, we create tailored learning experiences and environments where students with profound autism are truly seen and understood."
+      "{body}"
     </p>
     <div class="h-1 w-24 mx-auto mt-8 rounded-full" style={{ backgroundColor: COLORS.blue.royal }}></div>
   </div>
