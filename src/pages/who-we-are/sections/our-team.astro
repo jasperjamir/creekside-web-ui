@@ -6,53 +6,61 @@ interface TeamGroup {
   title: string;
   description: string;
   imageUrl?: string;
+  images?: readonly string[];
 }
 
 interface Props {
   groups: readonly TeamGroup[];
-  carouselImages?: readonly string[];
 }
 
-const { groups = [], carouselImages = [] } = Astro.props;
+const { groups = [] } = Astro.props;
 
-function getImageUrl(url?: string, fallback: string) {
+function getImageUrl(fallback: string, url?: string) {
   return url ?? `${ASSETS_BASE_URL}/images/${fallback}`;
 }
 ---
 
-<section id="our-team" class="py-20" style={{ backgroundColor: COLORS.white }}>
+<section id="our-team" class="py-20" style={{ backgroundColor: COLORS.white, '--carousel-dot-active': COLORS.blue.royal, '--carousel-dot-inactive': COLORS.blue.light }}>
   <div class="container mx-auto px-4 lg:px-8">
     <SectionHeading>Our Team</SectionHeading>
 
-    {carouselImages.length > 0 && (
-      <div class="mt-12 overflow-hidden rounded-2xl shadow-md aspect-[21/9]">
-        <img
-          src={carouselImages[0]}
-          alt="Creekside team groups"
-          class="w-full h-full object-cover object-center"
-          loading="lazy"
-          width="1200"
-          height="514"
-        />
-      </div>
-    )}
-
     <div class="mt-16 space-y-20">
-      {groups.map((group, i) => {
-        const imgSrc = getImageUrl(group.imageUrl, `who-we-are--team-${i}.jpg`);
-        const imageLeft = i % 2 === 0;
+      {groups.map((group, groupIndex) => {
+        const images = group.images && group.images.length > 0 ? group.images : [getImageUrl(`who-we-are--team-${groupIndex}.jpg`, group.imageUrl)];
+        const imageLeft = groupIndex % 2 === 0;
+        const carouselId = `carousel-${groupIndex}`;
         return (
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div class={imageLeft ? '' : 'lg:order-2'}>
-              <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md aspect-[4/3] mx-auto">
-                <img
-                  src={imgSrc}
-                  alt={group.title}
-                  class="w-full h-full object-cover object-center"
-                  loading="lazy"
-                  width="600"
-                  height="450"
-                />
+              <div class="w-full max-w-lg mx-auto">
+                <div class="overflow-hidden rounded-2xl shadow-md aspect-[4/3] relative bg-gray-200" data-carousel={carouselId}>
+                  {images.map((src, imgIndex) => (
+                    <img
+                      data-slide
+                      data-carousel-id={carouselId}
+                      src={src}
+                      alt={`${group.title} — ${imgIndex + 1} of ${images.length}`}
+                      class="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-300"
+                      style={{ opacity: imgIndex === 0 ? 1 : 0 }}
+                      loading={imgIndex === 0 ? 'lazy' : 'lazy'}
+                      width="600"
+                      height="450"
+                    />
+                  ))}
+                </div>
+                {images.length > 1 && (
+                  <div class="flex justify-center gap-2 mt-3" data-dots={carouselId} aria-label="Carousel navigation">
+                    {images.map((_, dotIndex) => (
+                      <button
+                        type="button"
+                        data-dot-index={dotIndex}
+                        data-carousel-id={carouselId}
+                        class={`carousel-dot w-2.5 h-2.5 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1 ${dotIndex === 0 ? 'carousel-dot--active' : ''}`}
+                        aria-label={`Go to image ${dotIndex + 1}`}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
             <div class={imageLeft ? '' : 'lg:order-1'}>
@@ -65,3 +73,34 @@ function getImageUrl(url?: string, fallback: string) {
     </div>
   </div>
 </section>
+
+<style is:global>
+  .carousel-dot { background-color: var(--carousel-dot-inactive, #cbd5e1); }
+  .carousel-dot--active { background-color: var(--carousel-dot-active, #1e3a5f); }
+</style>
+
+<script>
+  document.querySelectorAll('[data-dots]').forEach((dotsEl) => {
+    const carouselId = dotsEl.getAttribute('data-dots');
+    const slides = document.querySelectorAll(`img[data-carousel-id="${carouselId}"][data-slide]`);
+    const dots = dotsEl.querySelectorAll('button[data-dot-index]');
+    if (slides.length < 2 || dots.length !== slides.length) return;
+
+    let current = 0;
+    function goTo(index: number) {
+      (slides[current] as HTMLElement).style.opacity = '0';
+      dots[current].classList.remove('carousel-dot--active');
+      current = index;
+      (slides[current] as HTMLElement).style.opacity = '1';
+      dots[current].classList.add('carousel-dot--active');
+    }
+
+    dots.forEach((btn, i) => {
+      btn.addEventListener('click', () => goTo(i));
+    });
+
+    setInterval(() => {
+      goTo((current + 1) % slides.length);
+    }, 4000);
+  });
+</script>
