@@ -1,5 +1,5 @@
 export default {
-  name: "home",
+  name: "siteSettings",
   type: "document",
   title: "Site Settings",
   fields: [

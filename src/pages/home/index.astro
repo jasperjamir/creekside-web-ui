@@ -1,4 +1,5 @@
 ---
+import { sanityClient } from "sanity:client";
 import HomeLayout from '../../layouts/HomeLayout.astro';
 import HeroSection from './sections/hero.astro';
 import CreeksideDifference from './sections/the-creekside-difference.astro';
@@ -8,68 +9,104 @@ import NavigationGrid from './sections/navigation-grid.astro';
 import Testimonials from './sections/testimonials.astro';
 import CommunityImage from './sections/community-image.astro';
 
-const heroText = {
+const QUERY = /* groq */ `*[_type == "home"][0] {
+  heroText {
+    imageAlt,
+    badge,
+    headingPrefix,
+    headingHighlight,
+    subheading,
+    contactCta,
+    donateCta,
+    contactHref,
+    donateHref
+  },
+  creeksideDifferenceText {
+    heading,
+    body
+  },
+  ourPillarsText {
+    heading,
+    subheading,
+    pillars[] {
+      title,
+      icon,
+      text
+    }
+  },
+  communityPartnersText {
+    heading,
+    partnerNames
+  },
+  navigationGridText {
+    heading,
+    linkLabel,
+    items[] {
+      title,
+      icon,
+      link
+    }
+  },
+  testimonialsText {
+    heading,
+    testimonials[] {
+      text,
+      author,
+      role
+    }
+  },
+  communityImageText {
+    title,
+    description
+  }
+}`;
+
+const data = await sanityClient.fetch(QUERY);
+
+// Extract data with fallbacks for development
+const heroText = data?.heroText || {
   imageAlt: 'Adult and child engaged in art activity at Creekside School',
   badge: 'Welcome to Creekside',
   headingPrefix: 'Specialized Education for Students with ',
   headingHighlight: 'Profound Autism',
-  subheading:
-    'At Creekside, we create tailored learning experiences and environments where students with profound autism are truly seen and understood.',
+  subheading: 'At Creekside, we create tailored learning experiences and environments where students with profound autism are truly seen and understood.',
   contactCta: 'Contact Us',
   donateCta: 'Donate',
   contactHref: '/contact',
   donateHref: '/support/donate',
-} as const;
+};
 
-const creeksideDifferenceText = {
+const creeksideDifferenceText = data?.creeksideDifferenceText || {
   heading: 'The Creekside Difference',
   body: 'At Creekside, we create tailored learning experiences and environments where students with profound autism are truly seen and understood.',
-} as const;
+};
 
-const ourPillarsText = {
+const ourPillarsText = data?.ourPillarsText || {
   heading: 'Our Pillars',
-  subheading:
-    'The Creekside School serves a unique student population and their families. We take a special, holistic approach to educating students guided by 7 pillars, which create the foundation of our approach.',
-  pillars: [
-    { title: 'Relationships', icon: 'Users', text: 'We build sincere and meaningful relationships with all of our students.' },
-    { title: 'Fun', icon: 'Smile', text: 'We incorporate interests and highly engaging activities in everything we do to ensure that students want to be at school and to participate.' },
-    { title: 'Regulation', icon: 'HandHeart', text: 'All students learn important emotional, sensory, and behavioral regulation strategies.' },
-    { title: 'Data Driven', icon: 'BarChart', text: 'We decide Creekside programming, goals, and treatment options by consulting high-quality data.' },
-    { title: 'Best in Class Education', icon: 'BookOpen', text: 'We only follow evidence-based practices backed by extensive research that have been shown to benefit people with autism.' },
-    { title: 'Person Centered', icon: 'User', text: 'Our approach is person-first, trauma-sensitive, and humanistic. We adapt programming for students based on their personal preferences, history, and assent.' },
-    { title: 'Family Partnership', icon: 'Heart', text: "Families are our partners in holistically educating and caring for our students. We work together with parents to meet all students' needs." },
-  ],
-} as const;
+  subheading: 'The Creekside School serves a unique student population and their families. We take a special, holistic approach to educating students guided by 7 pillars, which create the foundation of our approach.',
+  pillars: [],
+};
 
-const communityPartnersText = {
+const communityPartnersText = data?.communityPartnersText || {
   heading: 'Our heartfelt thanks to our community partners',
-  partnerNames: ['Stanford Medicine', 'Bay Area Furniture Bank', 'Autism Speaks', 'The YMCA'],
-} as const;
+  partnerNames: [],
+};
 
-const navigationGridText = {
+const navigationGridText = data?.navigationGridText || {
   heading: 'What are you interested in learning about?',
   linkLabel: 'Learn More',
-  items: [
-    { title: 'Admission Process', icon: 'BookOpen', link: '/families/admissions-process' },
-    { title: 'Community Partnerships', icon: 'Users', link: '/what-we-do/community-partnerships' },
-    { title: 'Donating to Creekside', icon: 'Heart', link: '/support/donate' },
-    { title: 'Job Opportunities', icon: 'User', link: '/join-us/join-our-team' },
-  ],
-} as const;
+  items: [],
+};
 
-const testimonialsText = {
+const testimonialsText = data?.testimonialsText || {
   heading: 'Join the Creekside Community',
-  testimonials: [
-    { text: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...', author: 'Parent Feedback', role: 'Anonymous' },
-    { text: 'Parents are genuinely surprised their students can cook, use power tools, and perform complex tasks that will benefit them beyond the classroom.', author: 'Jer Sanchez', role: 'Adult Transition Teacher' },
-    { text: 'After 15 - 16 years with a client, I feel like these students, and often their families, are part of my family.', author: 'Karen Hook', role: 'Music Therapist' },
-  ],
-} as const;
+  testimonials: [],
+};
 
-const communityImageText = {
+const communityImageText = data?.communityImageText || {
   title: '',
   description: '',
-} as const;
+};
 ---
 
 <HomeLayout title="Home - The Creekside School">
