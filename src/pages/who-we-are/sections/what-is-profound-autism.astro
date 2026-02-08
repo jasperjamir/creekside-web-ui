@@ -1,5 +1,5 @@
 ---
-import { COLORS } from '../../../constants';
+import { COLORS, ASSETS_BASE_URL } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
 import Button from '../../../components/ui/Button.astro';
 
@@ -15,34 +15,51 @@ interface Props {
 }
 
 const { definition = '', learnMoreLinks = [], supportLinks = [] } = Astro.props;
+const imageUrl = `${ASSETS_BASE_URL}/images/who-we-are--profound-autism.jpg`;
 ---
 
 <section id="what-is-profound-autism" class="py-20" style={{ backgroundColor: COLORS.cream }}>
-  <div class="container mx-auto px-4 lg:px-8 max-w-4xl">
-    <SectionHeading>What is Profound Autism?</SectionHeading>
-    <p class="text-xl text-gray-700 leading-relaxed mt-6">
-      {definition}
-    </p>
-
-    <div class="mt-12 space-y-8">
+  <div class="container mx-auto px-4 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       <div>
-        <h4 class="text-lg font-semibold mb-4" style={{ color: COLORS.blue.navy }}>Learn More:</h4>
-        <div class="flex flex-wrap gap-4">
-          {learnMoreLinks.map((link) => (
-            <Button variant="primary" href={link.href} className="shadow-lg transform hover:-translate-y-0.5">
-              {link.name}
-            </Button>
-          ))}
+        <SectionHeading>What is Profound Autism?</SectionHeading>
+        <p class="text-xl text-gray-700 leading-relaxed mt-6">
+          {definition}
+        </p>
+
+        <div class="mt-12 space-y-8">
+          <div>
+            <h4 class="text-lg font-semibold mb-4" style={{ color: COLORS.blue.navy }}>Learn More:</h4>
+            <div class="flex flex-wrap gap-4">
+              {learnMoreLinks.map((link) => (
+                <Button variant="primary" href={link.href} className="shadow-lg transform hover:-translate-y-0.5">
+                  {link.name}
+                </Button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4" style={{ color: COLORS.blue.navy }}>Support Creekside:</h4>
+            <div class="flex flex-wrap gap-4">
+              {supportLinks.map((link) => (
+                <Button variant="outline" href={link.href} className="shadow-md">
+                  {link.name}
+                </Button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-      <div>
-        <h4 class="text-lg font-semibold mb-4" style={{ color: COLORS.blue.navy }}>Support Creekside:</h4>
-        <div class="flex flex-wrap gap-4">
-          {supportLinks.map((link) => (
-            <Button variant="outline" href={link.href} className="shadow-md">
-              {link.name}
-            </Button>
-          ))}
+      <div class="flex justify-center lg:justify-end">
+        <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md">
+          <img
+            src={imageUrl}
+            alt="What is profound autism"
+            class="w-full h-auto object-contain"
+            loading="lazy"
+            width="600"
+            height="360"
+          />
         </div>
       </div>
     </div>
