@@ -9,14 +9,52 @@ interface Props {
 
 const { pillar } = Astro.props;
 const { COLORS } = await import('../../constants');
+
+const iconClass = 'w-6 h-6';
 ---
 
 <div class="group relative bg-white rounded-xl overflow-hidden shadow-lg border-b-4 hover:-translate-y-1 transition-all duration-300 h-full pillar-card" style={{ borderBottomColor: COLORS.blue.royal }}>
   <div class="h-2" style={{ background: `linear-gradient(to right, ${COLORS.blue.royal}, ${COLORS.blue.soft})` }}></div>
   <div class="p-6">
     <div class="w-12 h-12 rounded-full flex items-center justify-center mb-4 transition-colors pillar-icon" style={{ backgroundColor: COLORS.blue.light, color: COLORS.blue.navy }}>
-      <!-- Icon placeholder - will be styled with CSS or icon library -->
-      <span class="text-2xl">{pillar.icon === "Users" ? "👥" : pillar.icon === "Smile" ? "😊" : pillar.icon === "HandHeart" ? "🤝" : pillar.icon === "BarChart" ? "📊" : pillar.icon === "BookOpen" ? "📚" : pillar.icon === "User" ? "👤" : pillar.icon === "Heart" ? "❤️" : "•"}</span>
+      {pillar.icon === "Users" && (
+        <svg class={iconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+      )}
+      {pillar.icon === "Smile" && (
+        <svg class={iconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      )}
+      {pillar.icon === "HandHeart" && (
+        <svg class={iconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11" />
+        </svg>
+      )}
+      {pillar.icon === "BarChart" && (
+        <svg class={iconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+        </svg>
+      )}
+      {pillar.icon === "BookOpen" && (
+        <svg class={iconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+      )}
+      {pillar.icon === "User" && (
+        <svg class={iconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+      )}
+      {pillar.icon === "Heart" && (
+        <svg class={iconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+      )}
+      {!["Users", "Smile", "HandHeart", "BarChart", "BookOpen", "User", "Heart"].includes(pillar.icon) && (
+        <span class="w-2 h-2 rounded-full bg-current" aria-hidden="true"></span>
+      )}
     </div>
     <h3 class="text-xl font-bold mb-3" style={{ color: COLORS.blue.navy }}>{pillar.title}</h3>
     <p class="text-gray-600 leading-relaxed text-sm">
@@ -26,10 +64,10 @@ const { COLORS } = await import('../../constants');
 </div>
 
 <script>
-  // Add hover effect for icon background color
+  // Add hover effect for icon background - uses palette colors
   const pillarCards = document.querySelectorAll('.pillar-card');
-  const greenColor = '#A4D16A';
-  const blueLight = '#B9D9EB';
+  const greenColor = '#A4D16A'; // COLORS.green
+  const blueLight = '#B9D9EB';  // COLORS.blue.light
   
   pillarCards.forEach(card => {
     const icon = card.querySelector('.pillar-icon');
