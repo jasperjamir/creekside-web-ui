@@ -4,19 +4,28 @@ import Button from '../../../components/ui/Button.astro';
 import heroImage from '../../../assets/images/hero-image.png';
 
 interface Props {
-  imageAlt: string;
-  badge: string;
-  headingPrefix: string;
-  headingHighlight: string;
-  subheading: string;
-  contactCta: string;
-  donateCta: string;
-  contactHref: string;
-  donateHref: string;
+  imageAlt?: string;
+  badge?: string;
+  headingPrefix?: string;
+  headingHighlight?: string;
+  subheading?: string;
+  contactCta?: string;
+  donateCta?: string;
+  contactHref?: string;
+  donateHref?: string;
 }
 
-const { imageAlt, badge, headingPrefix, headingHighlight, subheading, contactCta, donateCta, contactHref, donateHref } =
-  Astro.props;
+const {
+  imageAlt = '',
+  badge = '',
+  headingPrefix = '',
+  headingHighlight = '',
+  subheading = '',
+  contactCta = '',
+  donateCta = '',
+  contactHref = '/contact',
+  donateHref = '/support/donate',
+} = Astro.props;
 ---
 
 <section class="relative h-[85vh] flex items-center overflow-hidden">

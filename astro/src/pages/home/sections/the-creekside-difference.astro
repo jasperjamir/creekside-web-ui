@@ -3,11 +3,11 @@ import { COLORS } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
 
 interface Props {
-  heading: string;
-  body: string;
+  heading?: string;
+  body?: string;
 }
 
-const { heading, body } = Astro.props;
+const { heading = '', body = '' } = Astro.props;
 ---
 
 <section class="py-20" style={{ backgroundColor: COLORS.cream }}>

@@ -2,11 +2,11 @@
 import { COLORS } from '../../../constants';
 
 interface Props {
-  heading: string;
-  partnerNames: readonly string[];
+  heading?: string;
+  partnerNames?: readonly string[];
 }
 
-const { heading, partnerNames } = Astro.props;
+const { heading = '', partnerNames = [] } = Astro.props;
 ---
 
 <section class="py-16 border-y" style={{ backgroundColor: `${COLORS.blue.light}4D`, borderColor: COLORS.blue.light }}>
