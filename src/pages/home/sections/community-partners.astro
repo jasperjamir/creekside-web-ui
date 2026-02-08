@@ -1,5 +1,5 @@
 ---
-import { COLORS } from '../../../constants';
+import { COLORS, ASSETS_BASE_URL } from '../../../constants';
 
 interface Partner {
   name: string;
@@ -12,7 +12,7 @@ interface Props {
   partners?: readonly Partner[];
 }
 
-const { heading = '', assetsBaseUrl = '', partners = [] } = Astro.props;
+const { heading = '', assetsBaseUrl = ASSETS_BASE_URL, partners = [] } = Astro.props;
 ---
 
 <section class="py-16 border-y" style={{ backgroundColor: `${COLORS.blue.light}4D`, borderColor: COLORS.blue.light }}>
