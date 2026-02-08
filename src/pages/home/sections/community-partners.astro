@@ -22,7 +22,7 @@ const { heading = '', assetsBaseUrl = ASSETS_BASE_URL, partners = [] } = Astro.p
       <div class="h-1 w-16 mx-auto rounded-full" style={{ backgroundColor: COLORS.green }}></div>
     </div>
 
-    <div class="flex flex-wrap justify-center items-center gap-12 opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
+    <div class="flex flex-wrap justify-center items-center gap-12">
       {partners.map((partner) => {
         const src = partner.image.startsWith('http')
           ? partner.image
@@ -32,11 +32,11 @@ const { heading = '', assetsBaseUrl = ASSETS_BASE_URL, partners = [] } = Astro.p
               ? partner.image
               : `/${partner.image}`;
         return (
-          <div class="flex items-center justify-center min-h-[80px] min-w-[120px]">
+          <div class="group flex items-center justify-center min-h-[80px] min-w-[120px]">
             <img
               src={src}
               alt={partner.name}
-              class="max-h-16 w-auto max-w-[180px] object-contain"
+              class="max-h-16 w-auto max-w-[180px] object-contain opacity-80 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500"
               loading="lazy"
               referrerpolicy="no-referrer"
               width="160"
