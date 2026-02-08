@@ -7,7 +7,7 @@ interface Props {
   body: string;
 }
 
-const { heading, body } = Astro.props;
+const { heading = '', body = '' } = Astro.props;
 ---
 
 <section class="py-20" style={{ backgroundColor: COLORS.cream }}>

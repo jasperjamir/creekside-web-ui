@@ -13,7 +13,7 @@ interface Props {
   items: readonly NavItem[];
 }
 
-const { heading, linkLabel, items } = Astro.props;
+const { heading = '', linkLabel = '', items = [] } = Astro.props;
 ---
 
 <section class="py-20 relative" style={{ backgroundColor: COLORS.blue.navy }}>

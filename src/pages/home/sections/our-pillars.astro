@@ -15,7 +15,7 @@ interface Props {
   pillars: readonly Pillar[];
 }
 
-const { heading, subheading, pillars } = Astro.props;
+const { heading = '', subheading = '', pillars = [] } = Astro.props;
 ---
 
 <section class="py-20 bg-white relative overflow-hidden">

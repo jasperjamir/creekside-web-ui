@@ -13,7 +13,7 @@ interface Props {
   testimonials: readonly Testimonial[];
 }
 
-const { heading, testimonials } = Astro.props;
+const { heading = '', testimonials = [] } = Astro.props;
 ---
 
 <section class="py-24" style={{ backgroundColor: COLORS.cream }}>
