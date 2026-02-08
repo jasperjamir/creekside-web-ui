@@ -1,18 +1,64 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
-import MissionVision from './sections/mission-vision.astro';
 import OurStory from './sections/our-story.astro';
+import LifelongLearning from './sections/lifelong-learning.astro';
+import MissionVision from './sections/mission-vision.astro';
 import OurTeam from './sections/our-team.astro';
 import WhatIsProfoundAutism from './sections/what-is-profound-autism.astro';
+import { ASSETS_BASE_URL } from '../../constants';
 ---
 
 <PageLayout title="Who We Are - The Creekside School">
-  <div class="min-h-screen py-20">
-    <div class="container mx-auto px-4 lg:px-8">
-      <MissionVision />
-      <OurStory />
-      <OurTeam />
-      <WhatIsProfoundAutism />
-    </div>
+  <div class="animate-fade-in font-sans">
+    <OurStory
+      body="Founded by parents who faced challenges finding a suitable school, Creekside is a community dedicated to individualized support and education for students with profound autism."
+    />
+    <LifelongLearning
+      headline="Lifelong learning begins with belonging, connection, and understanding."
+      subheading="Guided by this belief, each student's unique set of interests, strengths, and needs drives the development of our individualized, comprehensive programs."
+      body="Our emphasis on family and community stems from our recognition that autism affects more than just parents. It impacts the whole family and the people around them."
+      imageUrl={`${ASSETS_BASE_URL}/images/who-we-are--lifelong-learning.jpg`}
+    />
+    <MissionVision
+      mission="To holistically enhance the quality of life for individuals with profound autism and their families through empowerment, community engagement, and collaborative partnerships."
+      vision="To extend this through a lifetime — ensuring lifelong opportunities for growth, connection, and purpose."
+    />
+    <OurTeam
+      groups={[
+        {
+          title: 'Creekside Leadership',
+          description: 'Creekside leadership values transparent, open communications for our students and their families.',
+        },
+        {
+          title: 'Credentialed Teachers',
+          description: 'Creekside teachers are credentialed special education teachers who bring a wealth of knowledge and experience to their classrooms.',
+        },
+        {
+          title: 'Experienced Teaching Assistants',
+          description: 'Creekside teaching assistants work with class teachers and autism-related services therapists to create highly individualized learning tools, such as drawing with colored pencils and letter blocks during art therapy, and playing piano during music therapy.',
+        },
+        {
+          title: 'Board of Directors',
+          description: 'Our Board of Directors enables Creekside to provide quality education through their support that allows us to expand our programs, connect with partners and parents, and adapt to the evolving needs of our students.',
+        },
+        {
+          title: 'Our Donors and Supporters',
+          description: "A core part of Creekside's history and identity is our commitment to working with our community, from collaborating with parents to setting up events with our partners. We express a sincere thank you to the partners, donors, and school organizations who share their time, energy, and resources to help us build spaces where individuals with profound autism are truly seen, heard, and understood.",
+        },
+      ]}
+    />
+    <WhatIsProfoundAutism
+      definition="Profound autism is a term used to describe individuals on the autism spectrum who have extremely high support needs — often characterized by limited or non-vocal communication abilities, significant challenges in adaptive functioning (e.g., daily living skills), and co-occurring medical or behavioral complexities."
+      learnMoreLinks={[
+        { name: 'Our Programs', href: '/what-we-do/' },
+        { name: 'Our Students', href: '/families/' },
+      ]}
+      supportLinks={[
+        { name: 'Donate', href: '/support/donate/' },
+        { name: 'Volunteer', href: '/support/#volunteer' },
+        { name: 'Student Wish List', href: '/support/#student-wish-list' },
+        { name: 'Join Our Staff', href: '/join-us/join-our-team/' },
+      ]}
+    />
   </div>
 </PageLayout>

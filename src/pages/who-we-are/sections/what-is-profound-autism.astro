@@ -1,11 +1,50 @@
 ---
-// What is Profound Autism section
-// Content will be added here
+import { COLORS } from '../../../constants';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
+import Button from '../../../components/ui/Button.astro';
+
+interface CtaLink {
+  name: string;
+  href: string;
+}
+
+interface Props {
+  definition: string;
+  learnMoreLinks: readonly CtaLink[];
+  supportLinks: readonly CtaLink[];
+}
+
+const { definition = '', learnMoreLinks = [], supportLinks = [] } = Astro.props;
 ---
 
-<section class="py-20">
-  <div class="container mx-auto px-4 lg:px-8">
-    <h2 class="text-3xl font-bold mb-4">What is Profound Autism?</h2>
-    <p class="text-gray-600">Content will be added here</p>
+<section id="what-is-profound-autism" class="py-20" style={{ backgroundColor: COLORS.cream }}>
+  <div class="container mx-auto px-4 lg:px-8 max-w-4xl">
+    <SectionHeading>What is Profound Autism?</SectionHeading>
+    <p class="text-xl text-gray-700 leading-relaxed mt-6">
+      {definition}
+    </p>
+
+    <div class="mt-12 space-y-8">
+      <div>
+        <h4 class="text-lg font-semibold mb-4" style={{ color: COLORS.blue.navy }}>Learn More:</h4>
+        <div class="flex flex-wrap gap-4">
+          {learnMoreLinks.map((link) => (
+            <Button variant="primary" href={link.href} className="shadow-lg transform hover:-translate-y-0.5">
+              {link.name}
+            </Button>
+          ))}
+        </div>
+      </div>
+      <div>
+        <h4 class="text-lg font-semibold mb-4" style={{ color: COLORS.blue.navy }}>Support Creekside:</h4>
+        <div class="flex flex-wrap gap-4">
+          {supportLinks.map((link) => (
+            <Button variant="outline" href={link.href} className="shadow-md">
+              {link.name}
+            </Button>
+          ))}
+        </div>
+      </div>
+    </div>
   </div>
 </section>

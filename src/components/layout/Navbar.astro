@@ -47,8 +47,11 @@ const currentPath = Astro.url.pathname;
                     style={{ backgroundColor: COLORS.blue.royal }}
                   >
                     {link.children!.map((child) => {
-                      const childPath = child.href.replace(/\/$/, '');
-const isChildActive = currentPath === child.href || currentPath === childPath || currentPath.startsWith(childPath + '/');
+                      const childPathBase = child.href.split('#')[0].replace(/\/$/, '');
+                      const pathBase = currentPath.replace(/\/$/, '');
+                      const isChildActive = child.href.includes('#')
+                        ? pathBase === childPathBase
+                        : currentPath === child.href || currentPath === childPathBase || currentPath.startsWith(childPathBase + '/');
                       return (
                         <a
                           href={child.href}

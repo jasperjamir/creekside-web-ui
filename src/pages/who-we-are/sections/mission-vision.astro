@@ -1,11 +1,43 @@
 ---
-// Mission and Vision section
-// Content will be added here
+import { COLORS, ASSETS_BASE_URL } from '../../../constants';
+
+interface Props {
+  mission: string;
+  vision: string;
+  imageUrl?: string;
+}
+
+const { mission = '', vision = '', imageUrl } = Astro.props;
+const imgSrc = imageUrl ?? `${ASSETS_BASE_URL}/images/who-we-are--mission-vision.jpg`;
 ---
 
-<section class="py-20">
+<section id="mission-vision" class="py-20" style={{ backgroundColor: COLORS.cream }}>
   <div class="container mx-auto px-4 lg:px-8">
-    <h2 class="text-3xl font-bold mb-4">Mission & Vision</h2>
-    <p class="text-gray-600">Content will be added here</p>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-stretch">
+      <div class="relative overflow-hidden rounded-2xl shadow-md aspect-[4/3] min-h-[280px]">
+        <img
+          src={imgSrc}
+          alt="Mission and Vision"
+          class="w-full h-full object-cover object-center"
+          loading="lazy"
+          width="600"
+          height="450"
+        />
+      </div>
+      <div class="flex flex-col justify-center gap-8">
+        <div class="group/mission relative p-6 rounded-xl border-2 transition-colors" style={{ borderColor: COLORS.blue.light, backgroundColor: COLORS.white }}>
+          <h3 class="text-xl font-bold mb-3" style={{ color: COLORS.blue.navy }}>Mission</h3>
+          <p class="text-gray-600 leading-relaxed opacity-80 group-hover/mission:opacity-100 transition-opacity">
+            {mission}
+          </p>
+        </div>
+        <div class="group/vision relative p-6 rounded-xl border-2 transition-colors" style={{ borderColor: COLORS.blue.light, backgroundColor: COLORS.white }}>
+          <h3 class="text-xl font-bold mb-3" style={{ color: COLORS.blue.navy }}>Vision</h3>
+          <p class="text-gray-600 leading-relaxed opacity-80 group-hover/vision:opacity-100 transition-opacity">
+            {vision}
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
