@@ -1,7 +1,21 @@
 ---
-import { COLORS, PILLARS } from '../../../constants';
+import { COLORS } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
 import PillarCard from '../../../components/ui/PillarCard.astro';
+
+interface Pillar {
+  title: string;
+  icon: string;
+  text: string;
+}
+
+interface Props {
+  heading: string;
+  subheading: string;
+  pillars: readonly Pillar[];
+}
+
+const { heading, subheading, pillars } = Astro.props;
 ---
 
 <section class="py-20 bg-white relative overflow-hidden">
@@ -10,15 +24,15 @@ import PillarCard from '../../../components/ui/PillarCard.astro';
   
   <div class="container mx-auto px-4 lg:px-8 relative z-10">
     <div class="text-center max-w-3xl mx-auto mb-16">
-      <SectionHeading>Our Pillars</SectionHeading>
+      <SectionHeading>{heading}</SectionHeading>
       <h3 class="text-lg text-gray-600 mt-4">
-        The Creekside School serves a unique student population and their families. We take a special, holistic approach to educating students guided by 7 pillars, which create the foundation of our approach.
+        {subheading}
       </h3>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-      {PILLARS.map((pillar, idx) => (
-        <div class={idx === PILLARS.length - 1 ? 'md:col-span-2 lg:col-span-1 lg:col-start-4' : ''}>
+      {pillars.map((pillar, idx) => (
+        <div class={idx === pillars.length - 1 ? 'md:col-span-2 lg:col-span-1 lg:col-start-4' : ''}>
           <PillarCard pillar={pillar} />
         </div>
       ))}
