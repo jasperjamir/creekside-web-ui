@@ -1,71 +1,62 @@
-# Creekside Web UI
+# Astro Starter Kit: Blog
 
-A modern React website for The Creekside School built with Vite, React, and Tailwind CSS.
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v18 or higher recommended)
-- npm or yarn
-
-### Installation
-
-1. Install dependencies:
-```bash
-npm install
+```sh
+npm create astro@latest -- --template blog
 ```
 
-2. Start the development server:
-```bash
-npm run dev
-```
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-3. Open your browser and navigate to `http://localhost:5173`
+Features:
 
-### Build for Production
+- ✅ Minimal styling (make it your own!)
+- ✅ 100/100 Lighthouse performance
+- ✅ SEO-friendly with canonical URLs and OpenGraph data
+- ✅ Sitemap support
+- ✅ RSS Feed support
+- ✅ Markdown & MDX support
 
-```bash
-npm run build
-```
+## 🚀 Project Structure
 
-The built files will be in the `dist` directory.
+Inside of your Astro project, you'll see the following folders and files:
 
-### Preview Production Build
-
-```bash
-npm run preview
-```
-
-## Tech Stack
-
-- **React 18** - UI library
-- **Vite** - Build tool and dev server
-- **Tailwind CSS** - Utility-first CSS framework
-- **Lucide React** - Icon library
-
-## Project Structure
-
-```
-creekside-web-ui/
+```text
+├── public/
 ├── src/
-│   ├── App.jsx          # Main application component
-│   ├── main.jsx         # React entry point
-│   └── index.css         # Tailwind CSS imports
-├── index.html            # HTML template
-├── package.json          # Dependencies and scripts
-├── vite.config.js        # Vite configuration
-├── tailwind.config.js    # Tailwind CSS configuration
-└── postcss.config.js     # PostCSS configuration
+│   ├── components/
+│   ├── content/
+│   ├── layouts/
+│   └── pages/
+├── astro.config.mjs
+├── README.md
+├── package.json
+└── tsconfig.json
 ```
 
-## Deployment
+Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
 
-This project can be deployed to any static hosting service:
+There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
 
-- **Vercel**: Connect your GitHub repo and deploy automatically
-- **Netlify**: Drag and drop the `dist` folder or connect via Git
-- **GitHub Pages**: Use GitHub Actions to build and deploy
-- **Cloudflare Pages**: Connect repository for automatic deployments
+The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
 
-For Vercel/Netlify, the build command is `npm run build` and the output directory is `dist`.
+Any static assets, like images, can be placed in the `public/` directory.
+
+## 🧞 Commands
+
+All commands are run from the root of the project, from a terminal:
+
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
+
+## 👀 Want to learn more?
+
+Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## Credit
+
+This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).

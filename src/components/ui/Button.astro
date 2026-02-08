@@ -1,0 +1,30 @@
+---
+interface Props {
+  variant?: 'primary' | 'secondary' | 'outline' | 'white';
+  className?: string;
+  class?: string;
+  href?: string;
+}
+
+const { variant = 'primary', className = '', class: classProp = '', href } = Astro.props;
+const combinedClass = className || classProp;
+const { COLORS } = await import('../../constants');
+
+const variantStyles = {
+  primary: { backgroundColor: COLORS.yellow, color: COLORS.blue.navy },
+  secondary: { backgroundColor: COLORS.green, color: COLORS.blue.navy },
+  outline: { borderColor: COLORS.blue.royal, color: COLORS.blue.royal },
+  white: { backgroundColor: 'white', color: COLORS.blue.royal },
+};
+
+const baseStyle = "inline-flex items-center justify-center px-6 py-3 rounded-full font-bold transition-transform active:scale-95 shadow-md";
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag 
+  class={`${baseStyle} ${variant === 'outline' ? 'border-2' : ''} ${variant === 'white' ? 'hover:bg-gray-100' : 'hover:brightness-110'} ${combinedClass}`}
+  style={variantStyles[variant]}
+  href={href}
+>
+  <slot />
+</Tag>
