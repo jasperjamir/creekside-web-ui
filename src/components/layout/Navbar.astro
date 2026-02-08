@@ -21,6 +21,51 @@ const currentPath = Astro.url.pathname;
       <div class="hidden lg:flex items-center space-x-1 flex-nowrap">
         {NAV_LINKS.map((link) => {
           const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
+          const hasChildren = link.children && link.children.length > 0;
+
+          if (hasChildren) {
+            return (
+              <div class="group/nav relative" data-link-id={link.id}>
+                <a
+                  href={link.href}
+                  class={`inline-flex items-center gap-1 px-3 py-2 text-sm font-semibold rounded-md transition-colors whitespace-nowrap nav-link ${
+                    isActive ? '' : 'text-gray-600'
+                  } group-hover/nav:text-white group-hover/nav:bg-[#2658B2]`}
+                  style={isActive 
+                    ? { color: COLORS.white, backgroundColor: COLORS.blue.royal }
+                    : { color: 'inherit' }
+                  }
+                >
+                  {link.name}
+                  <svg class="w-4 h-4 transition-transform group-hover/nav:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </a>
+                <div class="absolute left-0 top-full pt-1 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-200 z-50">
+                  <div
+                    class="min-w-[200px] rounded-md shadow-lg py-1"
+                    style={{ backgroundColor: COLORS.blue.royal }}
+                  >
+                    {link.children!.map((child) => {
+                      const childPath = child.href.replace(/\/$/, '');
+const isChildActive = currentPath === child.href || currentPath === childPath || currentPath.startsWith(childPath + '/');
+                      return (
+                        <a
+                          href={child.href}
+                          class={`block px-4 py-2.5 text-sm font-medium text-white hover:bg-white/20 transition-colors border-b border-white/20 last:border-b-0 first:rounded-t-md last:rounded-b-md ${
+                            isChildActive ? 'bg-white/15' : ''
+                          }`}
+                        >
+                          {child.name}
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
           return (
             <a
               href={link.href}
@@ -28,7 +73,7 @@ const currentPath = Astro.url.pathname;
                 isActive ? '' : 'text-gray-600'
               }`}
               style={isActive 
-                ? { color: COLORS.blue.royal, backgroundColor: `${COLORS.blue.light}4D` }
+                ? { color: COLORS.white, backgroundColor: COLORS.blue.royal }
                 : { color: 'inherit' }
               }
               data-link-id={link.id}
@@ -66,14 +111,35 @@ const currentPath = Astro.url.pathname;
   <!-- Mobile Nav -->
   <div id="mobile-menu" class="lg:hidden bg-white border-t border-gray-100 hidden w-full shadow-xl">
     <div class="px-4 pt-2 pb-6 space-y-1">
-      {NAV_LINKS.map((link) => (
-        <a
-          href={link.href}
-          class="block w-full text-left px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600 rounded-lg"
-        >
-          {link.name}
-        </a>
-      ))}
+      {NAV_LINKS.map((link) =>
+        link.children && link.children.length > 0 ? (
+          <div class="mobile-nav-parent">
+            <a
+              href={link.href}
+              class="block w-full text-left px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600 rounded-lg"
+            >
+              {link.name}
+            </a>
+            <div class="pl-4 space-y-1 border-l-2 border-gray-100 ml-4">
+              {link.children.map((child) => (
+                <a
+                  href={child.href}
+                  class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-blue-600 rounded-lg"
+                >
+                  {child.name}
+                </a>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <a
+            href={link.href}
+            class="block w-full text-left px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600 rounded-lg"
+          >
+            {link.name}
+          </a>
+        )
+      )}
       <div class="pt-4 px-4 space-y-3">
         <Button variant="outline" href="/contact" className="w-full">Contact</Button>
         <Button variant="primary" href="/support/donate" className="w-full">Donate</Button>
@@ -97,24 +163,14 @@ const currentPath = Astro.url.pathname;
     });
   }
 
-  // Add hover effects for desktop nav links
-  const navLinks = document.querySelectorAll('.nav-link') as NodeListOf<HTMLElement>;
-  const colors = {
-    blueRoyal: '#2658B2',
-    blueLight: '#B9D9EB'
-  };
-
-  navLinks.forEach(link => {
-    const isActive = link.style.color === colors.blueRoyal;
-    
+  // Add hover effects for simple desktop nav links (dropdown parents use group-hover)
+  document.querySelectorAll('.nav-link').forEach((link) => {
+    const el = link as HTMLElement;
+    if (el.closest('.group\\/nav')) return; // skip dropdown parents
+    const isActive = el.style.backgroundColor;
     if (!isActive) {
-      link.addEventListener('mouseenter', () => {
-        link.style.color = colors.blueRoyal;
-      });
-      
-      link.addEventListener('mouseleave', () => {
-        link.style.color = '';
-      });
+      el.addEventListener('mouseenter', () => { el.style.color = '#2658B2'; });
+      el.addEventListener('mouseleave', () => { el.style.color = ''; });
     }
   });
 </script>
