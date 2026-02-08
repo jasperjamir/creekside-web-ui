@@ -75,10 +75,18 @@ export default defineType({
       fields: [
         defineField({ name: 'heading', type: 'string', title: 'Heading' }),
         defineField({
-          name: 'partnerNames',
+          name: 'partners',
           type: 'array',
-          title: 'Partner Names',
-          of: [defineArrayMember({ type: 'string' })],
+          title: 'Partners',
+          of: [
+            defineArrayMember({
+              type: 'object',
+              fields: [
+                defineField({ name: 'name', type: 'text', title: 'Name' }),
+                defineField({ name: 'image', type: 'text', title: 'Image' }),
+              ],
+            }),
+          ],
         }),
       ],
     }),

@@ -36,7 +36,10 @@ const QUERY = /* groq */ `*[_type == "home"][0] {
   },
   communityPartnersText {
     heading,
-    partnerNames
+    partners[] {
+      name,
+      image
+    }
   },
   navigationGridText {
     heading,
@@ -89,7 +92,7 @@ const ourPillarsText = data?.ourPillarsText || {
 
 const communityPartnersText = data?.communityPartnersText || {
   heading: 'Our heartfelt thanks to our community partners',
-  partnerNames: [],
+  partners: [],
 };
 
 const navigationGridText = data?.navigationGridText || {
