@@ -2,6 +2,18 @@
 import { COLORS } from '../../constants';
 import Button from '../../components/ui/Button.astro';
 import heroImage from '../../assets/images/hero-image.png';
+
+const HERO = {
+  imageAlt: 'Adult and child engaged in art activity at Creekside School',
+  badge: 'Welcome to Creekside',
+  headingPrefix: 'Specialized Education for Students with ',
+  headingHighlight: 'Profound Autism',
+  subheading: 'At Creekside, we create tailored learning experiences and environments where students with profound autism are truly seen and understood.',
+  contactCta: 'Contact Us',
+  donateCta: 'Donate',
+  contactHref: '/contact',
+  donateHref: '/support/donate',
+} as const;
 ---
 
 <section class="relative h-[85vh] flex items-center overflow-hidden">
@@ -9,7 +21,7 @@ import heroImage from '../../assets/images/hero-image.png';
   <div class="absolute inset-0 z-0">
     <img 
       src={heroImage.src} 
-      alt="Adult and child engaged in art activity at Creekside School" 
+      alt={HERO.imageAlt} 
       class="w-full h-full object-cover"
     />
     <!-- Dominant background gradient overlay -->
@@ -30,26 +42,26 @@ import heroImage from '../../assets/images/hero-image.png';
           borderColor: `${COLORS.blue.light}4D` 
         }}
       >
-        <span class="text-sm font-bold tracking-wider uppercase">Welcome to Creekside</span>
+        <span class="text-sm font-bold tracking-wider uppercase">{HERO.badge}</span>
       </div>
       <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 text-white">
-        Specialized Education for Students with 
+        {HERO.headingPrefix}
         <span 
           class="px-3 ml-2 transform -skew-x-6 inline-block" 
           style={{ backgroundColor: COLORS.green, color: COLORS.blue.navy }}
         >
-          Profound Autism
+          {HERO.headingHighlight}
         </span>
       </h1>
       <p class="text-lg md:text-xl lg:text-2xl text-blue-50 mb-8 leading-relaxed max-w-2xl font-light">
-        At Creekside, we create tailored learning experiences and environments where students with profound autism are truly seen and understood.
+        {HERO.subheading}
       </p>
       <div class="flex flex-col sm:flex-row gap-4">
-        <Button variant="white" href="/contact">
-          Contact Us
+        <Button variant="white" href={HERO.contactHref}>
+          {HERO.contactCta}
         </Button>
-        <Button variant="primary" href="/support/donate">
-          Donate
+        <Button variant="primary" href={HERO.donateHref}>
+          {HERO.donateCta}
         </Button>
       </div>
     </div>
