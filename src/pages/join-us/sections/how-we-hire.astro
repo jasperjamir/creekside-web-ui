@@ -1,0 +1,166 @@
+---
+import { COLORS } from '../../../constants';
+
+interface Step {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  heading?: string;
+  steps: readonly Step[];
+}
+
+const { heading = 'How We Hire', steps = [] } = Astro.props;
+---
+
+<section
+  class="hiring-section font-sans"
+  style={`--color-green: ${COLORS.green}; --color-navy: ${COLORS.blue.navy}; --color-white: ${COLORS.white};`}
+>
+  <div class="container">
+    <h2 class="section-title">
+      <span class="highlight">{heading}</span>
+    </h2>
+
+    <div class="timeline">
+      {steps.map((step) => (
+        <div class="step">
+          <div class="circle-wrapper">
+            <div class="circle"></div>
+          </div>
+          <div class="text-content">
+            <h3 class="step-title">{step.title}</h3>
+            {step.description && <p class="step-desc">{step.description}</p>}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hiring-section {
+    padding: 6rem 5%;
+    background-color: var(--color-white);
+    text-align: center;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    margin-bottom: 5rem;
+  }
+
+  .highlight {
+    background-color: var(--color-green);
+    color: var(--color-navy);
+    padding: 0.2rem 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  @media (min-width: 768px) {
+    .highlight {
+      font-size: 2rem;
+    }
+  }
+
+  .timeline {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    padding-top: 1rem;
+  }
+
+  .timeline::before {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 5%;
+    right: 5%;
+    height: 6px;
+    background-color: var(--color-green);
+    z-index: 1;
+  }
+
+  .step {
+    flex: 1;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 1rem;
+  }
+
+  .circle-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1.5rem;
+  }
+
+  .circle {
+    width: 32px;
+    height: 32px;
+    background-color: var(--color-white);
+    border: 6px solid var(--color-green);
+    border-radius: 50%;
+  }
+
+  .text-content {
+    text-align: left;
+    max-width: 200px;
+  }
+
+  .step-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--color-navy);
+  }
+
+  .step-desc {
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 300;
+    color: var(--color-navy);
+    opacity: 0.9;
+    margin: 0;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .timeline {
+      flex-direction: column;
+      gap: 3rem;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      width: 6px;
+      height: 85%;
+      left: 33px;
+      top: 0;
+    }
+
+    .step {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+
+    .circle-wrapper {
+      width: auto;
+      margin-bottom: 0;
+    }
+
+    .text-content {
+      max-width: 100%;
+    }
+  }
+</style>

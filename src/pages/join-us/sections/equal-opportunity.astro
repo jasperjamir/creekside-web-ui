@@ -1,0 +1,64 @@
+---
+interface Props {
+  title: string;
+  text: string;
+}
+
+const { title, text } = Astro.props;
+---
+
+<section class="eo-section font-sans">
+  <div class="container">
+    <h2 class="eo-title">{title}</h2>
+    <p class="eo-text">{text}</p>
+  </div>
+</section>
+
+<style>
+  .eo-section {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 6rem 5%;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .eo-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+  }
+
+  .eo-text {
+    font-size: 1.25rem;
+    line-height: 1.625;
+    font-weight: 300;
+    max-width: 900px;
+    color: #ffffff;
+  }
+
+  @media (min-width: 768px) {
+    .eo-text {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .eo-section {
+      padding: 4rem 1.5rem;
+    }
+
+    .eo-title {
+      font-size: 2rem;
+    }
+
+    .eo-text {
+      font-size: 1.125rem;
+    }
+  }
+</style>

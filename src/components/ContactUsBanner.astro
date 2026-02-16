@@ -1,0 +1,135 @@
+---
+import { COLORS } from '../constants';
+interface Props {
+  bannerText: {
+    imageAlt: string;
+    headingHighlight: string;
+  };
+  backgroundImage: string;
+}
+
+const { bannerText, backgroundImage } = Astro.props;
+---
+
+<section class="contact-us-banner" style={`--bg-image: url(${backgroundImage})`}>
+  <div class="contact-us-banner__content">
+    <p class="contact-us-banner__intro">For any questions or concerns, you may reach us at:</p>
+    <h1 class="contact-us-banner__heading">
+      <span class="contact-us-banner__highlight" style={`background-color: ${COLORS.green}; color: ${COLORS.blue.navy}`}>
+        {bannerText.headingHighlight}
+      </span>
+    </h1>
+
+    <div class="contact-us-banner__contact-info">
+      <div class="contact-us-banner__contact-item">
+        <svg class="contact-us-banner__icon" width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        </svg>
+        <p class="contact-us-banner__contact-text">5629 Lean Avenue,<br/>San Jose, CA 95123</p>
+      </div>
+      <div class="contact-us-banner__contact-item">
+        <svg class="contact-us-banner__icon" width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+        </svg>
+        <a href="tel:408-448-2494" class="contact-us-banner__link">408-448-2494</a>
+      </div>
+      <div class="contact-us-banner__contact-item">
+        <svg class="contact-us-banner__icon" width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+        </svg>
+        <a href="mailto:info@creeksideschool.org" class="contact-us-banner__link">info@creeksideschool.org</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-us-banner {
+    background:
+      linear-gradient(to right, rgba(23, 37, 84, 0.9) 10%, rgba(23, 37, 84, 0.4) 50%, transparent 100%),
+      var(--bg-image) no-repeat center center / cover;
+
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    padding: 2rem 5%;
+  }
+
+  .contact-us-banner__content {
+    max-width: 1200px;
+    z-index: 2;
+  }
+
+  .contact-us-banner__intro {
+    color: #ffffff;
+    font-size: 32px;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .contact-us-banner__heading {
+    font-size: 60px;
+    font-weight: 800;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+  }
+
+  .contact-us-banner__highlight {
+    padding: 0.25rem 0.75rem;
+    transform: skewX(-6deg);
+    display: inline-block;
+  }
+
+  .contact-us-banner__contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 1200px;
+  }
+
+  .contact-us-banner__contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .contact-us-banner__contact-item:has(.contact-us-banner__link) {
+    align-items: center;
+  }
+
+  .contact-us-banner__icon {
+    flex-shrink: 0;
+    color: #B9D9EB;
+    margin-top: 0.25rem;
+  }
+
+  .contact-us-banner__contact-item:has(.contact-us-banner__link) .contact-us-banner__icon {
+    margin-top: 0;
+  }
+
+  .contact-us-banner__contact-text {
+    color: #ffffff;
+    font-size: 32px;
+    line-height: 1.6;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .contact-us-banner__link {
+    color: #ffffff;
+    font-size: 32px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .contact-us-banner__link:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .contact-us-banner {
+      background: linear-gradient(rgba(23, 37, 84, 0.8), rgba(23, 37, 84, 0.8)), var(--bg-image) center/cover;
+      padding: 2rem;
+    }
+  }
+</style>

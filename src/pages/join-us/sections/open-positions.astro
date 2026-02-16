@@ -1,0 +1,162 @@
+---
+import { COLORS } from '../../../constants';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
+
+interface Position {
+  title: string;
+  type: string;
+  description: string;
+  link: string;
+  tagColor: string;
+}
+
+interface Props {
+  heading?: string;
+  subheading?: string;
+  positions: readonly Position[];
+}
+
+const { heading = 'Open Positions', subheading = '', positions = [] } = Astro.props;
+const iconClass = 'w-6 h-6';
+---
+
+<section class="py-20 relative font-sans" style={{ backgroundColor: COLORS.blue.navy }}>
+  <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+  
+  <div class="container mx-auto px-4 lg:px-8 relative z-10">
+    <div class="text-center mb-12">
+      <SectionHeading className="inline-block">{heading}</SectionHeading>
+    </div>
+    {subheading && (
+      <h3 class="text-lg text-gray-300 text-center max-w-3xl mx-auto mb-12">
+        {subheading}
+      </h3>
+    )}
+    
+    <div class="max-w-3xl mx-auto space-y-4">
+      {positions.map((position) => (
+        <details 
+          class="group bg-white/5 rounded-2xl overflow-hidden accordion-item"
+        >
+          <summary class="flex items-center p-6 cursor-pointer list-none justify-between select-none focus:outline-none">
+            <div class="flex items-center gap-6">
+              <div class="accordion-icon w-12 h-12 min-w-[3rem] rounded-full flex items-center justify-center transition-colors group-hover:bg-white/20 shrink-0" style={{ color: COLORS.green, backgroundColor: 'rgba(255,255,255,0.1)' }}>
+                <svg class={iconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <span 
+                  class="job-badge inline-block w-fit px-2 py-0.5 rounded-full backdrop-blur-sm border text-xs font-bold tracking-wider uppercase"
+                  style={{ backgroundColor: `${COLORS.blue.royal}80`, borderColor: `${COLORS.blue.light}4D`, color: COLORS.white }}
+                >
+                  {position.type}
+                </span>
+                <h3 class="text-2xl font-bold text-white text-left group-hover:text-green-300 transition-colors">
+                  {position.title}
+                </h3>
+              </div>
+            </div>
+
+            <div class="accordion-chevron w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0 transition-transform duration-300 group-open:rotate-180">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="shape-rendering: geometricPrecision">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </summary>
+
+          <div class="accordion-content px-6 pb-6 pt-0 pl-[5.5rem]">
+            <p class="text-gray-300 leading-relaxed text-lg mb-4">
+              {position.description}
+            </p>
+            <a 
+              href={position.link} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="group inline-flex items-center text-sm font-semibold transition-colors hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              style={{ color: COLORS.blue.light }}
+            >
+              Click here for more information
+              <svg class="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  summary {
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::marker {
+    display: none;
+    content: '';
+  }
+
+  .accordion-item {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-clip: padding-box;
+    transform: translateZ(0);
+    will-change: transform, border-color;
+  }
+
+  .accordion-item summary {
+    outline: none;
+  }
+
+  .accordion-chevron {
+    transform-origin: center;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .accordion-item summary:focus-visible {
+    outline: 2px solid var(--focus-color, #A4D16A);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 640px) {
+    .accordion-content {
+      padding-left: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  const accordionItems = document.querySelectorAll('.accordion-item');
+  const greenColor = '#A4D16A';
+  
+  accordionItems.forEach((item) => {
+    const el = item as HTMLElement;
+    el.addEventListener('mouseenter', () => {
+      el.style.borderColor = greenColor;
+    });
+    
+    el.addEventListener('mouseleave', () => {
+      if (!el.hasAttribute('open')) {
+        el.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+      }
+    });
+
+    el.addEventListener('toggle', () => {
+      const iconCircle = el.querySelector('.accordion-icon') as HTMLElement;
+      if (el.hasAttribute('open')) {
+        el.style.borderColor = greenColor;
+        if (iconCircle) iconCircle.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+      } else {
+        el.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+        if (iconCircle) iconCircle.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+      }
+    });
+  });
+</script>

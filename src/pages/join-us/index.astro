@@ -1,12 +1,37 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import Layout from '../../layouts/Layout.astro';
+import JoinUsBanner from '../../components/JoinUsBanner.astro';
+import WhyWorkAtCreekside from './sections/why-work-at-creekside.astro';
+import JoinOurTeamSection from './sections/join-our-team.astro';
+import ApplyInstructions from './sections/apply-instructions.astro';
+import QuestionsEmail from './sections/questions-email.astro';
+import EqualOpportunity from './sections/equal-opportunity.astro';
+import HowWeHire from './sections/how-we-hire.astro';
+import OpenPositions from './sections/open-positions.astro';
+import { ASSETS_BASE_URL } from '../../constants';
+import { WHY_WORK_AT_CREEKSIDE, JOIN_TEAM_CONTENT, BENEFITS, OPEN_POSITIONS, HIRING_STEPS, EQUAL_OPPORTUNITY } from './constants';
+
+const bannerText = {
+  headingHighlight: 'Creekside is a place where excellence, passion, and dedication are at the heart of our work.',
+  subheading: 'Our team shares the commitment to integrity, collegiality, and the mission of improving the lives of our students and their families. Our deep sense of purpose fuels our motivation to embrace the challenges of our work and rise to meet the needs of our students.',
+};
+
+const whyWorkAtCreeksideText = {
+  heading: 'Why Work at Creekside',
+  subheading: 'We foster a transparent and open environment where every team member is encouraged to question, innovate, and continuously refine our methods.',
+  pillars: WHY_WORK_AT_CREEKSIDE,
+};
 ---
 
-<PageLayout title="Join Us - The Creekside School">
-  <div class="min-h-screen py-20">
-    <div class="container mx-auto px-4 lg:px-8">
-      <h1 class="text-4xl font-bold mb-4">Join Us</h1>
-      <p class="text-gray-600">Content will be added here</p>
-    </div>
+<Layout title="Join Us - The Creekside School">
+  <div class="animate-fade-in font-sans">
+    <JoinUsBanner bannerText={bannerText} backgroundImage={`${ASSETS_BASE_URL}/images/join-us--place-of-excellence.png`} />
+    <WhyWorkAtCreekside {...whyWorkAtCreeksideText} />
+    <JoinOurTeamSection content={JOIN_TEAM_CONTENT} benefits={BENEFITS} />
+    <ApplyInstructions text="To apply, read through any of the job descriptions listed below and send your resume to " email="jobs@creeksideschool.org" />
+    <OpenPositions positions={OPEN_POSITIONS} />
+    <HowWeHire steps={HIRING_STEPS} />
+    <QuestionsEmail />
+    <EqualOpportunity {...EQUAL_OPPORTUNITY} />
   </div>
-</PageLayout>
+</Layout>
