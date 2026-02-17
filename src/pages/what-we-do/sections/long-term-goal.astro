@@ -1,35 +1,63 @@
 ---
-import ImageTextSection from '../../../components/sections/ImageTextSection.astro';
 import { COLORS } from '../../../constants';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
+import PillarCard from '../../../components/ui/PillarCard.astro';
+
+interface Goal {
+  title: string;
+  icon: string;
+  text: string;
+}
+
+interface Props {
+  heading?: string;
+  subheading?: string;
+  goals?: readonly Goal[];
+}
+
+const {
+  heading = 'Long-Term Goal',
+  subheading = 'We support our students in achieving greater independence by helping them:',
+  goals = [
+    {
+      title: 'Academic Skills',
+      icon: 'BookOpen',
+      text: 'Develop academic skills that they can apply across multiple life contexts',
+    },
+    {
+      title: 'Communication & Social Skills',
+      icon: 'Users',
+      text: 'Build effective communication and social skills to promote meaningful interactions',
+    },
+    {
+      title: 'Positive Behaviors & Self-Regulation',
+      icon: 'Target',
+      text: 'Learn positive behaviors and self-regulation strategies',
+    },
+    {
+      title: 'Life Skills & Community',
+      icon: 'TrendingUp',
+      text: 'Gain life skills and experience through frequent and meaningful interactions in the community',
+    },
+  ],
+} = Astro.props;
 ---
 
-<ImageTextSection
-  sectionId="long-term-goal"
-  title="Long-Term Goal"
-  imageUrl="https://picsum.photos/seed/long-term-goal/800/500"
-  imageAlt="Students building skills for the future"
-  imageLeft={true}
-  backgroundColor="cream"
->
-  <p class="text-lg text-gray-600 leading-relaxed mb-6">
-    We support our students in achieving greater independence by helping them:
-  </p>
-  <details class="group bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100">
-    <summary class="flex items-center justify-between p-5 cursor-pointer list-none select-none focus:outline-none hover:bg-gray-50 transition-colors">
-      <span class="font-semibold text-gray-800">Read more about our long-term goals</span>
-      <span class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center shrink-0 transition-transform duration-300 group-open:rotate-180" aria-hidden="true">
-        <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-        </svg>
-      </span>
-    </summary>
-    <div class="px-5 pb-6 pt-0">
-      <ul class="space-y-3 text-gray-600 list-disc list-inside">
-        <li>Develop academic skills that they can apply across multiple life contexts</li>
-        <li>Build effective communication and social skills to promote meaningful interactions</li>
-        <li>Learn positive behaviors and self-regulation strategies</li>
-        <li>Gain life skills and experience through frequent and meaningful interactions in the community</li>
-      </ul>
+<section id="long-term-goal" class="py-20 relative overflow-hidden" style={{ backgroundColor: COLORS.cream }}>
+  <div class="absolute top-0 right-0 w-1/3 h-full skew-x-12" style={{ backgroundColor: `${COLORS.blue.light}33` }}></div>
+
+  <div class="container mx-auto px-4 lg:px-8 relative z-10">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <SectionHeading>{heading}</SectionHeading>
+      <h3 class="text-lg text-gray-600 mt-4">
+        {subheading}
+      </h3>
     </div>
-  </details>
-</ImageTextSection>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+      {goals.map((goal) => (
+        <PillarCard pillar={goal} />
+      ))}
+    </div>
+  </div>
+</section>
