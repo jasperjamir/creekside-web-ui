@@ -18,7 +18,7 @@ const content = contentProp ?? {
   image: 'support--why-support-matters.png',
   imageAlt: 'Students and staff at Creekside engaging in a learning activity.',
 };
-const imageSrc = content.image.startsWith('http') ? content.image : `${ASSETS_BASE_URL}/images/${content.image}`;
+const imageSrc = content.image && content.image.startsWith('http') ? content.image : `${ASSETS_BASE_URL}/images/${content.image ?? 'support--why-support-matters.png'}`;
 ---
 
 <section class="why-support-section font-sans" style={{ backgroundColor: COLORS.white }}>
