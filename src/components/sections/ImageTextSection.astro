@@ -6,6 +6,7 @@ interface Props {
   sectionId: string;
   title?: string;
   subheading?: string;
+  body?: string;
   imageUrl: string;
   imageAlt: string;
   imageLeft?: boolean;
@@ -17,6 +18,7 @@ const {
   sectionId,
   title,
   subheading,
+  body,
   imageUrl,
   imageAlt,
   imageLeft = true,
@@ -53,6 +55,9 @@ const bg = backgroundColor === 'cream' ? COLORS.cream : COLORS.white;
           </p>
         )}
         <div class="mt-6 prose prose-lg text-gray-600 max-w-none">
+          {body && body.split(/\n\n+/).map((paragraph) => (
+            <p class="text-lg leading-relaxed mb-4 last:mb-0">{paragraph.trim()}</p>
+          ))}
           <slot />
         </div>
         <div class="h-1 w-24 mt-8 rounded-full" style={{ backgroundColor: COLORS.blue.royal }} />
