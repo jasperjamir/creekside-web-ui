@@ -4,6 +4,7 @@ import Button from '../../../components/ui/Button.astro';
 import heroImage from '../../../assets/images/hero-image.png';
 
 interface Props {
+  image?: { asset?: { url: string }; alt?: string };
   imageAlt: string;
   badge: string;
   headingPrefix: string;
@@ -15,16 +16,18 @@ interface Props {
   donateHref: string;
 }
 
-const { imageAlt, badge, headingPrefix, headingHighlight, subheading, contactCta, donateCta, contactHref, donateHref } =
+const { image, imageAlt, badge, headingPrefix, headingHighlight, subheading, contactCta, donateCta, contactHref, donateHref } =
   Astro.props;
+const heroSrc = image?.asset?.url || heroImage.src;
+const heroAlt = image?.alt || imageAlt;
 ---
 
 <section class="relative h-[85vh] flex items-center overflow-hidden">
   <!-- Background Image with Overlay -->
   <div class="absolute inset-0 z-0">
     <img 
-      src={heroImage.src} 
-      alt={imageAlt} 
+      src={heroSrc} 
+      alt={heroAlt} 
       class="w-full h-full object-cover"
     />
     <!-- Dominant background gradient overlay -->
