@@ -1,25 +1,15 @@
 ---
 import { CREDIBILITY_CONTENT } from '../_constants/credibility';
 
-const { title, description, taxInfo, contact } = CREDIBILITY_CONTENT;
+const { title, bodyHtml } = CREDIBILITY_CONTENT;
 ---
 
 <section class="credibility-section font-sans">
   <div class="container">
     <h2 class="credibility-title">{title}</h2>
-    <p class="credibility-description">{description}</p>
-    <ul class="credibility-tax">
-      {taxInfo.map((item) => (
-        <li>{item}</li>
-      ))}
-    </ul>
-    <div class="credibility-contact">
-      <p class="contact-label">{contact.label}</p>
-      <p class="contact-details">
-        <a href={`mailto:${contact.email}`}>{contact.email}</a> · {contact.phone}
-      </p>
-      <p class="contact-address">{contact.address}</p>
-    </div>
+    <p class="credibility-body">
+      <span set:html={bodyHtml} />
+    </p>
   </div>
 </section>
 
@@ -43,59 +33,17 @@ const { title, description, taxInfo, contact } = CREDIBILITY_CONTENT;
     color: #ffffff;
   }
 
-  .credibility-description {
+  .credibility-body {
     font-size: 1.125rem;
     line-height: 1.6;
     font-weight: 300;
     color: #ffffff;
-    margin: 0 0 1.5rem 0;
-  }
-
-  .credibility-tax {
-    font-size: 1rem;
-    line-height: 1.6;
-    font-weight: 300;
-    color: #ffffff;
-    margin: 0 0 2rem 0;
-    padding-left: 1.25rem;
-    list-style: disc;
-  }
-
-  .credibility-tax li {
-    margin-bottom: 0.375rem;
-  }
-
-  .credibility-tax li:last-child {
-    margin-bottom: 0;
-  }
-
-  .credibility-contact {
-    padding-top: 0.5rem;
-  }
-
-  .contact-label {
-    font-size: 1rem;
-    font-weight: 600;
-    margin: 0 0 0.5rem 0;
-  }
-
-  .contact-details {
-    font-size: 1rem;
-    line-height: 1.6;
-    font-weight: 300;
     margin: 0;
   }
 
-  .contact-details a {
+  .credibility-body a {
     color: #ffffff;
-    text-decoration: underline;
-  }
-
-  .contact-address {
-    font-size: 1rem;
-    line-height: 1.6;
-    font-weight: 300;
-    margin: 0.375rem 0 0 0;
+    text-decoration: none;
   }
 
   @media (min-width: 768px) {
@@ -108,20 +56,8 @@ const { title, description, taxInfo, contact } = CREDIBILITY_CONTENT;
       margin-bottom: 1.5rem;
     }
 
-    .credibility-description {
+    .credibility-body {
       font-size: 1.25rem;
-      margin-bottom: 1.75rem;
-    }
-
-    .credibility-tax {
-      font-size: 1.125rem;
-      margin-bottom: 2.25rem;
-    }
-
-    .contact-label,
-    .contact-details,
-    .contact-address {
-      font-size: 1.125rem;
     }
   }
 
@@ -135,16 +71,8 @@ const { title, description, taxInfo, contact } = CREDIBILITY_CONTENT;
       margin-bottom: 1rem;
     }
 
-    .credibility-description,
-    .credibility-tax,
-    .contact-label,
-    .contact-details,
-    .contact-address {
+    .credibility-body {
       font-size: 1rem;
-    }
-
-    .credibility-tax {
-      margin-bottom: 1.5rem;
     }
   }
 </style>

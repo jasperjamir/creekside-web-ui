@@ -3,45 +3,33 @@ import { COLORS } from '../../../constants';
 import { DRIVE_CARDS } from '../_constants/drives';
 ---
 
-<section class="drives-section font-sans py-20" style={{ backgroundColor: COLORS.white }}>
-  <div class="container mx-auto px-4 lg:px-8 max-w-4xl">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<section class="py-20 relative font-sans" style={{ backgroundColor: COLORS.blue.navy }}>
+  <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+  <div class="container mx-auto px-4 lg:px-8 relative z-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12 max-w-4xl mx-auto">
       {DRIVE_CARDS.map((card) => (
         <div
-          class={`drive-card rounded-xl overflow-hidden shadow-lg border-b-4 transition-all duration-300 h-full flex flex-col ${
-            card.type === 'blue'
-              ? 'bg-white'
-              : 'bg-black border-white/20'
-          }`}
-          style={
-            card.type === 'blue'
-              ? { borderBottomColor: COLORS.blue.royal }
-              : { borderBottomColor: COLORS.green }
-          }
+          class="group relative bg-white rounded-xl overflow-hidden shadow-lg border-b-4 hover:-translate-y-1 transition-all duration-300 h-full pillar-card text-center"
+          style={{ borderBottomColor: COLORS.blue.royal }}
         >
-          {card.type === 'blue' && (
+          <div class="h-2" style={{ background: `linear-gradient(to right, ${COLORS.blue.royal}, ${COLORS.blue.soft})` }}></div>
+          <div class="p-6 flex flex-col items-center">
             <div
-              class="h-2 flex-shrink-0"
-              style={{
-                background: `linear-gradient(to right, ${COLORS.blue.royal}, ${COLORS.blue.soft})`,
-              }}
-            />
-          )}
-          <div class="p-6 flex flex-col flex-1">
-            <h3
-              class="text-xl font-bold mb-3"
-              style={{
-                color: card.type === 'blue' ? COLORS.blue.navy : COLORS.white,
-              }}
+              class="w-12 h-12 rounded-full flex items-center justify-center mb-4 transition-colors pillar-icon shrink-0"
+              style={{ backgroundColor: COLORS.blue.light, color: COLORS.blue.navy }}
             >
-              {card.title}
-            </h3>
-            <div
-              class="text-sm leading-relaxed flex-1"
-              style={{
-                color: card.type === 'blue' ? '#4b5563' : 'rgba(255,255,255,0.9)',
-              }}
-            >
+              {card.type === 'blue' ? (
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+              ) : (
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              )}
+            </div>
+            <h3 class="text-xl font-bold mb-3" style={{ color: COLORS.blue.navy }}>{card.title}</h3>
+            <div class="text-gray-600 leading-relaxed text-sm text-center">
               {card.textHtml != null ? (
                 <span set:html={card.textHtml} />
               ) : (
@@ -56,13 +44,27 @@ import { DRIVE_CARDS } from '../_constants/drives';
 </section>
 
 <style>
-  .drive-card-link {
-    color: var(--color-accent, #a4d16a);
+  .pillar-card .drive-card-link {
+    color: #a4d16a;
     font-weight: 700;
     text-decoration: underline;
   }
-
-  .drive-card[style*='borderBottomColor'] .drive-card-link {
-    color: #a4d16a;
-  }
 </style>
+
+<script>
+  const pillarCards = document.querySelectorAll('.drives-section .pillar-card');
+  const greenColor = '#A4D16A';
+  const blueLight = '#B9D9EB';
+
+  pillarCards.forEach((card) => {
+    const icon = card.querySelector('.pillar-icon');
+    if (icon && 'style' in icon) {
+      card.addEventListener('mouseenter', () => {
+        (icon as HTMLElement).style.backgroundColor = greenColor;
+      });
+      card.addEventListener('mouseleave', () => {
+        (icon as HTMLElement).style.backgroundColor = blueLight;
+      });
+    }
+  });
+</script>
