@@ -1,11 +1,79 @@
 ---
-// Why Your Support Matters section
-// Content will be added here
+import { ASSETS_BASE_URL, COLORS } from '../../../constants';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
+
+interface Props {
+  content: {
+    title: string;
+    description: string;
+    image: string;
+    imageAlt: string;
+  };
+}
+
+const { content } = Astro.props;
+const imageSrc = content.image.startsWith('http') ? content.image : `${ASSETS_BASE_URL}/images/${content.image}`;
 ---
 
-<section class="py-20">
-  <div class="container mx-auto px-4 lg:px-8">
-    <h2 class="text-3xl font-bold mb-4">Why Your Support Matters</h2>
-    <p class="text-gray-600">Content will be added here</p>
+<section class="why-support-section font-sans" style={{ backgroundColor: COLORS.white }}>
+  <div class="container">
+    <div class="text-content">
+      <SectionHeading>{content.title}</SectionHeading>
+
+      <p class="description">
+        {content.description}
+      </p>
+    </div>
+
+    <div class="image-wrapper">
+      <img src={imageSrc} alt={content.imageAlt} loading="lazy" />
+    </div>
   </div>
 </section>
+
+<style>
+  .why-support-section {
+    padding: 4rem 5%;
+    font-family: inherit;
+  }
+
+  .container {
+    display: flex;
+    gap: 4rem;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .text-content {
+    flex: 1.2;
+  }
+
+  .image-wrapper {
+    flex: 1;
+  }
+
+  .image-wrapper img {
+    width: 100%;
+    border-radius: 2rem;
+    object-fit: cover;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .description {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #333;
+  }
+
+  @media (max-width: 968px) {
+    .container {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .image-wrapper {
+      order: 2;
+    }
+  }
+</style>
