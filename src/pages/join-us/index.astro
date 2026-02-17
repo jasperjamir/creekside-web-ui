@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import JoinUsBanner from '../../components/JoinUsBanner.astro';
+import PageHeader from '../../components/sections/PageHeader.astro';
 import WhyWorkAtCreekside from './_sections/why-work-at-creekside.astro';
 import JoinOurTeamSection from './_sections/join-our-team.astro';
 import ApplyInstructions from './_sections/apply-instructions.astro';
@@ -11,11 +11,6 @@ import OpenPositions from './_sections/open-positions.astro';
 import { ASSETS_BASE_URL } from '../../constants';
 import { WHY_WORK_AT_CREEKSIDE, JOIN_TEAM_CONTENT, BENEFITS, OPEN_POSITIONS, HIRING_STEPS, EQUAL_OPPORTUNITY } from './_constants';
 
-const bannerText = {
-  headingHighlight: 'Creekside is a place where excellence, passion, and dedication are at the heart of our work.',
-  subheading: 'Our team shares the commitment to integrity, collegiality, and the mission of improving the lives of our students and their families. Our deep sense of purpose fuels our motivation to embrace the challenges of our work and rise to meet the needs of our students.',
-};
-
 const whyWorkAtCreeksideText = {
   heading: 'Why Work at Creekside',
   subheading: 'We foster a transparent and open environment where every team member is encouraged to question, innovate, and continuously refine our methods.',
@@ -25,7 +20,13 @@ const whyWorkAtCreeksideText = {
 
 <Layout title="Join Us - The Creekside School">
   <div class="animate-fade-in font-sans">
-    <JoinUsBanner bannerText={bannerText} backgroundImage={`${ASSETS_BASE_URL}/images/join-us--place-of-excellence.png`} />
+    <PageHeader
+      heading="Join Us"
+      body="Our team shares the commitment to integrity, collegiality, and the mission of improving the lives of our students and their families. Our deep sense of purpose fuels our motivation to embrace the challenges of our work and rise to meet the needs of our students."
+      body2="Creekside is a place where excellence, passion, and dedication are at the heart of our work."
+      imageUrl={`${ASSETS_BASE_URL}/images/join-us--place-of-excellence.png`}
+      imageAlt="Creekside campus or team"
+    />
     <WhyWorkAtCreekside {...whyWorkAtCreeksideText} />
     <JoinOurTeamSection content={JOIN_TEAM_CONTENT} benefits={BENEFITS} />
     <ApplyInstructions text="To apply, read through any of the job descriptions listed below and send your resume to " email="jobs@creeksideschool.org" />

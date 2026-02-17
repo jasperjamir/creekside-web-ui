@@ -6,18 +6,20 @@ import heroImage from '../../../assets/images/hero-image.png';
 interface Props {
   image?: { asset?: { url: string }; alt?: string };
   imageAlt: string;
-  badge: string;
+  badge?: string;
   headingPrefix: string;
   headingHighlight: string;
-  subheading: string;
-  contactCta: string;
-  donateCta: string;
-  contactHref: string;
-  donateHref: string;
+  subheading?: string;
+  subheadingHtml?: string;
+  contactCta?: string;
+  donateCta?: string;
+  contactHref?: string;
+  donateHref?: string;
 }
 
-const { image, imageAlt, badge, headingPrefix, headingHighlight, subheading, contactCta, donateCta, contactHref, donateHref } =
+const { image, imageAlt, badge, headingPrefix, headingHighlight, subheading = '', subheadingHtml, contactCta, donateCta, contactHref, donateHref } =
   Astro.props;
+const showButtons = contactHref || donateHref;
 const heroSrc = image?.asset?.url || heroImage.src;
 const heroAlt = image?.alt || imageAlt;
 ---
@@ -41,15 +43,17 @@ const heroAlt = image?.alt || imageAlt;
 
   <div class="container mx-auto px-4 lg:px-8 relative z-10 text-white">
     <div class="max-w-3xl">
-      <div 
-        class="inline-block px-4 py-1 mb-6 rounded-full backdrop-blur-sm border" 
-        style={{ 
-          backgroundColor: `${COLORS.blue.royal}80`, 
-          borderColor: `${COLORS.blue.light}4D` 
-        }}
-      >
-        <span class="text-sm font-bold tracking-wider uppercase">{badge}</span>
-      </div>
+      {badge && (
+        <div 
+          class="inline-block px-4 py-1 mb-6 rounded-full backdrop-blur-sm border" 
+          style={{ 
+            backgroundColor: `${COLORS.blue.royal}80`, 
+            borderColor: `${COLORS.blue.light}4D` 
+          }}
+        >
+          <span class="text-sm font-bold tracking-wider uppercase">{badge}</span>
+        </div>
+      )}
       <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 text-white">
         {headingPrefix}
         <span 
@@ -59,17 +63,25 @@ const heroAlt = image?.alt || imageAlt;
           {headingHighlight}
         </span>
       </h1>
-      <p class="text-lg md:text-xl lg:text-2xl text-blue-50 mb-8 leading-relaxed max-w-2xl font-light">
-        {subheading}
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4">
-        <Button variant="white" href={contactHref}>
-          {contactCta}
-        </Button>
-        <Button variant="primary" href={donateHref}>
-          {donateCta}
-        </Button>
-      </div>
+      {(subheadingHtml != null ? subheadingHtml : subheading) && (
+        <p class="text-lg md:text-xl lg:text-2xl text-blue-50 mb-8 leading-relaxed max-w-2xl font-light">
+          {subheadingHtml != null ? <span set:html={subheadingHtml} /> : subheading}
+        </p>
+      )}
+      {showButtons && (
+        <div class="flex flex-col sm:flex-row gap-4">
+          {contactHref && contactCta && (
+            <Button variant="white" href={contactHref}>
+              {contactCta}
+            </Button>
+          )}
+          {donateHref && donateCta && (
+            <Button variant="primary" href={donateHref}>
+              {donateCta}
+            </Button>
+          )}
+        </div>
+      )}
     </div>
   </div>
 </section>
