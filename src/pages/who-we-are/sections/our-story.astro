@@ -3,20 +3,22 @@ import PageHeader from '../../../components/sections/PageHeader.astro';
 import { ASSETS_BASE_URL } from '../../../constants';
 
 interface Props {
+  heading?: string;
   body: string;
   body2?: string;
-  imageUrl?: string;
+  image?: { asset?: { url: string }; alt?: string };
 }
 
-const { body = '', body2, imageUrl } = Astro.props;
-const imgSrc = imageUrl ?? `${ASSETS_BASE_URL}/images/who-we-are--we-are-a-community.png`;
+const { heading = 'Our Story', body = '', body2, image } = Astro.props;
+const imageUrl = image?.asset?.url ?? `${ASSETS_BASE_URL}/images/who-we-are--we-are-a-community.png`;
+const imageAlt = image?.alt ?? 'Creekside School - staff or campus';
 ---
 
 <PageHeader
   sectionId="our-story"
-  heading="Our Story"
+  heading={heading}
   body={body}
   body2={body2}
-  imageUrl={imgSrc}
-  imageAlt="Creekside School - staff or campus"
+  imageUrl={imageUrl}
+  imageAlt={imageAlt}
 />

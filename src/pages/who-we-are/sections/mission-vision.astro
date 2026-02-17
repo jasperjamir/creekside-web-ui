@@ -3,13 +3,15 @@ import { COLORS, ASSETS_BASE_URL } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
 
 interface Props {
+  sectionHeading?: string;
   mission: string;
   vision: string;
-  imageUrl?: string;
+  image?: { asset?: { url: string }; alt?: string };
 }
 
-const { mission = '', vision = '', imageUrl } = Astro.props;
-const imgSrc = imageUrl ?? `${ASSETS_BASE_URL}/images/who-we-are--mission-vision.jpg`;
+const { sectionHeading = 'Mission & Vision', mission = '', vision = '', image } = Astro.props;
+const imgSrc = image?.asset?.url ?? `${ASSETS_BASE_URL}/images/who-we-are--mission-vision.jpg`;
+const imgAlt = image?.alt ?? 'Mission and Vision';
 ---
 
 <section id="mission-vision" class="py-20" style={{ backgroundColor: COLORS.cream }}>
@@ -19,7 +21,7 @@ const imgSrc = imageUrl ?? `${ASSETS_BASE_URL}/images/who-we-are--mission-vision
         <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md aspect-[5/3]">
           <img
             src={imgSrc}
-            alt="Mission and Vision"
+            alt={imgAlt}
             class="w-full h-full object-cover object-center"
             loading="lazy"
             width="600"
@@ -28,7 +30,7 @@ const imgSrc = imageUrl ?? `${ASSETS_BASE_URL}/images/who-we-are--mission-vision
         </div>
       </div>
       <div class="max-w-2xl space-y-6">
-        <SectionHeading>Mission &amp; Vision</SectionHeading>
+        <SectionHeading>{sectionHeading}</SectionHeading>
         <div class="p-6 rounded-2xl shadow-md" style={{ backgroundColor: COLORS.white }}>
           <h3 class="text-xl font-bold mb-3" style={{ color: COLORS.blue.navy }}>Mission</h3>
           <p class="text-gray-600 leading-relaxed">

@@ -6,33 +6,41 @@ import LifelongLearning from './sections/lifelong-learning.astro';
 import MissionVision from './sections/mission-vision.astro';
 import OurTeam from './sections/our-team.astro';
 import WhatIsProfoundAutism from './sections/what-is-profound-autism.astro';
-import { ASSETS_BASE_URL } from '../../constants';
 
 const QUERY = /* groq */ `*[_type == "whoWeAre"][0] {
   title,
   ourStoryText {
+    heading,
     body,
-    body2
+    body2,
+    image { asset->{ _id, url }, alt }
   },
   lifelongLearningText {
     headline,
     subheading,
     body,
-    imageUrl
+    image { asset->{ _id, url }, alt }
   },
   missionVisionText {
+    sectionHeading,
     mission,
-    vision
+    vision,
+    image { asset->{ _id, url }, alt }
   },
   ourTeamText {
+    sectionHeading,
     groups[] {
       title,
       description,
-      images
+      images[] { asset->{ _id, url }, alt }
     }
   },
   whatIsProfoundAutismText {
+    sectionHeading,
     definition,
+    image { asset->{ _id, url }, alt },
+    learnMoreHeading,
+    supportLinksHeading,
     learnMoreLinks[] {
       name,
       href
@@ -49,12 +57,14 @@ const data = await sanityClient.fetch(QUERY);
 const content = {
   pageTitle: data?.title ?? 'Who We Are - The Creekside School',
   ourStory: {
+    heading: data?.ourStoryText?.heading ?? 'Our Story',
     body:
       data?.ourStoryText?.body ??
       'Founded by parents who faced challenges finding a suitable school.',
     body2:
       data?.ourStoryText?.body2 ??
       'Creekside is a community dedicated to individualized support and education for students with profound autism.',
+    image: data?.ourStoryText?.image ?? undefined,
   },
   lifelongLearning: {
     headline:
@@ -66,76 +76,30 @@ const content = {
     body:
       data?.lifelongLearningText?.body ??
       'Our emphasis on family and community stems from our recognition that autism affects more than just parents. It impacts the whole family and the people around them.',
-    imageUrl:
-      data?.lifelongLearningText?.imageUrl ??
-      'images/who-we-are--lifelong-learning.jpg',
+    image: data?.lifelongLearningText?.image ?? undefined,
   },
   missionVision: {
+    sectionHeading: data?.missionVisionText?.sectionHeading ?? 'Mission & Vision',
     mission:
       data?.missionVisionText?.mission ??
       'To holistically enhance the quality of life for individuals with profound autism and their families through empowerment, community engagement, and collaborative partnerships.',
     vision:
       data?.missionVisionText?.vision ??
       'To extend this through a lifetime — ensuring lifelong opportunities for growth, connection, and purpose.',
+    image: data?.missionVisionText?.image ?? undefined,
   },
   ourTeam: {
-    groups:
-      data?.ourTeamText?.groups ?? [
-        {
-          title: 'Creekside Leadership',
-          description:
-            'Creekside leadership values transparent, open communications for our students and their families.',
-          images: [
-            'https://picsum.photos/seed/leadership-1/600/450',
-            'https://picsum.photos/seed/leadership-2/600/450',
-            'https://picsum.photos/seed/leadership-3/600/450',
-          ],
-        },
-        {
-          title: 'Credentialed Teachers',
-          description:
-            'Creekside teachers are credentialed special education teachers who bring a wealth of knowledge and experience to their classrooms.',
-          images: [
-            'https://picsum.photos/seed/teachers-1/600/450',
-            'https://picsum.photos/seed/teachers-2/600/450',
-            'https://picsum.photos/seed/teachers-3/600/450',
-          ],
-        },
-        {
-          title: 'Experienced Teaching Assistants',
-          description:
-            'Creekside teaching assistants work with class teachers and autism-related services therapists to create highly individualized learning tools, such as drawing with colored pencils and letter blocks during art therapy, and playing piano during music therapy.',
-          images: [
-            'https://picsum.photos/seed/assistants-1/600/450',
-            'https://picsum.photos/seed/assistants-2/600/450',
-          ],
-        },
-        {
-          title: 'Board of Directors',
-          description:
-            'Our Board of Directors enables Creekside to provide quality education through their support that allows us to expand our programs, connect with partners and parents, and adapt to the evolving needs of our students.',
-          images: [
-            'https://picsum.photos/seed/board-1/600/450',
-            'https://picsum.photos/seed/board-2/600/450',
-            'https://picsum.photos/seed/board-3/600/450',
-          ],
-        },
-        {
-          title: 'Our Donors and Supporters',
-          description:
-            "A core part of Creekside's history and identity is our commitment to working with our community, from collaborating with parents to setting up events with our partners. We express a sincere thank you to the partners, donors, and school organizations who share their time, energy, and resources to help us build spaces where individuals with profound autism are truly seen, heard, and understood.",
-          images: [
-            'https://picsum.photos/seed/donors-1/600/450',
-            'https://picsum.photos/seed/donors-2/600/450',
-            'https://picsum.photos/seed/donors-3/600/450',
-          ],
-        },
-      ],
+    sectionHeading: data?.ourTeamText?.sectionHeading ?? 'Our Team',
+    groups: data?.ourTeamText?.groups ?? [],
   },
   whatIsProfoundAutism: {
+    sectionHeading: data?.whatIsProfoundAutismText?.sectionHeading ?? 'What is Profound Autism?',
     definition:
       data?.whatIsProfoundAutismText?.definition ??
       'Profound autism is a term used to describe individuals on the autism spectrum who have extremely high support needs — often characterized by limited or non-vocal communication abilities, significant challenges in adaptive functioning (e.g., daily living skills), and co-occurring medical or behavioral complexities.',
+    image: data?.whatIsProfoundAutismText?.image ?? undefined,
+    learnMoreHeading: data?.whatIsProfoundAutismText?.learnMoreHeading ?? 'Learn More:',
+    supportLinksHeading: data?.whatIsProfoundAutismText?.supportLinksHeading ?? 'Support Creekside:',
     learnMoreLinks:
       data?.whatIsProfoundAutismText?.learnMoreLinks ?? [
         { name: 'Our Programs', href: '/what-we-do/' },
@@ -157,7 +121,7 @@ const content = {
     <OurStory {...content.ourStory} />
     <LifelongLearning {...content.lifelongLearning} />
     <MissionVision {...content.missionVision} />
-    <OurTeam groups={content.ourTeam.groups} />
+    <OurTeam sectionHeading={content.ourTeam.sectionHeading} groups={content.ourTeam.groups} />
     <WhatIsProfoundAutism {...content.whatIsProfoundAutism} />
   </div>
 </PageLayout>

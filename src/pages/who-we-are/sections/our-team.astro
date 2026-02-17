@@ -2,31 +2,35 @@
 import { COLORS, ASSETS_BASE_URL } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
 
+type SanityImage = { asset?: { url: string }; alt?: string };
+
 interface TeamGroup {
   title: string;
   description: string;
-  imageUrl?: string;
-  images?: readonly string[];
+  images?: readonly (SanityImage | string)[];
 }
 
 interface Props {
+  sectionHeading?: string;
   groups: readonly TeamGroup[];
 }
 
-const { groups = [] } = Astro.props;
+const { sectionHeading = 'Our Team', groups = [] } = Astro.props;
 
-function getImageUrl(fallback: string, url?: string) {
-  return url ?? `${ASSETS_BASE_URL}/images/${fallback}`;
+function getImageUrl(fallback: string) {
+  return `${ASSETS_BASE_URL}/images/${fallback}`;
 }
 ---
 
 <section id="our-team" class="py-20" style={{ backgroundColor: COLORS.white }}>
   <div class="container mx-auto px-4 lg:px-8">
-    <SectionHeading>Our Team</SectionHeading>
+    <SectionHeading>{sectionHeading}</SectionHeading>
 
     <div class="mt-16 space-y-20">
       {groups.map((group, groupIndex) => {
-        const images = group.images && group.images.length > 0 ? group.images : [getImageUrl(`who-we-are--team-${groupIndex}.jpg`, group.imageUrl)];
+        const imageItems = group.images?.length
+          ? group.images
+          : [getImageUrl(`who-we-are--team-${groupIndex}.jpg`)];
         const imageLeft = groupIndex % 2 === 0;
         return (
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -36,18 +40,24 @@ function getImageUrl(fallback: string, url?: string) {
                 role="region"
                 aria-label={`${group.title} photos`}
               >
-                {images.map((src, imgIndex) => (
+                {imageItems
+                  .map((item) => {
+                    const src = typeof item === 'string' ? item : item?.asset?.url;
+                    return src ? { src, alt: typeof item === 'string' ? '' : (item?.alt ?? '') } : null;
+                  })
+                  .filter((x): x is { src: string; alt: string } => x !== null)
+                  .map(({ src, alt }, imgIndex) => (
                   <div class="team-photo-scroll__item flex-shrink-0 w-[42vw] sm:w-44 md:w-52 snap-center">
                     <img
                       src={src}
-                      alt={`${group.title} — ${imgIndex + 1} of ${images.length}`}
+                      alt={alt || `${group.title} — ${imgIndex + 1}`}
                       class="w-full aspect-[3/4] object-cover object-center rounded-xl shadow-md bg-gray-200"
                       loading="lazy"
                       width="208"
                       height="277"
                     />
                   </div>
-                ))}
+                  ))}
               </div>
             </div>
             <div class={imageLeft ? '' : 'lg:order-1'}>
