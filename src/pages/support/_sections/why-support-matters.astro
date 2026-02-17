@@ -15,7 +15,7 @@ const { content: contentProp } = Astro.props;
 const content = contentProp ?? {
   title: 'Why Your Support Matters',
   description: 'At Creekside, every student\'s program is tailored to their interests, strengths, and needs. Donations sustain small class sizes, suite-level autism services, and a campus built for safety, sensory needs, and learning in community.',
-  image: 'support--why-support-matters.jpg',
+  image: 'support--why-support-matters.png',
   imageAlt: 'Students and staff at Creekside engaging in a learning activity.',
 };
 const imageSrc = content.image.startsWith('http') ? content.image : `${ASSETS_BASE_URL}/images/${content.image}`;
@@ -46,7 +46,7 @@ const imageSrc = content.image.startsWith('http') ? content.image : `${ASSETS_BA
   .container {
     display: flex;
     gap: 4rem;
-    align-items: flex-start;
+    align-items: center;
     max-width: 1200px;
     margin: 0 auto;
   }
