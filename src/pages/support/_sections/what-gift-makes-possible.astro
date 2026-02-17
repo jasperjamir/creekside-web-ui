@@ -1,11 +1,56 @@
 ---
-// What Your Gift Makes Possible section
-// Content will be added here
+import { COLORS } from '../../../constants';
+import { SECTION_TITLE, IMPACT_ITEMS } from '../_constants/gift-impact';
 ---
 
-<section class="py-20">
-  <div class="container mx-auto px-4 lg:px-8">
-    <h2 class="text-3xl font-bold mb-4">What Your Gift Makes Possible</h2>
-    <p class="text-gray-600">Content will be added here</p>
+<section class="py-20 relative font-sans" style={{ backgroundColor: COLORS.blue.navy }}>
+  <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+  <div class="container mx-auto px-4 lg:px-8 relative z-10">
+    <h2 class="text-3xl font-bold text-white text-center mb-12">
+      {SECTION_TITLE}
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
+      {IMPACT_ITEMS.map((item) => (
+        <div
+          class="gift-grid-item group flex flex-col items-center justify-center p-6 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all duration-300 text-center aspect-square"
+          style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}
+        >
+          <div class="mb-4 group-hover:scale-110 transition-transform" style={{ color: COLORS.green }}>
+            <div
+              class="gift-icon-circle w-20 h-20 rounded-full bg-white/10 flex items-center justify-center"
+              style={{ color: COLORS.green }}
+            >
+              <div class="gift-icon-svg w-12 h-12" set:html={item.iconSvg} />
+            </div>
+          </div>
+          <p class="text-base leading-relaxed" style={{ color: COLORS.blue.light }}>
+            <strong class="text-white">{item.title}</strong> {item.text}
+          </p>
+        </div>
+      ))}
+    </div>
   </div>
 </section>
+
+<style>
+  .gift-icon-svg :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<script>
+  const giftItems = document.querySelectorAll('.gift-grid-item');
+  const greenColor = '#A4D16A';
+
+  giftItems.forEach((item) => {
+    const el = item as HTMLElement;
+    el.addEventListener('mouseenter', () => {
+      el.style.borderColor = greenColor;
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+    });
+  });
+</script>
