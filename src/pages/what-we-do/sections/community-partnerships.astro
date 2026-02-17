@@ -1,11 +1,68 @@
 ---
-// Community Partnerships section
-// Content will be added here
+import ImageTextSection from '../../../components/sections/ImageTextSection.astro';
+
+interface Partner {
+  name: string;
+  href: string;
+  imageUrl: string;
+  imageAlt: string;
+}
+
+const PARTNERS: Partner[] = [
+  { name: 'Community Stanford Preschool Autism Lab', href: 'https://med.stanford.edu/autism.html', imageUrl: 'https://picsum.photos/seed/stanford-preschool/200/80', imageAlt: 'Stanford Preschool Autism Lab' },
+  { name: 'Autism Speaks', href: 'https://www.autismspeaks.org/', imageUrl: 'https://picsum.photos/seed/autism-speaks/200/80', imageAlt: 'Autism Speaks' },
+  { name: 'Bay Area Furniture Bank', href: 'https://www.bayareafurniturebank.org/', imageUrl: 'https://picsum.photos/seed/bafb/200/80', imageAlt: 'Bay Area Furniture Bank' },
+  { name: 'Stanford Autism Center', href: 'https://med.stanford.edu/autism.html', imageUrl: 'https://picsum.photos/seed/stanford-autism/200/80', imageAlt: 'Stanford Autism Center' },
+  { name: 'South Valley YMCA', href: 'https://www.ymcasv.org/', imageUrl: 'https://picsum.photos/seed/sv-ymca/200/80', imageAlt: 'South Valley YMCA' },
+  { name: 'University Partners', href: '#', imageUrl: 'https://picsum.photos/seed/university-partners/200/80', imageAlt: 'University Partners' },
+];
 ---
 
-<section class="py-20">
-  <div class="container mx-auto px-4 lg:px-8">
-    <h2 class="text-3xl font-bold mb-4">Community Partnerships</h2>
-    <p class="text-gray-600">Content will be added here</p>
+<ImageTextSection
+  sectionId="community-partnerships"
+  title="Community Partnerships"
+  imageUrl="https://picsum.photos/seed/community-partnerships/800/500"
+  imageAlt="Community partnerships at Creekside"
+  imageLeft={false}
+  backgroundColor="white"
+>
+  <details class="group bg-gray-50 rounded-2xl overflow-hidden border border-gray-100">
+    <summary class="flex items-center justify-between p-5 cursor-pointer list-none select-none focus:outline-none hover:bg-gray-100 transition-colors">
+      <span class="font-semibold text-gray-800">About Community-Based Instruction (CBI)</span>
+      <span class="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 transition-transform duration-300 group-open:rotate-180" aria-hidden="true">
+        <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </span>
+    </summary>
+    <div class="px-5 pb-6 pt-0">
+      <p class="text-gray-600 leading-relaxed">
+        Community-Based Instruction (CBI) is an integral part of the Creekside approach, focusing on real-world application of skills. Through CBI, we support students in building independence and confidence by engaging with their community.
+      </p>
+    </div>
+  </details>
+
+  <div class="mt-10">
+    <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-6">Our partners</p>
+    <div class="flex flex-wrap items-center gap-8">
+      {PARTNERS.map((partner) => (
+        <a
+          href={partner.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block opacity-80 hover:opacity-100 transition-opacity focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg focus:ring-[#2658B2]"
+          title={partner.name}
+        >
+          <img
+            src={partner.imageUrl}
+            alt={partner.imageAlt}
+            class="h-12 w-auto object-contain max-w-[180px]"
+            loading="lazy"
+            width="180"
+            height="48"
+          />
+        </a>
+      ))}
+    </div>
   </div>
-</section>
+</ImageTextSection>

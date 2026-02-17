@@ -1,12 +1,18 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
-import AdultProgram from './sections/adult-program.astro';
-import CommunityPartnerships from './sections/community-partnerships.astro';
+import WhatWeDoHero from './sections/hero.astro';
 import OurServices from './sections/our-services.astro';
+import AdultProgram from './sections/adult-program.astro';
+import LongTermGoal from './sections/long-term-goal.astro';
+import CommunityPartnerships from './sections/community-partnerships.astro';
 ---
 
 <PageLayout title="What We Do - The Creekside School">
-  <AdultProgram />
-  <CommunityPartnerships />
-  <OurServices />
+  <div class="animate-fade-in font-sans">
+    <WhatWeDoHero />
+    <OurServices />
+    <AdultProgram />
+    <LongTermGoal />
+    <CommunityPartnerships />
+  </div>
 </PageLayout>

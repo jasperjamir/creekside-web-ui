@@ -1,0 +1,49 @@
+---
+import { COLORS } from '../../constants';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+interface Props {
+  sectionId: string;
+  title: string;
+  imageUrl: string;
+  imageAlt: string;
+  imageLeft?: boolean;
+  backgroundColor?: 'cream' | 'white';
+}
+
+const {
+  sectionId,
+  title,
+  imageUrl,
+  imageAlt,
+  imageLeft = true,
+  backgroundColor = 'cream',
+} = Astro.props;
+const bg = backgroundColor === 'cream' ? COLORS.cream : COLORS.white;
+---
+
+<section id={sectionId} class="py-20" style={{ backgroundColor: bg }}>
+  <div class="container mx-auto px-4 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class={`flex justify-center ${imageLeft ? 'lg:justify-start order-first lg:order-none' : 'lg:justify-end lg:order-2'}`}>
+        <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md aspect-[5/3]">
+          <img
+            src={imageUrl}
+            alt={imageAlt}
+            class="w-full h-full object-cover object-center"
+            loading="lazy"
+            width="600"
+            height="360"
+          />
+        </div>
+      </div>
+      <div class={`max-w-2xl ${imageLeft ? '' : 'lg:order-1'}`}>
+        <SectionHeading>{title}</SectionHeading>
+        <div class="mt-6 prose prose-lg text-gray-600 max-w-none">
+          <slot />
+        </div>
+        <div class="h-1 w-24 mt-8 rounded-full" style={{ backgroundColor: COLORS.blue.royal }} />
+      </div>
+    </div>
+  </div>
+</section>

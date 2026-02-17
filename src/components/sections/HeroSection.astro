@@ -1,0 +1,53 @@
+---
+import { COLORS } from '../../constants';
+
+interface Props {
+  heading: string;
+  body?: string;
+  body2?: string;
+  imageUrl: string;
+  imageAlt: string;
+  sectionId?: string;
+}
+
+const { heading, body = '', body2, imageUrl, imageAlt, sectionId } = Astro.props;
+---
+
+<section
+  id={sectionId}
+  class="relative h-[85vh] flex items-center overflow-hidden"
+>
+  <div class="absolute inset-0 z-0">
+    <img
+      src={imageUrl}
+      alt={imageAlt}
+      class="w-full h-full object-cover"
+    />
+    <div
+      class="absolute inset-0"
+      style={{
+        background: `linear-gradient(to right, ${COLORS.blue.navy}E6, ${COLORS.blue.royal}CC, ${COLORS.blue.soft}66)`,
+      }}
+    />
+  </div>
+  <div class="container mx-auto px-4 lg:px-8 relative z-10 text-white">
+    <div class="max-w-3xl">
+      <h2 class="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 text-white">
+        {heading}
+      </h2>
+      {body && (
+        <p
+          class={`text-lg md:text-xl lg:text-2xl text-blue-50 leading-relaxed max-w-2xl font-light ${body2 ? 'mb-4' : 'mb-8'}`}
+        >
+          {body}
+        </p>
+      )}
+      {body2 && (
+        <p class="text-lg md:text-xl lg:text-2xl text-blue-50 mb-8 leading-relaxed max-w-2xl font-bold">
+          {body2}
+        </p>
+      )}
+      <div class="h-1 w-24 rounded-full bg-white/90" />
+    </div>
+  </div>
+</section>

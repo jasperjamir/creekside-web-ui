@@ -1,5 +1,6 @@
 ---
-import { COLORS, ASSETS_BASE_URL } from '../../../constants';
+import HeroSection from '../../../components/sections/HeroSection.astro';
+import { ASSETS_BASE_URL } from '../../../constants';
 
 interface Props {
   body: string;
@@ -11,37 +12,11 @@ const { body = '', body2, imageUrl } = Astro.props;
 const imgSrc = imageUrl ?? `${ASSETS_BASE_URL}/images/who-we-are--we-are-a-community.png`;
 ---
 
-<section id="our-story" class="relative h-[85vh] flex items-center overflow-hidden">
-  <!-- Background Image with Overlay -->
-  <div class="absolute inset-0 z-0">
-    <img
-      src={imgSrc}
-      alt="Creekside School - staff or campus"
-      class="w-full h-full object-cover"
-    />
-    <!-- Dominant background gradient overlay -->
-    <div
-      class="absolute inset-0"
-      style={{
-        background: `linear-gradient(to right, ${COLORS.blue.navy}E6, ${COLORS.blue.royal}CC, ${COLORS.blue.soft}66)`,
-      }}
-    ></div>
-  </div>
-
-  <div class="container mx-auto px-4 lg:px-8 relative z-10 text-white">
-    <div class="max-w-3xl">
-      <h2 class="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 text-white">
-        Our Story
-      </h2>
-      <p class={`text-lg md:text-xl lg:text-2xl text-blue-50 leading-relaxed max-w-2xl font-light ${body2 ? 'mb-4' : 'mb-8'}`}>
-        {body}
-      </p>
-      {body2 && (
-        <p class="text-lg md:text-xl lg:text-2xl text-blue-50 mb-8 leading-relaxed max-w-2xl font-bold">
-          {body2}
-        </p>
-      )}
-      <div class="h-1 w-24 rounded-full bg-white/90"></div>
-    </div>
-  </div>
-</section>
+<HeroSection
+  sectionId="our-story"
+  heading="Our Story"
+  body={body}
+  body2={body2}
+  imageUrl={imgSrc}
+  imageAlt="Creekside School - staff or campus"
+/>
