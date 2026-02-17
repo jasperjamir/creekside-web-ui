@@ -4,7 +4,8 @@ import SectionHeading from '../ui/SectionHeading.astro';
 
 interface Props {
   sectionId: string;
-  title: string;
+  title?: string;
+  subheading?: string;
   imageUrl: string;
   imageAlt: string;
   imageLeft?: boolean;
@@ -14,6 +15,7 @@ interface Props {
 const {
   sectionId,
   title,
+  subheading,
   imageUrl,
   imageAlt,
   imageLeft = true,
@@ -38,7 +40,12 @@ const bg = backgroundColor === 'cream' ? COLORS.cream : COLORS.white;
         </div>
       </div>
       <div class={`max-w-2xl ${imageLeft ? '' : 'lg:order-1'}`}>
-        <SectionHeading>{title}</SectionHeading>
+        {title && <SectionHeading>{title}</SectionHeading>}
+        {subheading && (
+          <p class="text-xl md:text-2xl text-gray-700 leading-relaxed font-light mt-4">
+            {subheading}
+          </p>
+        )}
         <div class="mt-6 prose prose-lg text-gray-600 max-w-none">
           <slot />
         </div>

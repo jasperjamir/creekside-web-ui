@@ -1,5 +1,6 @@
 ---
-import { COLORS, ASSETS_BASE_URL } from '../../../constants';
+import ImageTextSection from '../../../components/sections/ImageTextSection.astro';
+import { ASSETS_BASE_URL } from '../../../constants';
 
 interface Props {
   headline: string;
@@ -9,36 +10,24 @@ interface Props {
 }
 
 const { headline = '', subheading = '', body = '', imageUrl } = Astro.props;
-const imgSrc = `${ASSETS_BASE_URL}/${imageUrl ?? 'images/who-we-are--lifelong-learning.jpg'}`;
+const imgSrc =
+  typeof imageUrl === 'string' && imageUrl
+    ? imageUrl.startsWith('http')
+      ? imageUrl
+      : `${ASSETS_BASE_URL}/${imageUrl.replace(/^\//, '')}`
+    : `${ASSETS_BASE_URL}/images/who-we-are--lifelong-learning.jpg`;
 ---
 
-<section id="lifelong-learning" class="py-20" style={{ backgroundColor: COLORS.white }}>
-  <div class="container mx-auto px-4 lg:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-      <div class="flex justify-center lg:justify-start order-first lg:order-none">
-        <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md aspect-[5/3]">
-          <img
-            src={imgSrc}
-            alt="Lifelong learning at Creekside"
-            class="w-full h-full object-cover object-center"
-            loading="lazy"
-            width="600"
-            height="360"
-          />
-        </div>
-      </div>
-      <div class="max-w-2xl">
-        <h2 class="text-3xl md:text-4xl font-bold mb-6" style={{ color: COLORS.blue.navy }}>
-          {headline}
-        </h2>
-        <p class="text-xl md:text-2xl text-gray-700 leading-relaxed font-light">
-          {subheading}
-        </p>
-        <p class="text-lg text-gray-600 leading-relaxed mt-6">
-          {body}
-        </p>
-        <div class="h-1 w-24 mt-8 rounded-full" style={{ backgroundColor: COLORS.blue.royal }}></div>
-      </div>
-    </div>
-  </div>
-</section>
+<ImageTextSection
+  sectionId="lifelong-learning"
+  title={headline}
+  subheading={subheading}
+  imageUrl={imgSrc}
+  imageAlt="Lifelong learning at Creekside"
+  imageLeft={true}
+  backgroundColor="white"
+>
+  <p class="text-lg leading-relaxed">
+    {body}
+  </p>
+</ImageTextSection>
