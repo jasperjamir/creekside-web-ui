@@ -1,0 +1,148 @@
+---
+import { ASSETS_BASE_URL, COLORS } from '../../../constants';
+
+interface Props {
+  cards: { title: string; link: string; imageSrc: string; alt: string; description?: string }[];
+}
+
+const { cards = [] } = Astro.props;
+
+function getImageSrc(src: string | null | undefined) {
+  if (src == null || src === '') return '';
+  return src.startsWith('http') || src.startsWith('/') ? src : `${ASSETS_BASE_URL}/images/${src}`;
+}
+
+const blueRgb = '5, 32, 73';
+---
+
+<section class="benefits-section font-sans relative" style={{ backgroundColor: COLORS.white }}>
+  <div class="container relative z-10">
+    <div class="grid">
+      {cards.map((card) => (
+        <a href={card.link} class="card">
+          <div class="card-image-wrapper">
+            <img
+              src={getImageSrc(card.imageSrc)}
+              alt={card.alt}
+              class="card-bg"
+              loading="lazy"
+              width="450"
+              height="600"
+            />
+          </div>
+          <div
+            class="card-content"
+            style={{
+              background: `linear-gradient(to bottom, rgba(${blueRgb}, 0) 0%, rgba(${blueRgb}, 0.6) 20%, rgba(${blueRgb}, 0.9) 100%)`,
+            }}
+          >
+            <h3 class="card-title" style={{ color: COLORS.white }}>{card.title}</h3>
+            {card.description && (
+              <p class="card-subtext" style={{ color: COLORS.white }}>{card.description}</p>
+            )}
+            <span class="learn-more-link" style={{ color: COLORS.white }}>Learn more →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .benefits-section {
+    padding: 2rem 5% 4rem;
+    font-family: inherit;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .card {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+  .card-image-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .card-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .card-content {
+    position: relative;
+    z-index: 1;
+    padding: 1.5rem;
+  }
+
+  .card-content h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.2;
+  }
+
+  .card-subtext {
+    font-size: 0.95rem;
+    margin: 0.25rem 0 0 0;
+    line-height: 1.45;
+    font-weight: 400;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.25s ease, max-height 0.35s ease;
+  }
+
+  .card:hover .card-subtext {
+    opacity: 1;
+    max-height: 5rem;
+  }
+
+  .learn-more-link {
+    display: inline-block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: underline;
+  }
+
+  .card-content p {
+    font-size: 1.1rem;
+    margin: 0;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+</style>

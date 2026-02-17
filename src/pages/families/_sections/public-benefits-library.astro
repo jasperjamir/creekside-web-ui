@@ -1,0 +1,48 @@
+---
+import { ASSETS_BASE_URL, COLORS } from '../../../constants';
+import ServiceCard from '../../../components/ui/ServiceCard.astro';
+
+interface Props {
+  items: { title: string; imageSrc: string; link: string }[];
+}
+
+const { items = [] } = Astro.props;
+
+function getImageUrl(src: string | null | undefined) {
+  if (src == null || src === '') return '';
+  return src.startsWith('http') || src.startsWith('/') ? src : `${ASSETS_BASE_URL}/images/${src}`;
+}
+---
+
+<section class="py-16 font-sans public-benefits-library-section" style={{ backgroundColor: COLORS.white }}>
+  <div class="container mx-auto px-4 lg:px-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {items.slice(0, 6).map((item) => (
+        <ServiceCard
+          title={item.title}
+          imageUrl={getImageUrl(item.imageSrc)}
+          imageAlt={item.title}
+          href={item.link}
+        />
+      ))}
+    </div>
+    {items.length > 6 && (
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+        {items.slice(6, 8).map((item) => (
+          <ServiceCard
+            title={item.title}
+            imageUrl={getImageUrl(item.imageSrc)}
+            imageAlt={item.title}
+            href={item.link}
+          />
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .public-benefits-library-section :global(h3) {
+    text-align: center;
+  }
+</style>

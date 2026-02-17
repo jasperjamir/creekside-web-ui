@@ -1,0 +1,40 @@
+---
+import { COLORS } from '../../../constants';
+
+interface Props {
+  content: { text: string; boldText?: string; link: string };
+}
+
+const { content } = Astro.props;
+const isExternal = content.link.startsWith('http');
+---
+
+<section class="pt-8 pb-20 bg-white relative overflow-hidden font-sans">
+  <div class="container mx-auto px-4 lg:px-8 relative z-10">
+    <div class="text-center max-w-3xl mx-auto">
+      <p class="text-xl md:text-2xl text-black leading-relaxed">
+        <a
+          href={content.link}
+          class="check-more-link"
+          style={{ color: COLORS.blue.navy }}
+          target={isExternal ? '_blank' : undefined}
+          rel={isExternal ? 'noopener noreferrer' : undefined}
+        >
+          {content.text}{content.boldText && <strong>{content.boldText}</strong>}
+        </a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .check-more-link {
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+
+  .check-more-link:hover {
+    opacity: 0.85;
+  }
+</style>

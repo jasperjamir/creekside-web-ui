@@ -1,0 +1,71 @@
+---
+import { ASSETS_BASE_URL, COLORS } from '../../../constants';
+import ServiceCard from '../../../components/ui/ServiceCard.astro';
+
+interface Props {
+  items: { title: string; imageSrc: string; link: string; featured?: boolean }[];
+}
+
+const { items = [] } = Astro.props;
+
+function getImageUrl(src: string | null | undefined) {
+  if (src == null || src === '') return '';
+  return src.startsWith('http') || src.startsWith('/') ? src : `${ASSETS_BASE_URL}/images/${src}`;
+}
+---
+
+<section id="insurance-library" class="pt-6 pb-16 font-sans" style={{ backgroundColor: COLORS.white, '--featured-border': COLORS.blue.royal }}>
+  <div class="container mx-auto px-4 lg:px-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 insurance-library-grid">
+      {items.map((item) => (
+        <div class={item.featured ? 'card-wrapper card-wrapper--featured' : 'card-wrapper'}>
+          <ServiceCard
+            title={item.title}
+            imageUrl={getImageUrl(item.imageSrc)}
+            imageAlt={item.title}
+            href={item.link}
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .insurance-library-grid {
+    align-items: stretch;
+  }
+
+  .card-wrapper {
+    display: flex;
+    min-height: 0;
+  }
+
+  .card-wrapper--featured {
+    border: 2px solid var(--featured-border);
+    border-radius: 1rem;
+  }
+
+  .card-wrapper :global(a),
+  .card-wrapper :global(article) {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 0;
+  }
+
+  .card-wrapper :global(a > div:last-child),
+  .card-wrapper :global(article > div:last-child) {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 5.5rem;
+  }
+
+  .card-wrapper :global(h3) {
+    font-size: 0.875rem;
+    line-height: 1.35;
+    flex: 1;
+    text-align: center;
+  }
+</style>

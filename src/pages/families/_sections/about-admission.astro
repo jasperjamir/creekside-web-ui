@@ -22,7 +22,7 @@ const imageSrc = content.image && content.image.startsWith('http') ? content.ima
 const paragraphs = content.description.split(/\n\n+/).filter(Boolean);
 ---
 
-<section class="about-admission-section font-sans" style={{ backgroundColor: COLORS.white }}>
+<section id="about-admission" class="about-admission-section font-sans" style={{ backgroundColor: COLORS.white }}>
   <div class="container">
     <div class="text-content">
       <SectionHeading>{content.title}</SectionHeading>

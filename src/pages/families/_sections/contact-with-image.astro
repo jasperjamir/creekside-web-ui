@@ -1,0 +1,150 @@
+---
+import { ASSETS_BASE_URL, COLORS } from '../../../constants';
+
+interface Props {
+  content: {
+    schoolName: string;
+    address: string[];
+    mapsLink: string;
+    contactLabel: string;
+    phone: string;
+    email: string;
+    image: { src: string; alt: string };
+  };
+}
+
+const { content: contentProp } = Astro.props;
+const content = contentProp ?? {
+  schoolName: 'The Creekside School:',
+  address: ['5629 Lean Avenue', 'San Jose, CA 95123'],
+  mapsLink: 'https://maps.google.com/?q=5629+Lean+Avenue+San+Jose+CA+95123',
+  contactLabel: 'Contact us:',
+  phone: '408.448.2494',
+  email: 'info@creeksideschool.org',
+  image: { src: '/images/high-five.jpg', alt: 'Student giving a high five to a teacher' },
+};
+const imageSrc =
+  content.image.src.startsWith('http') || content.image.src.startsWith('/')
+    ? content.image.src
+    : `${ASSETS_BASE_URL}/images/${content.image.src}`;
+---
+
+<section
+  class="contact-with-image-section font-sans"
+  style={{
+    backgroundColor: COLORS.blue.navy,
+    '--contact-link-color': COLORS.blue.light,
+    '--contact-link-hover': COLORS.white,
+  }}
+>
+  <div class="container">
+    <div class="contact-content">
+      <p class="school-name" style={{ color: COLORS.white }}>{content.schoolName}</p>
+      <a
+        href={content.mapsLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="address-link"
+        style={{ color: COLORS.white }}
+      >
+        {content.address.map((line) => (
+          <span class="address-line">{line}</span>
+        ))}
+      </a>
+      <p class="contact-label" style={{ color: COLORS.white }}>{content.contactLabel}</p>
+      <a href={`tel:${content.phone.replace(/\D/g, '')}`} class="contact-link">
+        {content.phone}
+      </a>
+      <a href={`mailto:${content.email}`} class="contact-link">
+        {content.email}
+      </a>
+    </div>
+
+    <div class="image-wrapper">
+      <img src={imageSrc} alt={content.image.alt} loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-with-image-section {
+    padding: 4rem 5%;
+    font-family: inherit;
+  }
+
+  .container {
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .contact-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .school-name,
+  .contact-label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .address-link {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin: 0.25rem 0;
+  }
+
+  .address-link:hover {
+    text-decoration: underline;
+  }
+
+  .address-line {
+    display: block;
+    font-size: 1.05rem;
+    line-height: 1.4;
+  }
+
+  .contact-link {
+    font-size: 1.05rem;
+    text-decoration: none;
+    color: var(--contact-link-color);
+  }
+
+  .contact-link:hover {
+    color: var(--contact-link-hover);
+    text-decoration: underline;
+  }
+
+  .image-wrapper {
+    flex: 1.8;
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+  }
+
+  .image-wrapper img {
+    width: 100%;
+    height: 100%;
+    border-radius: 2rem;
+    object-fit: cover;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 968px) {
+    .container {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .image-wrapper {
+      order: 2;
+    }
+  }
+</style>

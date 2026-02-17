@@ -40,7 +40,7 @@ export const NAV_LINKS: readonly NavLink[] = [
     href: '/families/',
     children: [
       { name: 'Parent Resources', href: '/families/parent-resources/' },
-      { name: 'Admissions', href: '/families/admissions-process/' },
+      { name: 'Admissions', href: '/families/#about-admission' },
     ],
   },
   {

@@ -1,0 +1,78 @@
+---
+import { COLORS } from '../../../constants';
+
+interface Props {
+  content: {
+    title: string;
+    titleHighlight?: string;
+    description: string;
+  };
+}
+
+const { content: contentProp } = Astro.props;
+const content = contentProp ?? {
+  title: 'Navigating the systems that support your family',
+  titleHighlight: 'family',
+  description:
+    "We've partnered with Undivided's specialists to help you understand what supports are available to your family and how to get the most out of them. Choose the topic you're interested in learning about to see curated resources with expert information and tips.",
+};
+const highlight = content.titleHighlight ?? '';
+const titlePrefix = highlight
+  ? content.title.replace(new RegExp(`\\s+${highlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`), ' ')
+  : content.title;
+---
+
+<section class="navigating-systems-section font-sans" style={{ backgroundColor: COLORS.white }}>
+  <div class="container">
+    <div class="title-col">
+      <h2 class="section-title text-3xl md:text-4xl font-bold mb-6" style={{ color: COLORS.blue.navy }}>
+        {titlePrefix}
+        {highlight && (
+          <span class="px-2 leading-tight inline-block transform -skew-x-3" style={{ backgroundColor: COLORS.green }}>
+            <span class="block transform skew-x-3" style={{ color: COLORS.blue.navy }}>{highlight}</span>
+          </span>
+        )}
+      </h2>
+    </div>
+    <div class="description-col">
+      <p class="description">{content.description}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .navigating-systems-section {
+    padding: 4rem 5% 2rem;
+    font-family: inherit;
+  }
+
+  .container {
+    display: flex;
+    gap: 4rem;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .title-col {
+    flex: 0 1 40%;
+  }
+
+  .description-col {
+    flex: 1 1 60%;
+  }
+
+  .description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      gap: 2rem;
+    }
+  }
+</style>
