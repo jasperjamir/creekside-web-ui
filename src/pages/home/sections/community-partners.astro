@@ -24,13 +24,15 @@ const { heading = '', assetsBaseUrl = ASSETS_BASE_URL, partners = [] } = Astro.p
 
     <div class="flex flex-wrap justify-center items-center gap-12">
       {partners.map((partner) => {
-        const src = partner.image.startsWith('http')
-          ? partner.image
+        const image = partner.image ?? '';
+        if (!image) return null;
+        const src = image.startsWith('http')
+          ? image
           : assetsBaseUrl
-            ? `${assetsBaseUrl.replace(/\/$/, '')}/${partner.image.replace(/^\//, '')}`
-            : partner.image.startsWith('/')
-              ? partner.image
-              : `/${partner.image}`;
+            ? `${assetsBaseUrl.replace(/\/$/, '')}/${image.replace(/^\//, '')}`
+            : image.startsWith('/')
+              ? image
+              : `/${image}`;
         return (
           <div class="group flex items-center justify-center min-h-[80px] min-w-[120px]">
             <img
