@@ -1,11 +1,170 @@
 ---
-// Ways to Give section
-// Content will be added here
+import { COLORS } from '../../../constants';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
+import { DONATION_AMOUNTS, SECTION_CONTENT } from '../_constants/ways-to-give';
+
+const donateBaseUrl = '/support/donate';
 ---
 
-<section class="py-20">
-  <div class="container mx-auto px-4 lg:px-8">
-    <h2 class="text-3xl font-bold mb-4">Ways to Give</h2>
-    <p class="text-gray-600">Content will be added here</p>
+<section class="giving-section font-sans" style={{ backgroundColor: COLORS.white, '--giving-btn-blue': COLORS.blue.royal, '--giving-btn-light-blue': COLORS.blue.soft }}>
+  <div class="container">
+    <div class="title-wrapper">
+      <SectionHeading className="inline-block">{SECTION_CONTENT.title}</SectionHeading>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="info-column">
+        <h3 class="info-heading">{SECTION_CONTENT.heading}</h3>
+        <p class="info-description">{SECTION_CONTENT.description}</p>
+      </div>
+
+      <div class="donation-interface">
+        <div class="amount-grid">
+          {DONATION_AMOUNTS.map((amount) => {
+            const isOther = amount === 'Other';
+            const href = isOther ? donateBaseUrl : `${donateBaseUrl}?amount=${amount.replace(/[$,]/g, '')}`;
+            return (
+              <a href={href} class="btn btn-blue">
+                {amount}
+              </a>
+            );
+          })}
+        </div>
+
+        <a href={donateBaseUrl} class="btn btn-blue btn-full">
+          {SECTION_CONTENT.monthlyLabel}
+        </a>
+
+        <a href="/support/in-kind-donations" class="btn btn-light-blue btn-full btn-multiline">
+          <span class="btn-title">{SECTION_CONTENT.inKind.title}</span>
+          <span class="btn-subtitle">{SECTION_CONTENT.inKind.subtitle}</span>
+        </a>
+      </div>
+    </div>
   </div>
 </section>
+
+<style>
+  .giving-section {
+    padding: 5rem 1rem;
+    font-family: inherit;
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding: 0 2rem;
+    }
+  }
+
+  .title-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+
+  .content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .content-wrapper {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 4rem;
+    }
+  }
+
+  .info-column {
+    flex: 0 0 250px;
+  }
+
+  .info-heading {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: #1a1a1a;
+  }
+
+  .info-description {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333;
+  }
+
+  .donation-interface {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .amount-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .btn {
+    border: none;
+    border-radius: 6px;
+    padding: 1rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  .btn:hover {
+    opacity: 0.9;
+  }
+
+  .btn-blue {
+    background-color: var(--giving-btn-blue);
+  }
+
+  .btn-light-blue {
+    background-color: var(--giving-btn-light-blue);
+  }
+
+  .btn-full {
+    width: 100%;
+  }
+
+  .btn-multiline {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem 0.5rem;
+  }
+
+  .btn-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .btn-subtitle {
+    font-size: 0.9rem;
+    font-weight: 400;
+    opacity: 0.95;
+  }
+
+  @media (max-width: 480px) {
+    .amount-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
