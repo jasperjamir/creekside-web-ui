@@ -1,6 +1,5 @@
 ---
 import { ASSETS_BASE_URL, COLORS } from '../../../constants';
-import ServiceCard from '../../../components/ui/ServiceCard.astro';
 
 interface Props {
   items: { title: string; imageSrc: string; link: string }[];
@@ -8,41 +7,107 @@ interface Props {
 
 const { items = [] } = Astro.props;
 
-function getImageUrl(src: string | null | undefined) {
+function getImageSrc(src: string | null | undefined) {
   if (src == null || src === '') return '';
   return src.startsWith('http') || src.startsWith('/') ? src : `${ASSETS_BASE_URL}/images/${src}`;
 }
+
+const blueRgb = '5, 32, 73';
 ---
 
-<section class="py-16 font-sans public-benefits-library-section" style={{ backgroundColor: COLORS.white }}>
-  <div class="container mx-auto px-4 lg:px-8">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      {items.slice(0, 6).map((item) => (
-        <ServiceCard
-          title={item.title}
-          imageUrl={getImageUrl(item.imageSrc)}
-          imageAlt={item.title}
-          href={item.link}
-        />
+<section class="py-16 font-sans public-benefits-library-section relative" style={{ backgroundColor: COLORS.white }}>
+  <div class="container relative z-10">
+    <div class="grid">
+      {items.map((item) => (
+        <a href={item.link} class="card">
+          <div class="card-image-wrapper">
+            <img
+              src={getImageSrc(item.imageSrc)}
+              alt={item.title}
+              class="card-bg"
+              loading="lazy"
+              width="450"
+              height="600"
+            />
+          </div>
+          <div
+            class="card-content"
+            style={{
+              background: `linear-gradient(to bottom, rgba(${blueRgb}, 0) 0%, rgba(${blueRgb}, 0.6) 20%, rgba(${blueRgb}, 0.9) 100%)`,
+            }}
+          >
+            <h3 class="card-title" style={{ color: COLORS.white }}>{item.title}</h3>
+          </div>
+        </a>
       ))}
     </div>
-    {items.length > 6 && (
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-        {items.slice(6, 8).map((item) => (
-          <ServiceCard
-            title={item.title}
-            imageUrl={getImageUrl(item.imageSrc)}
-            imageAlt={item.title}
-            href={item.link}
-          />
-        ))}
-      </div>
-    )}
   </div>
 </section>
 
 <style>
-  .public-benefits-library-section :global(h3) {
-    text-align: center;
+  .public-benefits-library-section {
+    padding: 2rem 5% 4rem;
+    font-family: inherit;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .card {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+  .card-image-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .card-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .card-content {
+    position: relative;
+    z-index: 1;
+    padding: 1.5rem;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
   }
 </style>

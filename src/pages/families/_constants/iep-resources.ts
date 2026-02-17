@@ -10,7 +10,6 @@ export const IEP_RESOURCES: IepResourceItem[] = [
     title: 'Least Restrictive Environment and Placement Options in an IEP',
     imageSrc: 'support--why-support-matters.png',
     link: '/resources/least-restrictive-environment',
-    featured: true,
   },
   {
     title: 'The Ultimate Checklist for IEP Prep',

@@ -10,7 +10,6 @@ export const INSURANCE_RESOURCES: InsuranceResourceItem[] = [
     title: 'How to Review Your Health Plan Benefits & Coverage',
     imageSrc: 'support--why-support-matters.png',
     link: '/resources/review-benefits',
-    featured: true,
   },
   {
     title: 'Insurance Claim Denials and Appeals 101',

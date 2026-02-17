@@ -1,5 +1,6 @@
 ---
 import { ASSETS_BASE_URL, COLORS } from '../../../constants';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
 
 interface Props {
   content: {
@@ -22,147 +23,48 @@ const imageUrl =
   content.image.src.startsWith('http') || content.image.src.startsWith('/')
     ? content.image.src
     : `${ASSETS_BASE_URL}/images/${content.image.src}`;
+const isExternal = content.button.link.startsWith('http');
 ---
 
-<section id="public-benefits" class="public-benefits-cta-section font-sans" style={{ '--cta-green': COLORS.green, '--cta-navy': COLORS.blue.navy }}>
-  <div class="container">
-    <div class="cta-card">
-      <img
-        src={imageUrl}
-        alt={content.image.alt}
-        class="bg-image"
-        loading="lazy"
-      />
-      <div class="overlay"></div>
-
-      <div class="content">
-        <h2 class="cta-title">{content.title}</h2>
-        <div class="cta-subtext">
-          <span class="feature-item">{content.description}</span>
+<section id="public-benefits" class="py-20 font-sans" style={{ backgroundColor: COLORS.cream }}>
+  <div class="container mx-auto px-4 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="max-w-2xl">
+        <SectionHeading>{content.title}</SectionHeading>
+        <p class="text-xl md:text-2xl text-gray-700 leading-relaxed font-light mt-8">
+          {content.description}
+        </p>
+        <div class="h-1 w-24 mt-8 rounded-full" style={{ backgroundColor: COLORS.blue.royal }}></div>
+        <div class="mt-8">
+          <a
+            href={content.button.link}
+            class="cta-button inline-flex items-center justify-center px-6 py-3 rounded-full font-bold text-base shadow-lg transition-all hover:-translate-y-0.5"
+            style={{ backgroundColor: COLORS.yellow, color: COLORS.blue.navy }}
+            target={isExternal ? '_blank' : undefined}
+            rel={isExternal ? 'noopener noreferrer' : undefined}
+          >
+            <span set:html={content.button.text} />
+          </a>
         </div>
-        <a
-          href={content.button.link}
-          class="cta-button"
-          style={{ backgroundColor: COLORS.yellow, color: COLORS.blue.navy }}
-          target={content.button.link.startsWith('http') ? '_blank' : undefined}
-          rel={content.button.link.startsWith('http') ? 'noopener noreferrer' : undefined}
-        >
-          <span set:html={content.button.text} />
-        </a>
+      </div>
+      <div class="flex justify-center lg:justify-end">
+        <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md aspect-[5/3]">
+          <img
+            src={imageUrl}
+            alt={content.image.alt}
+            class="w-full h-full object-cover object-center"
+            loading="lazy"
+            width="600"
+            height="360"
+          />
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .public-benefits-cta-section {
-    padding: 2rem 1rem 1rem;
-    font-family: inherit;
-  }
-
-  .container {
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-
-  .cta-card {
-    position: relative;
-    border-radius: 2rem;
-    overflow: hidden;
-    min-height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  }
-
-  .bg-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-  }
-
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    background: linear-gradient(
-      to right bottom,
-      rgba(5, 32, 73, 0.4),
-      rgba(5, 32, 73, 0.9)
-    );
-  }
-
-  .content {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 2rem;
-    width: 100%;
-  }
-
-  .cta-title {
-    background-color: var(--cta-green);
-    color: var(--cta-navy);
-    font-size: 2.5rem;
-    font-weight: 800;
-    padding: 0.2em 0.8em;
-    margin: 0;
-    display: inline-block;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  }
-
-  .cta-subtext {
-    color: white;
-    font-size: 1.1rem;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    line-height: 1.6;
-  }
-
-  .cta-button {
-    font-size: 1rem;
-    font-weight: 700;
-    padding: 0.75rem 1.5rem;
-    border-radius: 9999px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.15s, filter 0.15s;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  }
-
-  .cta-button:hover {
-    filter: brightness(1.1);
-  }
-
-  .cta-button:active {
-    transform: scale(0.98);
-  }
-
   .cta-button :global(u) {
     text-decoration: underline;
-  }
-
-  @media (max-width: 600px) {
-    .cta-card {
-      min-height: 300px;
-    }
-
-    .cta-title {
-      font-size: 1.8rem;
-    }
   }
 </style>

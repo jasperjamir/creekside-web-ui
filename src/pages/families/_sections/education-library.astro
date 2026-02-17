@@ -1,6 +1,5 @@
 ---
 import { ASSETS_BASE_URL, COLORS } from '../../../constants';
-import ServiceCard from '../../../components/ui/ServiceCard.astro';
 
 interface Props {
   items: { title: string; imageSrc: string; link: string; featured?: boolean }[];
@@ -8,23 +7,39 @@ interface Props {
 
 const { items = [] } = Astro.props;
 
-function getImageUrl(src: string | null | undefined) {
+function getImageSrc(src: string | null | undefined) {
   if (src == null || src === '') return '';
   return src.startsWith('http') || src.startsWith('/') ? src : `${ASSETS_BASE_URL}/images/${src}`;
 }
+
+const blueRgb = '5, 32, 73';
 ---
 
-<section id="education-library" class="pt-6 pb-16 font-sans" style={{ backgroundColor: COLORS.white, '--featured-border': COLORS.blue.royal }}>
-  <div class="container mx-auto px-4 lg:px-8">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 education-library-grid">
+<section id="education-library" class="py-16 font-sans education-library-section relative" style={{ backgroundColor: COLORS.white, '--featured-border': COLORS.blue.royal }}>
+  <div class="container relative z-10">
+    <div class="grid">
       {items.map((item) => (
         <div class={item.featured ? 'card-wrapper card-wrapper--featured' : 'card-wrapper'}>
-          <ServiceCard
-            title={item.title}
-            imageUrl={getImageUrl(item.imageSrc)}
-            imageAlt={item.title}
-            href={item.link}
-          />
+          <a href={item.link} class="card">
+            <div class="card-image-wrapper">
+              <img
+                src={getImageSrc(item.imageSrc)}
+                alt={item.title}
+                class="card-bg"
+                loading="lazy"
+                width="450"
+                height="600"
+              />
+            </div>
+            <div
+              class="card-content"
+              style={{
+                background: `linear-gradient(to bottom, rgba(${blueRgb}, 0) 0%, rgba(${blueRgb}, 0.6) 20%, rgba(${blueRgb}, 0.9) 100%)`,
+              }}
+            >
+              <h3 class="card-title" style={{ color: COLORS.white }}>{item.title}</h3>
+            </div>
+          </a>
         </div>
       ))}
     </div>
@@ -32,40 +47,85 @@ function getImageUrl(src: string | null | undefined) {
 </section>
 
 <style>
-  .education-library-grid {
-    align-items: stretch;
+  .education-library-section {
+    padding: 2rem 5% 4rem;
+    font-family: inherit;
   }
 
-  .card-wrapper {
-    display: flex;
-    min-height: 0;
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
   .card-wrapper--featured {
     border: 2px solid var(--featured-border);
     border-radius: 1rem;
+    overflow: hidden;
   }
 
-  .card-wrapper :global(a),
-  .card-wrapper :global(article) {
+  .card {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .card-wrapper--featured .card {
+    border-radius: calc(1rem - 2px);
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+  .card-image-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .card-bg {
     width: 100%;
-    min-height: 0;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 
-  .card-wrapper :global(a > div:last-child),
-  .card-wrapper :global(article > div:last-child) {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 5.5rem;
+  .card-content {
+    position: relative;
+    z-index: 1;
+    padding: 1.5rem;
   }
 
-  .card-wrapper :global(h3) {
-    font-size: 0.875rem;
-    line-height: 1.35;
-    flex: 1;
-    text-align: center;
+  .card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
   }
 </style>
