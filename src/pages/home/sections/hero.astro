@@ -1,35 +1,30 @@
 ---
 import { COLORS } from '../../../constants';
 import Button from '../../../components/ui/Button.astro';
-import heroImage from '../../../assets/images/hero-image.png';
+
+const CONTACT_CTA = 'Contact Us';
+const DONATE_CTA = 'Donate';
+const CONTACT_HREF = '/contact';
+const DONATE_HREF = '/support/donate';
 
 interface Props {
-  image?: { asset?: { url: string }; alt?: string };
-  imageAlt: string;
-  badge?: string;
+  image: { asset: { url: string }; alt?: string };
+  badge: string;
   headingPrefix: string;
   headingHighlight: string;
-  subheading?: string;
+  subheading: string;
   subheadingHtml?: string;
-  contactCta?: string;
-  donateCta?: string;
-  contactHref?: string;
-  donateHref?: string;
 }
 
-const { image, imageAlt, badge, headingPrefix, headingHighlight, subheading = '', subheadingHtml, contactCta, donateCta, contactHref, donateHref } =
-  Astro.props;
-const showButtons = contactHref || donateHref;
-const heroSrc = image?.asset?.url || heroImage.src;
-const heroAlt = image?.alt || imageAlt;
+const { image, badge, headingPrefix, headingHighlight, subheading, subheadingHtml } = Astro.props;
 ---
 
 <section class="relative h-[85vh] flex items-center overflow-hidden">
   <!-- Background Image with Overlay -->
   <div class="absolute inset-0 z-0">
     <img 
-      src={heroSrc} 
-      alt={heroAlt} 
+      src={image.asset.url} 
+      alt={image.alt ?? ''} 
       class="w-full h-full object-cover"
     />
     <!-- Dominant background gradient overlay -->
@@ -68,20 +63,14 @@ const heroAlt = image?.alt || imageAlt;
           {subheadingHtml != null ? <span set:html={subheadingHtml} /> : subheading}
         </p>
       )}
-      {showButtons && (
-        <div class="flex flex-col sm:flex-row gap-4">
-          {contactHref && contactCta && (
-            <Button variant="white" href={contactHref}>
-              {contactCta}
-            </Button>
-          )}
-          {donateHref && donateCta && (
-            <Button variant="primary" href={donateHref}>
-              {donateCta}
-            </Button>
-          )}
-        </div>
-      )}
+      <div class="flex flex-col sm:flex-row gap-4">
+        <Button variant="white" href={CONTACT_HREF}>
+          {CONTACT_CTA}
+        </Button>
+        <Button variant="primary" href={DONATE_HREF}>
+          {DONATE_CTA}
+        </Button>
+      </div>
     </div>
   </div>
 </section>

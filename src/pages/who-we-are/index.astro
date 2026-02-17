@@ -6,6 +6,36 @@ import LifelongLearning from './sections/lifelong-learning.astro';
 import MissionVision from './sections/mission-vision.astro';
 import OurTeam from './sections/our-team.astro';
 import WhatIsProfoundAutism from './sections/what-is-profound-autism.astro';
+import { ASSETS_BASE_URL } from '../../constants';
+
+const DEFAULT_IMAGES = {
+  ourStory: {
+    url: `${ASSETS_BASE_URL}/images/who-we-are--we-are-a-community.png`,
+    alt: 'Creekside School - staff or campus',
+  },
+  lifelongLearning: {
+    url: `${ASSETS_BASE_URL}/images/who-we-are--lifelong-learning.jpg`,
+    alt: 'Lifelong learning at Creekside',
+  },
+  missionVision: {
+    url: `${ASSETS_BASE_URL}/images/who-we-are--mission-vision.jpg`,
+    alt: 'Mission and Vision',
+  },
+  whatIsProfoundAutism: {
+    url: `${ASSETS_BASE_URL}/images/who-we-are--profound-autism.jpg`,
+    alt: 'What is profound autism',
+  },
+};
+
+function withDefaultImage(
+  cmsImage: { asset?: { url: string }; alt?: string } | undefined,
+  defaultImage: { url: string; alt: string }
+) {
+  if (cmsImage?.asset?.url) {
+    return { asset: { url: cmsImage.asset.url }, alt: cmsImage.alt ?? '' };
+  }
+  return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
+}
 
 const QUERY = /* groq */ `*[_type == "whoWeAre"][0] {
   title,
@@ -38,80 +68,40 @@ const QUERY = /* groq */ `*[_type == "whoWeAre"][0] {
   whatIsProfoundAutismText {
     sectionHeading,
     definition,
-    image { asset->{ _id, url }, alt },
-    learnMoreHeading,
-    supportLinksHeading,
-    learnMoreLinks[] {
-      name,
-      href
-    },
-    supportLinks[] {
-      name,
-      href
-    }
+    image { asset->{ _id, url }, alt }
   }
 }`;
 
 const data = await sanityClient.fetch(QUERY);
 
 const content = {
-  pageTitle: data?.title ?? 'Who We Are - The Creekside School',
+  pageTitle: data?.title ?? '',
   ourStory: {
-    heading: data?.ourStoryText?.heading ?? 'Our Story',
-    body:
-      data?.ourStoryText?.body ??
-      'Founded by parents who faced challenges finding a suitable school.',
-    body2:
-      data?.ourStoryText?.body2 ??
-      'Creekside is a community dedicated to individualized support and education for students with profound autism.',
-    image: data?.ourStoryText?.image ?? undefined,
+    heading: data?.ourStoryText?.heading ?? '',
+    body: data?.ourStoryText?.body ?? '',
+    body2: data?.ourStoryText?.body2 ?? '',
+    image: withDefaultImage(data?.ourStoryText?.image, DEFAULT_IMAGES.ourStory),
   },
   lifelongLearning: {
-    headline:
-      data?.lifelongLearningText?.headline ??
-      'Lifelong learning begins with belonging, connection, and understanding.',
-    subheading:
-      data?.lifelongLearningText?.subheading ??
-      "Guided by this belief, each student's unique set of interests, strengths, and needs drives the development of our individualized, comprehensive programs.",
-    body:
-      data?.lifelongLearningText?.body ??
-      'Our emphasis on family and community stems from our recognition that autism affects more than just parents. It impacts the whole family and the people around them.',
-    image: data?.lifelongLearningText?.image ?? undefined,
+    headline: data?.lifelongLearningText?.headline ?? '',
+    subheading: data?.lifelongLearningText?.subheading ?? '',
+    body: data?.lifelongLearningText?.body ?? '',
+    image: withDefaultImage(data?.lifelongLearningText?.image, DEFAULT_IMAGES.lifelongLearning),
   },
   missionVision: {
-    sectionHeading: data?.missionVisionText?.sectionHeading ?? 'Mission & Vision',
-    mission:
-      data?.missionVisionText?.mission ??
-      'To holistically enhance the quality of life for individuals with profound autism and their families through empowerment, community engagement, and collaborative partnerships.',
-    vision:
-      data?.missionVisionText?.vision ??
-      'To extend this through a lifetime — ensuring lifelong opportunities for growth, connection, and purpose.',
-    image: data?.missionVisionText?.image ?? undefined,
+    sectionHeading: data?.missionVisionText?.sectionHeading ?? '',
+    mission: data?.missionVisionText?.mission ?? '',
+    vision: data?.missionVisionText?.vision ?? '',
+    image: withDefaultImage(data?.missionVisionText?.image, DEFAULT_IMAGES.missionVision),
   },
   ourTeam: {
-    sectionHeading: data?.ourTeamText?.sectionHeading ?? 'Our Team',
+    sectionHeading: data?.ourTeamText?.sectionHeading ?? '',
     groups: data?.ourTeamText?.groups ?? [],
   },
   whatIsProfoundAutism: {
-    sectionHeading: data?.whatIsProfoundAutismText?.sectionHeading ?? 'What is Profound Autism?',
-    definition:
-      data?.whatIsProfoundAutismText?.definition ??
-      'Profound autism is a term used to describe individuals on the autism spectrum who have extremely high support needs — often characterized by limited or non-vocal communication abilities, significant challenges in adaptive functioning (e.g., daily living skills), and co-occurring medical or behavioral complexities.',
-    image: data?.whatIsProfoundAutismText?.image ?? undefined,
-    learnMoreHeading: data?.whatIsProfoundAutismText?.learnMoreHeading ?? 'Learn More:',
-    supportLinksHeading: data?.whatIsProfoundAutismText?.supportLinksHeading ?? 'Support Creekside:',
-    learnMoreLinks:
-      data?.whatIsProfoundAutismText?.learnMoreLinks ?? [
-        { name: 'Our Programs', href: '/what-we-do/' },
-        { name: 'Our Students', href: '/families/' },
-      ],
-    supportLinks:
-      data?.whatIsProfoundAutismText?.supportLinks ?? [
-        { name: 'Donate', href: '/support/donate/' },
-        { name: 'Volunteer', href: '/support/#volunteer' },
-        { name: 'Student Wish List', href: '/support/#student-wish-list' },
-        { name: 'Join Our Staff', href: '/join-us/join-our-team/' },
-      ],
+    sectionHeading: data?.whatIsProfoundAutismText?.sectionHeading ?? '',
+    definition: data?.whatIsProfoundAutismText?.definition ?? '',
+    image: withDefaultImage(data?.whatIsProfoundAutismText?.image, DEFAULT_IMAGES.whatIsProfoundAutism),
   },
 };
 ---

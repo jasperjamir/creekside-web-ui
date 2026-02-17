@@ -15,7 +15,7 @@ interface Props {
   groups: readonly TeamGroup[];
 }
 
-const { sectionHeading = 'Our Team', groups = [] } = Astro.props;
+const { sectionHeading = '', groups = [] } = Astro.props;
 
 function getImageUrl(fallback: string) {
   return `${ASSETS_BASE_URL}/images/${fallback}`;
