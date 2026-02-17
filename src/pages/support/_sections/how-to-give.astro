@@ -1,0 +1,192 @@
+---
+import { COLORS } from '../../../constants';
+import { HOW_TO_GIVE_STEPS, SECTION_TITLE } from '../_constants/how-to-give';
+
+---
+
+<section
+  class="how-to-give-section font-sans"
+  style={`--color-green: ${COLORS.green}; --color-navy: ${COLORS.blue.navy}; --color-white: ${COLORS.white};`}
+>
+  <div class="container">
+    <h2 class="section-title">
+      <span class="highlight">{SECTION_TITLE}</span>
+    </h2>
+
+    <div class="timeline">
+      {HOW_TO_GIVE_STEPS.map((step) => {
+        const stepContent = (
+          <div class="step-inner">
+            <div class="circle-wrapper">
+              <div class="circle"></div>
+            </div>
+            <div class="text-content">
+              <h3 class="step-title">{step.heading}</h3>
+              {step.subHeading ? (
+                <p class="step-desc">
+                  <span class="step-email" style={{ color: COLORS.blue.royal }}>{step.subHeading}</span> {step.text}
+                </p>
+              ) : (
+                step.text && <p class="step-desc">{step.text}</p>
+              )}
+            </div>
+          </div>
+        );
+        return step.link ? (
+          <a href={step.link} class="step step-link">
+            {stepContent}
+          </a>
+        ) : (
+          <div class="step">{stepContent}</div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .how-to-give-section {
+    padding: 6rem 5%;
+    background-color: var(--color-white);
+    text-align: center;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    margin-bottom: 5rem;
+  }
+
+  .highlight {
+    background-color: var(--color-green);
+    color: var(--color-navy);
+    padding: 0.2rem 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  @media (min-width: 768px) {
+    .highlight {
+      font-size: 2rem;
+    }
+  }
+
+  .timeline {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    padding-top: 1rem;
+  }
+
+  .timeline::before {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 5%;
+    right: 5%;
+    height: 6px;
+    background-color: var(--color-green);
+    z-index: 1;
+  }
+
+  .step,
+  .step-link {
+    flex: 1;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 1rem;
+  }
+
+  .step-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .step-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .step-link:hover .step-title {
+    text-decoration: underline;
+  }
+
+  .circle-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1.5rem;
+  }
+
+  .circle {
+    width: 32px;
+    height: 32px;
+    background-color: var(--color-white);
+    border: 6px solid var(--color-green);
+    border-radius: 50%;
+  }
+
+  .text-content {
+    text-align: left;
+    max-width: 200px;
+  }
+
+  .step-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--color-navy);
+  }
+
+  .step-desc {
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 300;
+    color: var(--color-navy);
+    opacity: 0.9;
+    margin: 0;
+  }
+
+  .step-email {
+    font-weight: 700;
+    font-size: 1.05rem;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .timeline {
+      flex-direction: column;
+      gap: 3rem;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      width: 6px;
+      height: 85%;
+      left: 33px;
+      top: 0;
+    }
+
+    .step-inner {
+      flex-direction: row;
+      flex: 1;
+      gap: 1.5rem;
+    }
+
+    .circle-wrapper {
+      width: auto;
+      margin-bottom: 0;
+    }
+
+    .text-content {
+      max-width: 100%;
+    }
+  }
+</style>
