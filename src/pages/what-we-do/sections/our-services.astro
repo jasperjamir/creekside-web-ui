@@ -1,5 +1,5 @@
 ---
-import ImageTextSection from '../../../components/sections/ImageTextSection.astro';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
 import ServiceCard from '../../../components/ui/ServiceCard.astro';
 import { COLORS } from '../../../constants';
 import { ASSETS_BASE_URL } from '../../../constants';
@@ -13,21 +13,16 @@ const SERVICES = [
 ];
 ---
 
-<ImageTextSection
-  sectionId="our-services"
-  title="Our Services"
-  imageUrl={`${ASSETS_BASE_URL}/images/what-we-do--our-services--page-header.jpg`}
-  imageAlt="Our services at Creekside"
-  imageLeft={true}
-  backgroundColor="cream"
->
-  <p class="text-lg text-gray-600 leading-relaxed">
-    Creekside offers a complete suite of autism-related services. Our speech, behavior, occupational, art, music, and mental health therapists work closely with our teachers to address students' social, emotional, and psychological needs.
-  </p>
-</ImageTextSection>
-
-<section class="py-16" style={{ backgroundColor: COLORS.cream }}>
+<section id="our-services" class="py-16" style={{ backgroundColor: COLORS.cream }}>
   <div class="container mx-auto px-4 lg:px-8">
+    <div class="max-w-3xl mx-auto text-center mb-12">
+      <div class="flex justify-center mb-6">
+        <SectionHeading>Our Services</SectionHeading>
+      </div>
+      <p class="text-lg text-gray-600 leading-relaxed">
+      Creekside offers a complete suite of autism-related services. Our speech, behavior, occupational, art, music, and mental health therapists work closely with our teachers to address students' social, emotional, and psychological needs.
+      </p>
+    </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
       {SERVICES.map((service) => (
         <ServiceCard
