@@ -4,6 +4,7 @@ interface Props {
     title: string;
     icon: string;
     text: string;
+    textHtml?: string;
   };
 }
 
@@ -73,7 +74,7 @@ const iconClass = 'w-6 h-6';
     </div>
     <h3 class="text-xl font-bold mb-3" style={{ color: COLORS.blue.navy }}>{pillar.title}</h3>
     <p class="text-gray-600 leading-relaxed text-sm">
-      {pillar.text}
+      {pillar.textHtml != null ? <span set:html={pillar.textHtml} /> : pillar.text}
     </p>
   </div>
 </div>
@@ -84,15 +85,14 @@ const iconClass = 'w-6 h-6';
   const greenColor = '#A4D16A'; // COLORS.green
   const blueLight = '#B9D9EB';  // COLORS.blue.light
   
-  pillarCards.forEach(card => {
+  pillarCards.forEach((card) => {
     const icon = card.querySelector('.pillar-icon');
-    if (icon) {
+    if (icon && 'style' in icon) {
       card.addEventListener('mouseenter', () => {
-        icon.style.backgroundColor = greenColor;
+        (icon as HTMLElement).style.backgroundColor = greenColor;
       });
-      
       card.addEventListener('mouseleave', () => {
-        icon.style.backgroundColor = blueLight;
+        (icon as HTMLElement).style.backgroundColor = blueLight;
       });
     }
   });

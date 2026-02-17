@@ -1,0 +1,42 @@
+---
+import { COLORS } from '../../../constants';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
+import PillarCard from '../../../components/ui/PillarCard.astro';
+import type { OtherWaysItem } from '../_constants/other-ways-to-give';
+import { SECTION_TITLE, OTHER_WAYS_ITEMS } from '../_constants/other-ways-to-give';
+
+const topItems = OTHER_WAYS_ITEMS.slice(0, 3);
+const bottomItems = OTHER_WAYS_ITEMS.slice(3, 5);
+---
+
+<section class="other-ways-section font-sans py-24" style={{ backgroundColor: COLORS.cream }}>
+  <div class="container mx-auto px-6 lg:px-12 max-w-6xl">
+    <div class="text-center max-w-3xl mx-auto mb-20">
+      <SectionHeading>{SECTION_TITLE}</SectionHeading>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12 mb-10 lg:mb-12">
+      {topItems.map((item: OtherWaysItem) =>
+        item.link ? (
+          <a href={item.link} class="block no-underline text-inherit hover:opacity-95 h-full">
+            <PillarCard pillar={{ title: item.title, icon: item.icon, text: item.text, textHtml: item.textHtml }} />
+          </a>
+        ) : (
+          <PillarCard pillar={{ title: item.title, icon: item.icon, text: item.text, textHtml: item.textHtml }} />
+        )
+      )}
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12 max-w-4xl mx-auto">
+      {bottomItems.map((item: OtherWaysItem) =>
+        item.link ? (
+          <a href={item.link} class="block no-underline text-inherit hover:opacity-95 h-full">
+            <PillarCard pillar={{ title: item.title, icon: item.icon, text: item.text, textHtml: item.textHtml }} />
+          </a>
+        ) : (
+          <PillarCard pillar={{ title: item.title, icon: item.icon, text: item.text, textHtml: item.textHtml }} />
+        )
+      )}
+    </div>
+  </div>
+</section>
