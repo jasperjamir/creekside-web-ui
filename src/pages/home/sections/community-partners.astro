@@ -3,7 +3,8 @@ import { COLORS, ASSETS_BASE_URL } from '../../../constants';
 
 interface Partner {
   name: string;
-  image: string;
+  /** Sanity image object (asset.url) or legacy string URL/path */
+  image?: { asset?: { url: string }; alt?: string } | string;
 }
 
 interface Props {
@@ -23,21 +24,17 @@ const { heading = '', assetsBaseUrl = ASSETS_BASE_URL, partners = [] } = Astro.p
     </div>
 
     <div class="flex flex-wrap justify-center items-center gap-12">
-      {partners.map((partner) => {
-        const image = partner.image ?? '';
-        if (!image) return null;
-        const src = image.startsWith('http')
-          ? image
-          : assetsBaseUrl
-            ? `${assetsBaseUrl.replace(/\/$/, '')}/${image.replace(/^\//, '')}`
-            : image.startsWith('/')
-              ? image
-              : `/${image}`;
+      {partners.filter((p) => p?.image && (typeof p.image === 'string' ? p.image : p.image?.asset?.url)).map((partner) => {
+        const img = partner.image!;
+        const src = typeof img === 'string'
+          ? (img.startsWith('http') ? img : (assetsBaseUrl ? `${assetsBaseUrl.replace(/\/$/, '')}/${img.replace(/^\//, '')}` : img.startsWith('/') ? img : `/${img}`))
+          : (img as { asset?: { url: string }; alt?: string }).asset!.url;
+        const alt = typeof img === 'string' ? partner.name : (img as { alt?: string }).alt || partner.name;
         return (
           <div class="group flex items-center justify-center min-h-[80px] min-w-[120px]">
             <img
               src={src}
-              alt={partner.name}
+              alt={alt}
               class="max-h-16 w-auto max-w-[180px] object-contain opacity-80 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500"
               loading="lazy"
               referrerpolicy="no-referrer"

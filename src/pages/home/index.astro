@@ -11,6 +11,7 @@ import CommunityImage from './sections/community-image.astro';
 
 const QUERY = /* groq */ `*[_type == "home"][0] {
   heroText {
+    image { asset->{ _id, url }, alt },
     imageAlt,
     badge,
     headingPrefix,
@@ -38,7 +39,7 @@ const QUERY = /* groq */ `*[_type == "home"][0] {
     heading,
     partners[] {
       name,
-      image
+      image { asset->{ _id, url }, alt }
     }
   },
   navigationGridText {
@@ -60,7 +61,8 @@ const QUERY = /* groq */ `*[_type == "home"][0] {
   },
   communityImageText {
     title,
-    description
+    description,
+    image { asset->{ _id, url }, alt }
   }
 }`;
 
