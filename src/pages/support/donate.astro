@@ -2,6 +2,8 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import HeroSection from './_sections/hero.astro';
 import WaysToGive from './_sections/ways-to-give.astro';
+import GivingOptions from './_sections/giving-options.astro';
+import Transparency from './_sections/transparency.astro';
 ---
 
 <PageLayout title="Donate - The Creekside School">
@@ -14,10 +16,6 @@ import WaysToGive from './_sections/ways-to-give.astro';
     donateHref="#donate-form"
   />
   <WaysToGive sectionTitle="Donate Now" hideInKind />
-  <div id="donate-form" class="min-h-screen py-20">
-    <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl font-bold mb-4">Donate</h2>
-      <p class="text-gray-600">Content will be added here</p>
-    </div>
-  </div>
+  <GivingOptions />
+  <Transparency />
 </PageLayout>

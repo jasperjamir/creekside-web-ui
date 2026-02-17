@@ -1,0 +1,76 @@
+---
+import { TRANSPARENCY_CONTENT } from '../_constants/transparency';
+
+const { title, body } = TRANSPARENCY_CONTENT;
+---
+
+<section class="transparency-section font-sans">
+  <div class="container">
+    <h2 class="transparency-title">{title}</h2>
+    <p class="transparency-body">{body}</p>
+  </div>
+</section>
+
+<style>
+  .transparency-section {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 5rem 5%;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .transparency-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0 0 1.25rem 0;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+  }
+
+  .transparency-body {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    font-weight: 300;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  .transparency-body a {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+
+  @media (min-width: 768px) {
+    .transparency-section {
+      padding: 6rem 5%;
+    }
+
+    .transparency-title {
+      font-size: 2.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .transparency-body {
+      font-size: 1.25rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .transparency-section {
+      padding: 4rem 1.5rem;
+    }
+
+    .transparency-title {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .transparency-body {
+      font-size: 1rem;
+    }
+  }
+</style>
