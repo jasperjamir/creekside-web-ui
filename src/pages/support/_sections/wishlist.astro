@@ -1,0 +1,154 @@
+---
+import { COLORS } from '../../../constants';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
+import { WISHLIST_CATEGORIES } from '../_constants/wishlist';
+
+const topCategories = WISHLIST_CATEGORIES.slice(0, 3);
+const bottomCategories = WISHLIST_CATEGORIES.slice(3, 5);
+---
+
+<section id="content" class="join-section font-sans" style={{ backgroundColor: COLORS.white }}>
+  <div class="container">
+    <div class="text-content">
+      <SectionHeading>Wishlist</SectionHeading>
+
+      <div class="wishlist-top">
+        {topCategories.map((category) => (
+          <div class="category-block">
+            <h3 class="category-title" style={{ color: COLORS.blue.navy }}>{category.title}</h3>
+            <ul class="benefits-list">
+              {category.items.map((item) => (
+                <li class="benefits-list-item">
+                  <span class="benefits-list-icon" style={{ backgroundColor: COLORS.green }}>
+                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </span>
+                  <span class="benefits-list-text">
+                    {item.link != null ? (
+                      <a href={item.link} class="wishlist-link" style={{ color: COLORS.blue.navy }}>{item.text}</a>
+                    ) : (
+                      item.text
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div class="wishlist-bottom">
+        {bottomCategories.map((category) => (
+          <div class="category-block">
+            <h3 class="category-title" style={{ color: COLORS.blue.navy }}>{category.title}</h3>
+            <ul class="benefits-list">
+              {category.items.map((item) => (
+                <li class="benefits-list-item">
+                  <span class="benefits-list-icon" style={{ backgroundColor: COLORS.green }}>
+                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </span>
+                  <span class="benefits-list-text">
+                    {item.link != null ? (
+                      <a href={item.link} class="wishlist-link" style={{ color: COLORS.blue.navy }}>{item.text}</a>
+                    ) : (
+                      item.text
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .join-section {
+    padding: 4rem 5%;
+    font-family: inherit;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .text-content {
+    width: 100%;
+  }
+
+  .wishlist-top {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .wishlist-bottom {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .category-block {
+    margin-bottom: 0;
+  }
+
+  .category-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+  }
+
+  .benefits-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .benefits-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.05rem;
+    line-height: 1.4;
+    color: #1a1a1a;
+  }
+
+  .benefits-list-icon {
+    shrink: 0;
+    margin-top: 0.375rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .benefits-list-text {
+    flex: 1;
+  }
+
+  .wishlist-link:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .wishlist-top {
+      grid-template-columns: 1fr;
+    }
+
+    .wishlist-bottom {
+      grid-template-columns: 1fr;
+      max-width: none;
+    }
+  }
+</style>

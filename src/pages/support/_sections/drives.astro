@@ -1,0 +1,68 @@
+---
+import { COLORS } from '../../../constants';
+import { DRIVE_CARDS } from '../_constants/drives';
+---
+
+<section class="drives-section font-sans py-20" style={{ backgroundColor: COLORS.white }}>
+  <div class="container mx-auto px-4 lg:px-8 max-w-4xl">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {DRIVE_CARDS.map((card) => (
+        <div
+          class={`drive-card rounded-xl overflow-hidden shadow-lg border-b-4 transition-all duration-300 h-full flex flex-col ${
+            card.type === 'blue'
+              ? 'bg-white'
+              : 'bg-black border-white/20'
+          }`}
+          style={
+            card.type === 'blue'
+              ? { borderBottomColor: COLORS.blue.royal }
+              : { borderBottomColor: COLORS.green }
+          }
+        >
+          {card.type === 'blue' && (
+            <div
+              class="h-2 flex-shrink-0"
+              style={{
+                background: `linear-gradient(to right, ${COLORS.blue.royal}, ${COLORS.blue.soft})`,
+              }}
+            />
+          )}
+          <div class="p-6 flex flex-col flex-1">
+            <h3
+              class="text-xl font-bold mb-3"
+              style={{
+                color: card.type === 'blue' ? COLORS.blue.navy : COLORS.white,
+              }}
+            >
+              {card.title}
+            </h3>
+            <div
+              class="text-sm leading-relaxed flex-1"
+              style={{
+                color: card.type === 'blue' ? '#4b5563' : 'rgba(255,255,255,0.9)',
+              }}
+            >
+              {card.textHtml != null ? (
+                <span set:html={card.textHtml} />
+              ) : (
+                card.text
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .drive-card-link {
+    color: var(--color-accent, #a4d16a);
+    font-weight: 700;
+    text-decoration: underline;
+  }
+
+  .drive-card[style*='borderBottomColor'] .drive-card-link {
+    color: #a4d16a;
+  }
+</style>
