@@ -1,0 +1,112 @@
+---
+import { ASSETS_BASE_URL, COLORS } from '../../../constants';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
+import Button from '../../../components/ui/Button.astro';
+
+interface Props {
+  content: {
+    title: string;
+    description: string[];
+    button: { label: string; link: string };
+    image: { src: string; alt: string };
+  };
+}
+
+const { content: contentProp } = Astro.props;
+const content = contentProp ?? {
+  title: 'School Accountability Report Card (SARC)',
+  description: [
+    'A SARC provides parents and the community with information about schools that receive state funding.',
+    'School report cards are updated annually and made available on February 1st of each year.',
+  ],
+  button: { label: 'Creekside SARC Report', link: '/reports/sarc-current.pdf' },
+  image: { src: '/images/sarc-student.jpg', alt: 'Student working on a laptop in the classroom' },
+};
+const imageSrc =
+  content.image.src.startsWith('http') || content.image.src.startsWith('/')
+    ? content.image.src
+    : `${ASSETS_BASE_URL}/images/${content.image.src}`;
+---
+
+<section class="sarc-section font-sans" style={{ backgroundColor: COLORS.white }}>
+  <div class="container">
+    <div class="text-content">
+      <SectionHeading>{content.title}</SectionHeading>
+
+      <div class="description">
+        {content.description.map((p) => (
+          <p>{p}</p>
+        ))}
+      </div>
+
+      <div class="button-wrapper">
+        <Button variant="primary" href={content.button.link}>
+          {content.button.label}
+        </Button>
+      </div>
+    </div>
+
+    <div class="image-wrapper">
+      <img src={imageSrc} alt={content.image.alt} loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .sarc-section {
+    padding: 4rem 5%;
+    font-family: inherit;
+  }
+
+  .container {
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .text-content {
+    flex: 1.2;
+  }
+
+  .description {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #333;
+  }
+
+  .description p {
+    margin-bottom: 1rem;
+  }
+
+  .description p:last-child {
+    margin-bottom: 0;
+  }
+
+  .button-wrapper {
+    margin-top: 1.5rem;
+  }
+
+  .image-wrapper {
+    flex: 1;
+  }
+
+  .image-wrapper img {
+    width: 100%;
+    border-radius: 2rem;
+    object-fit: cover;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 968px) {
+    .container {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .image-wrapper {
+      order: 2;
+    }
+  }
+</style>

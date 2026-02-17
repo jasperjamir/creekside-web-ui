@@ -1,0 +1,163 @@
+---
+import { ASSETS_BASE_URL, COLORS } from '../../../constants';
+import Button from '../../../components/ui/Button.astro';
+
+interface Props {
+  content: {
+    title: string;
+    features: string[];
+    button: { label: string; link: string };
+    imageSrc: string;
+    alt: string;
+  };
+}
+
+const { content: contentProp } = Astro.props;
+const content = contentProp ?? {
+  title: 'Resource for Parents',
+  features: [
+    "The Creekside School's emphasis on family stems from our recognition that autism doesn't just impact parents.",
+  ],
+  button: { label: 'View Parent Resources', link: '/families/parent-resources' },
+  imageSrc: '/images/parents-bg.jpg',
+  alt: 'Parents and students walking together outdoors',
+};
+const imageUrl =
+  content.imageSrc?.startsWith('http') || content.imageSrc?.startsWith('/')
+    ? content.imageSrc
+    : `${ASSETS_BASE_URL}/images/${content.imageSrc || 'support--why-support-matters.png'}`;
+---
+
+<section class="resources-cta-section font-sans" style={{ '--cta-green': COLORS.green, '--cta-navy': COLORS.blue.navy }}>
+  <div class="container">
+    <div class="cta-card">
+      <img
+        src={imageUrl}
+        alt={content.alt}
+        class="bg-image"
+        loading="lazy"
+      />
+      <div class="overlay"></div>
+
+      <div class="content">
+        <h2 class="cta-title">{content.title}</h2>
+        <div class="cta-subtext">
+          {content.features.map((feature, index) => (
+            <span class="feature-item">
+              {feature}
+              {index < content.features.length - 1 && (
+                <span class="separator">&bull;</span>
+              )}
+            </span>
+          ))}
+        </div>
+        <Button variant="primary" href={content.button.link}>
+          {content.button.label}
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .resources-cta-section {
+    padding: 2rem 1rem;
+    font-family: inherit;
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .cta-card {
+    position: relative;
+    border-radius: 2rem;
+    overflow: hidden;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: linear-gradient(
+      to right bottom,
+      rgba(5, 32, 73, 0.4),
+      rgba(5, 32, 73, 0.9)
+    );
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    width: 100%;
+  }
+
+  .cta-title {
+    background-color: var(--cta-green);
+    color: var(--cta-navy);
+    font-size: 2.5rem;
+    font-weight: 800;
+    padding: 0.2em 0.8em;
+    margin: 0;
+    display: inline-block;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .cta-subtext {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+  }
+
+  .separator {
+    margin: 0 0.5rem;
+    opacity: 0.8;
+  }
+
+  @media (max-width: 600px) {
+    .cta-card {
+      min-height: 300px;
+    }
+
+    .cta-title {
+      font-size: 1.8rem;
+    }
+
+    .cta-subtext {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .separator {
+      display: none;
+    }
+  }
+</style>

@@ -1,12 +1,26 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import HeroSection from './_sections/hero.astro';
+import AboutAdmission from './_sections/about-admission.astro';
+import SarcSection from './_sections/sarc.astro';
+import SarcArchive from './_sections/sarc-archive.astro';
+import ResourcesSection from './_sections/resources.astro';
+import { FAMILIES_HERO, ABOUT_ADMISSION_CONTENT, SARC_CONTENT, SARC_ARCHIVE, RESOURCE_CONTENT } from './_constants';
+
+const heroText = {
+  imageAlt: FAMILIES_HERO.imageAlt,
+  headingPrefix: FAMILIES_HERO.headingPrefix,
+  headingHighlight: FAMILIES_HERO.headingHighlight,
+  subheading: FAMILIES_HERO.subheading,
+  ctaText: FAMILIES_HERO.ctaText,
+  ctaHref: FAMILIES_HERO.ctaHref,
+};
 ---
 
 <PageLayout title="For Families - The Creekside School">
-  <div class="min-h-screen py-20">
-    <div class="container mx-auto px-4 lg:px-8">
-      <h1 class="text-4xl font-bold mb-4">For Families</h1>
-      <p class="text-gray-600">Content will be added here</p>
-    </div>
-  </div>
+  <HeroSection {...heroText} />
+  <AboutAdmission content={ABOUT_ADMISSION_CONTENT} />
+  <SarcSection content={SARC_CONTENT} />
+  <SarcArchive items={SARC_ARCHIVE} />
+  <ResourcesSection content={RESOURCE_CONTENT} />
 </PageLayout>

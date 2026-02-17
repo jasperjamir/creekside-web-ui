@@ -1,0 +1,96 @@
+---
+import { ASSETS_BASE_URL, COLORS } from '../../../constants';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
+
+interface Props {
+  content: {
+    title: string;
+    description: string;
+    image: string;
+    imageAlt: string;
+  };
+}
+
+const { content: contentProp } = Astro.props;
+const content = contentProp ?? {
+  title: 'About Admission',
+  description: 'Creekside serves students with profound autism. Interested parents may complete an Admissions Interest Form and are encouraged to read About Our Waitlist. We work with families through each step of the process.',
+  image: 'support--why-support-matters.png',
+  imageAlt: 'Students and staff at Creekside engaging in a learning activity.',
+};
+const imageSrc = content.image && content.image.startsWith('http') ? content.image : `${ASSETS_BASE_URL}/images/${content.image ?? 'support--why-support-matters.png'}`;
+const paragraphs = content.description.split(/\n\n+/).filter(Boolean);
+---
+
+<section class="about-admission-section font-sans" style={{ backgroundColor: COLORS.white }}>
+  <div class="container">
+    <div class="text-content">
+      <SectionHeading>{content.title}</SectionHeading>
+
+      <div class="description">
+        {paragraphs.map((p) => (
+          <p set:html={p} />
+        ))}
+      </div>
+    </div>
+
+    <div class="image-wrapper">
+      <img src={imageSrc} alt={content.imageAlt} loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-admission-section {
+    padding: 4rem 5%;
+    font-family: inherit;
+  }
+
+  .container {
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .text-content {
+    flex: 1.2;
+  }
+
+  .image-wrapper {
+    flex: 1;
+  }
+
+  .image-wrapper img {
+    width: 100%;
+    border-radius: 2rem;
+    object-fit: cover;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .description {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #333;
+  }
+
+  .description p {
+    margin-bottom: 1rem;
+  }
+
+  .description p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 968px) {
+    .container {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .image-wrapper {
+      order: 2;
+    }
+  }
+</style>

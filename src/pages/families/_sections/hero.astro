@@ -1,0 +1,59 @@
+---
+import { COLORS } from '../../../constants';
+import Button from '../../../components/ui/Button.astro';
+import heroImage from '../../../assets/images/hero-image.png';
+
+interface Props {
+  imageAlt: string;
+  headingPrefix: string;
+  headingHighlight: string;
+  headingSuffix?: string;
+  subheading: string;
+  ctaText?: string;
+  ctaHref?: string;
+}
+
+const { imageAlt, headingPrefix, headingHighlight, headingSuffix = '', subheading, ctaText, ctaHref } =
+  Astro.props;
+---
+
+<section class="relative h-[85vh] flex items-center overflow-hidden">
+  <div class="absolute inset-0 z-0">
+    <img 
+      src={heroImage.src} 
+      alt={imageAlt} 
+      class="w-full h-full object-cover"
+    />
+    <div 
+      class="absolute inset-0" 
+      style={{ 
+        background: `linear-gradient(to right, ${COLORS.blue.navy}E6, ${COLORS.blue.royal}CC, ${COLORS.blue.soft}66)` 
+      }}
+    ></div>
+  </div>
+
+  <div class="container mx-auto px-4 lg:px-8 relative z-10 text-white flex justify-start">
+    <div class="max-w-3xl text-left">
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 text-white">
+        {headingPrefix}
+        <span 
+          class="px-3 transform -skew-x-6 inline-block" 
+          style={{ backgroundColor: COLORS.green, color: COLORS.blue.navy }}
+        >
+          {headingHighlight}
+        </span>
+        {headingSuffix}
+      </h1>
+      <p class="text-lg md:text-xl lg:text-2xl text-blue-50 mb-8 leading-relaxed font-light">
+        {subheading}
+      </p>
+      {ctaText && ctaHref && (
+        <div class="flex justify-start">
+          <Button variant="primary" href={ctaHref} class="text-lg px-10 py-4">
+            {ctaText}
+          </Button>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
