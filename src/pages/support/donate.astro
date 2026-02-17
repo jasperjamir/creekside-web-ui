@@ -13,9 +13,11 @@ import Transparency from './_sections/transparency.astro';
     headingHighlight="Creekside"
     subheading="Your gift powers individualized education and suite-level autism services for students and their families."
     donateCta="Donate Now"
-    donateHref="#donate-form"
+    donateHref="#donate-now"
   />
-  <WaysToGive sectionTitle="Donate Now" hideInKind />
+  <section id="donate-now" aria-label="Donate Now">
+    <WaysToGive sectionTitle="Donate Now" hideInKind />
+  </section>
   <GivingOptions />
   <Transparency />
 </PageLayout>

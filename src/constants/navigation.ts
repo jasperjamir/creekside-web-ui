@@ -47,7 +47,10 @@ export const NAV_LINKS: readonly NavLink[] = [
     name: 'Support',
     id: 'support',
     href: '/support/',
-    children: [{ name: 'Donate', href: '/support/donate/' }],
+    children: [
+      { name: 'Donate', href: '/support/donate/' },
+      { name: 'In-Kind Donations', href: '/support/in-kind-donations/' },
+    ],
   },
   { name: 'Join Us', id: 'join', href: '/join-us/' },
 ];

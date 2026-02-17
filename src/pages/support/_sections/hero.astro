@@ -7,12 +7,13 @@ interface Props {
   imageAlt: string;
   headingPrefix: string;
   headingHighlight: string;
+  headingSuffix?: string;
   subheading: string;
   donateCta: string;
   donateHref: string;
 }
 
-const { imageAlt, headingPrefix, headingHighlight, subheading, donateCta, donateHref } =
+const { imageAlt, headingPrefix, headingHighlight, headingSuffix = '', subheading, donateCta, donateHref } =
   Astro.props;
 ---
 
@@ -38,11 +39,12 @@ const { imageAlt, headingPrefix, headingHighlight, subheading, donateCta, donate
       <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 text-white">
         {headingPrefix}
         <span 
-          class="px-3 ml-2 transform -skew-x-6 inline-block" 
+          class="px-3 transform -skew-x-6 inline-block" 
           style={{ backgroundColor: COLORS.green, color: COLORS.blue.navy }}
         >
           {headingHighlight}
         </span>
+        {headingSuffix}
       </h1>
       <p class="text-lg md:text-xl lg:text-2xl text-blue-50 mb-8 leading-relaxed font-light">
         {subheading}
