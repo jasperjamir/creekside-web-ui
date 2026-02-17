@@ -4,20 +4,26 @@ import SectionHeading from '../ui/SectionHeading.astro';
 
 interface Props {
   sectionId: string;
-  title: string;
+  title?: string;
+  subheading?: string;
+  body?: string;
   imageUrl: string;
   imageAlt: string;
   imageLeft?: boolean;
   backgroundColor?: 'cream' | 'white';
+  plainHeading?: boolean;
 }
 
 const {
   sectionId,
   title,
+  subheading,
+  body,
   imageUrl,
   imageAlt,
   imageLeft = true,
   backgroundColor = 'cream',
+  plainHeading = false,
 } = Astro.props;
 const bg = backgroundColor === 'cream' ? COLORS.cream : COLORS.white;
 ---
@@ -38,8 +44,20 @@ const bg = backgroundColor === 'cream' ? COLORS.cream : COLORS.white;
         </div>
       </div>
       <div class={`max-w-2xl ${imageLeft ? '' : 'lg:order-1'}`}>
-        <SectionHeading>{title}</SectionHeading>
+        {title && (plainHeading ? (
+          <h2 class="text-3xl md:text-4xl font-bold mb-6" style={{ color: COLORS.blue.navy }}>{title}</h2>
+        ) : (
+          <SectionHeading>{title}</SectionHeading>
+        ))}
+        {subheading && (
+          <p class="text-xl md:text-2xl text-gray-700 leading-relaxed font-light mt-4">
+            {subheading}
+          </p>
+        )}
         <div class="mt-6 prose prose-lg text-gray-600 max-w-none">
+          {body && body.split(/\n\n+/).map((paragraph) => (
+            <p class="text-lg leading-relaxed mb-4 last:mb-0">{paragraph.trim()}</p>
+          ))}
           <slot />
         </div>
         <div class="h-1 w-24 mt-8 rounded-full" style={{ backgroundColor: COLORS.blue.royal }} />
