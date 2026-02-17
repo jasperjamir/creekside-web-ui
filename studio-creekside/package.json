@@ -9,19 +9,21 @@
     "start": "sanity start",
     "build": "sanity build",
     "deploy": "sanity deploy",
-    "deploy-graphql": "sanity graphql deploy"
+    "deploy-graphql": "sanity graphql deploy",
+    "seed:who-we-are": "npx tsx scripts/seed-who-we-are.ts"
   },
   "keywords": [
     "sanity"
   ],
   "dependencies": {
-    "@sanity/vision": "^5.8.1",
+    "@sanity/vision": "^5.9.0",
     "react": "^19.1",
     "react-dom": "^19.1",
-    "sanity": "^5.8.1",
+    "sanity": "^5.9.0",
     "styled-components": "^6.1.18"
   },
   "devDependencies": {
+    "@sanity/client": "^7.14.1",
     "@sanity/eslint-config-studio": "^6.0.0",
     "@types/react": "^19.1",
     "eslint": "^9.28",

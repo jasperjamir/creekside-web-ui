@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { headline = '', subheading = '', body = '', imageUrl } = Astro.props;
-const imgSrc = imageUrl ?? `${ASSETS_BASE_URL}/images/who-we-are--lifelong-learning.jpg`;
+const imgSrc = `${ASSETS_BASE_URL}/${imageUrl ?? 'images/who-we-are--lifelong-learning.jpg'}`;
 ---
 
 <section id="lifelong-learning" class="py-20" style={{ backgroundColor: COLORS.white }}>
