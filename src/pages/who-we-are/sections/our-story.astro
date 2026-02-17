@@ -1,5 +1,5 @@
 ---
-import HeroSection from '../../../components/sections/HeroSection.astro';
+import PageHeader from '../../../components/sections/PageHeader.astro';
 import { ASSETS_BASE_URL } from '../../../constants';
 
 interface Props {
@@ -12,7 +12,7 @@ const { body = '', body2, imageUrl } = Astro.props;
 const imgSrc = imageUrl ?? `${ASSETS_BASE_URL}/images/who-we-are--we-are-a-community.png`;
 ---
 
-<HeroSection
+<PageHeader
   sectionId="our-story"
   heading="Our Story"
   body={body}
