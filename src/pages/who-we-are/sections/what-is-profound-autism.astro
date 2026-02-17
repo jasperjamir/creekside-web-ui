@@ -9,27 +9,32 @@ interface CtaLink {
 }
 
 interface Props {
+  sectionHeading?: string;
   definition: string;
+  image?: { asset?: { url: string }; alt?: string };
+  learnMoreHeading?: string;
+  supportLinksHeading?: string;
   learnMoreLinks: readonly CtaLink[];
   supportLinks: readonly CtaLink[];
 }
 
-const { definition = '', learnMoreLinks = [], supportLinks = [] } = Astro.props;
-const imageUrl = `${ASSETS_BASE_URL}/images/who-we-are--profound-autism.jpg`;
+const { sectionHeading = 'What is Profound Autism?', definition = '', image, learnMoreHeading = 'Learn More:', supportLinksHeading = 'Support Creekside:', learnMoreLinks = [], supportLinks = [] } = Astro.props;
+const imageUrl = image?.asset?.url ?? `${ASSETS_BASE_URL}/images/who-we-are--profound-autism.jpg`;
+const imageAlt = image?.alt ?? 'What is profound autism';
 ---
 
 <section id="what-is-profound-autism" class="py-20" style={{ backgroundColor: COLORS.cream }}>
   <div class="container mx-auto px-4 lg:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       <div>
-        <SectionHeading>What is Profound Autism?</SectionHeading>
+        <SectionHeading>{sectionHeading}</SectionHeading>
         <p class="text-xl text-gray-700 leading-relaxed mt-6">
           {definition}
         </p>
 
         <div class="mt-12 space-y-8">
           <div>
-            <h4 class="text-lg font-semibold mb-4" style={{ color: COLORS.blue.navy }}>Learn More:</h4>
+            <h4 class="text-lg font-semibold mb-4" style={{ color: COLORS.blue.navy }}>{learnMoreHeading}</h4>
             <div class="flex flex-wrap gap-4">
               {learnMoreLinks.map((link) => (
                 <Button variant="primary" href={link.href} className="shadow-lg transform hover:-translate-y-0.5">
@@ -39,7 +44,7 @@ const imageUrl = `${ASSETS_BASE_URL}/images/who-we-are--profound-autism.jpg`;
             </div>
           </div>
           <div>
-            <h4 class="text-lg font-semibold mb-4" style={{ color: COLORS.blue.navy }}>Support Creekside:</h4>
+            <h4 class="text-lg font-semibold mb-4" style={{ color: COLORS.blue.navy }}>{supportLinksHeading}</h4>
             <div class="flex flex-wrap gap-4">
               {supportLinks.map((link) => (
                 <Button variant="outline" href={link.href} className="shadow-md">
@@ -54,7 +59,7 @@ const imageUrl = `${ASSETS_BASE_URL}/images/who-we-are--profound-autism.jpg`;
         <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md">
           <img
             src={imageUrl}
-            alt="What is profound autism"
+            alt={imageAlt}
             class="w-full h-auto object-contain"
             loading="lazy"
             width="600"

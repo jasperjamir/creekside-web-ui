@@ -18,6 +18,12 @@ export default defineType({
       title: 'Our Story Section',
       fields: [
         defineField({
+          name: 'heading',
+          type: 'string',
+          title: 'Section Heading',
+          initialValue: 'Our Story',
+        }),
+        defineField({
           name: 'body',
           type: 'text',
           title: 'Body',
@@ -26,6 +32,20 @@ export default defineType({
           name: 'body2',
           type: 'text',
           title: 'Body (Second Paragraph)',
+        }),
+        defineField({
+          name: 'image',
+          type: 'image',
+          title: 'Image',
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'alt',
+              type: 'string',
+              title: 'Alternative Text',
+              validation: (rule) => rule.required().warning('Alt text is important for SEO'),
+            }),
+          ],
         }),
       ],
     }),
@@ -50,11 +70,18 @@ export default defineType({
           title: 'Body',
         }),
         defineField({
-          name: 'imageUrl',
-          type: 'string',
-          title: 'Image URL',
-          description:
-            'Full image URL or relative path; front-end falls back to default if empty.',
+          name: 'image',
+          type: 'image',
+          title: 'Image',
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'alt',
+              type: 'string',
+              title: 'Alternative Text',
+              validation: (rule) => rule.required().warning('Alt text is important for SEO'),
+            }),
+          ],
         }),
       ],
     }),
@@ -63,6 +90,12 @@ export default defineType({
       type: 'object',
       title: 'Mission & Vision Section',
       fields: [
+        defineField({
+          name: 'sectionHeading',
+          type: 'string',
+          title: 'Section Heading',
+          initialValue: 'Mission & Vision',
+        }),
         defineField({
           name: 'mission',
           type: 'text',
@@ -73,6 +106,20 @@ export default defineType({
           type: 'text',
           title: 'Vision',
         }),
+        defineField({
+          name: 'image',
+          type: 'image',
+          title: 'Image',
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'alt',
+              type: 'string',
+              title: 'Alternative Text',
+              validation: (rule) => rule.required().warning('Alt text is important for SEO'),
+            }),
+          ],
+        }),
       ],
     }),
     defineField({
@@ -80,6 +127,12 @@ export default defineType({
       type: 'object',
       title: 'Our Team Section',
       fields: [
+        defineField({
+          name: 'sectionHeading',
+          type: 'string',
+          title: 'Section Heading',
+          initialValue: 'Our Team',
+        }),
         defineField({
           name: 'groups',
           type: 'array',
@@ -101,10 +154,19 @@ export default defineType({
                 defineField({
                   name: 'images',
                   type: 'array',
-                  title: 'Image URLs',
+                  title: 'Images',
                   of: [
                     defineArrayMember({
-                      type: 'string',
+                      type: 'image',
+                      options: { hotspot: true },
+                      fields: [
+                        defineField({
+                          name: 'alt',
+                          type: 'string',
+                          title: 'Alternative Text',
+                          validation: (rule) => rule.required().warning('Alt text is important for SEO'),
+                        }),
+                      ],
                     }),
                   ],
                 }),
@@ -120,9 +182,41 @@ export default defineType({
       title: 'What Is Profound Autism Section',
       fields: [
         defineField({
+          name: 'sectionHeading',
+          type: 'string',
+          title: 'Section Heading',
+          initialValue: 'What is Profound Autism?',
+        }),
+        defineField({
           name: 'definition',
           type: 'text',
           title: 'Definition',
+        }),
+        defineField({
+          name: 'image',
+          type: 'image',
+          title: 'Image',
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'alt',
+              type: 'string',
+              title: 'Alternative Text',
+              validation: (rule) => rule.required().warning('Alt text is important for SEO'),
+            }),
+          ],
+        }),
+        defineField({
+          name: 'learnMoreHeading',
+          type: 'string',
+          title: 'Learn More Heading',
+          initialValue: 'Learn More:',
+        }),
+        defineField({
+          name: 'supportLinksHeading',
+          type: 'string',
+          title: 'Support Links Heading',
+          initialValue: 'Support Creekside:',
         }),
         defineField({
           name: 'learnMoreLinks',

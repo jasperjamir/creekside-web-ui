@@ -6,16 +6,12 @@ interface Props {
   headline: string;
   subheading: string;
   body: string;
-  imageUrl?: string;
+  image?: { asset?: { url: string }; alt?: string };
 }
 
-const { headline = '', subheading = '', body = '', imageUrl } = Astro.props;
-const imgSrc =
-  typeof imageUrl === 'string' && imageUrl
-    ? imageUrl.startsWith('http')
-      ? imageUrl
-      : `${ASSETS_BASE_URL}/${imageUrl.replace(/^\//, '')}`
-    : `${ASSETS_BASE_URL}/images/who-we-are--lifelong-learning.jpg`;
+const { headline = '', subheading = '', body = '', image } = Astro.props;
+const imgSrc = image?.asset?.url ?? `${ASSETS_BASE_URL}/images/who-we-are--lifelong-learning.jpg`;
+const imgAlt = image?.alt ?? 'Lifelong learning at Creekside';
 ---
 
 <ImageTextSection
@@ -30,4 +26,4 @@ const imgSrc =
   <p class="text-lg leading-relaxed">
     {body}
   </p>
-</ImageTextSection>
+</ImageTextSection>\
