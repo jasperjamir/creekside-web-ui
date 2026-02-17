@@ -1,17 +1,15 @@
 ---
-import { COLORS, ASSETS_BASE_URL } from '../../../constants';
+import { COLORS } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
 
 interface Props {
   sectionHeading?: string;
   mission: string;
   vision: string;
-  image?: { asset?: { url: string }; alt?: string };
+  image: { asset: { url: string }; alt?: string };
 }
 
-const { sectionHeading = 'Mission & Vision', mission = '', vision = '', image } = Astro.props;
-const imgSrc = image?.asset?.url ?? `${ASSETS_BASE_URL}/images/who-we-are--mission-vision.jpg`;
-const imgAlt = image?.alt ?? 'Mission and Vision';
+const { sectionHeading = '', mission = '', vision = '', image } = Astro.props;
 ---
 
 <section id="mission-vision" class="py-20" style={{ backgroundColor: COLORS.cream }}>
@@ -20,8 +18,8 @@ const imgAlt = image?.alt ?? 'Mission and Vision';
       <div class="flex justify-center lg:justify-start order-first lg:order-none">
         <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md aspect-[5/3]">
           <img
-            src={imgSrc}
-            alt={imgAlt}
+            src={image.asset.url}
+            alt={image.alt ?? ''}
             class="w-full h-full object-cover object-center"
             loading="lazy"
             width="600"

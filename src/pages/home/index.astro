@@ -8,19 +8,37 @@ import CommunityPartners from './sections/community-partners.astro';
 import NavigationGrid from './sections/navigation-grid.astro';
 import Testimonials from './sections/testimonials.astro';
 import CommunityImage from './sections/community-image.astro';
+import { ASSETS_BASE_URL } from '../../constants';
+
+const DEFAULT_IMAGES = {
+  hero: {
+    url: `${ASSETS_BASE_URL}/images/home--hero.jpg`,
+    alt: 'Adult and child engaged in art activity at Creekside School',
+  },
+  communityImage: {
+    url: `${ASSETS_BASE_URL}/images/home--community.jpg`,
+    alt: 'Community',
+  },
+};
+
+function withDefaultImage(
+  cmsImage: { asset?: { url: string }; alt?: string } | undefined,
+  defaultImage: { url: string; alt: string }
+) {
+  if (cmsImage?.asset?.url) {
+    return { asset: { url: cmsImage.asset.url }, alt: cmsImage.alt ?? '' };
+  }
+  return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
+}
 
 const QUERY = /* groq */ `*[_type == "home"][0] {
+  title,
   heroText {
     image { asset->{ _id, url }, alt },
-    imageAlt,
     badge,
     headingPrefix,
     headingHighlight,
-    subheading,
-    contactCta,
-    donateCta,
-    contactHref,
-    donateHref
+    subheading
   },
   creeksideDifferenceText {
     heading,
@@ -68,53 +86,49 @@ const QUERY = /* groq */ `*[_type == "home"][0] {
 
 const data = await sanityClient.fetch(QUERY);
 
-// Extract data with fallbacks for development
-const heroText = data?.heroText || {
-  imageAlt: 'Adult and child engaged in art activity at Creekside School',
-  badge: 'Welcome to Creekside',
-  headingPrefix: 'Specialized Education for Students with ',
-  headingHighlight: 'Profound Autism',
-  subheading: 'At Creekside, we create tailored learning experiences and environments where students with profound autism are truly seen and understood.',
-  contactCta: 'Contact Us',
-  donateCta: 'Donate',
-  contactHref: '/contact',
-  donateHref: '/support/donate',
+const heroText = {
+  image: withDefaultImage(data?.heroText?.image, DEFAULT_IMAGES.hero),
+  badge: data?.heroText?.badge ?? '',
+  headingPrefix: data?.heroText?.headingPrefix ?? '',
+  headingHighlight: data?.heroText?.headingHighlight ?? '',
+  subheading: data?.heroText?.subheading ?? '',
 };
 
-const creeksideDifferenceText = data?.creeksideDifferenceText || {
-  heading: 'The Creekside Difference',
-  body: 'At Creekside, we create tailored learning experiences and environments where students with profound autism are truly seen and understood.',
+const creeksideDifferenceText = {
+  heading: data?.creeksideDifferenceText?.heading ?? '',
+  body: data?.creeksideDifferenceText?.body ?? '',
 };
 
-const ourPillarsText = data?.ourPillarsText || {
-  heading: 'Our Pillars',
-  subheading: 'The Creekside School serves a unique student population and their families. We take a special, holistic approach to educating students guided by 7 pillars, which create the foundation of our approach.',
-  pillars: [],
+const ourPillarsText = {
+  heading: data?.ourPillarsText?.heading ?? '',
+  subheading: data?.ourPillarsText?.subheading ?? '',
+  pillars: data?.ourPillarsText?.pillars ?? [],
 };
 
-const communityPartnersText = data?.communityPartnersText || {
-  heading: 'Our heartfelt thanks to our community partners',
-  partners: [],
+const communityPartnersText = {
+  heading: data?.communityPartnersText?.heading ?? '',
+  partners: data?.communityPartnersText?.partners ?? [],
 };
 
-const navigationGridText = data?.navigationGridText || {
-  heading: 'What are you interested in learning about?',
-  linkLabel: 'Learn More',
-  items: [],
+const navigationGridText = {
+  heading: data?.navigationGridText?.heading ?? '',
+  linkLabel: data?.navigationGridText?.linkLabel ?? '',
+  items: data?.navigationGridText?.items ?? [],
 };
 
-const testimonialsText = data?.testimonialsText || {
-  heading: 'Join the Creekside Community',
-  testimonials: [],
+const testimonialsText = {
+  heading: data?.testimonialsText?.heading ?? '',
+  testimonials: data?.testimonialsText?.testimonials ?? [],
 };
 
-const communityImageText = data?.communityImageText || {
-  title: '',
-  description: '',
+const communityImageText = {
+  title: data?.communityImageText?.title ?? '',
+  description: data?.communityImageText?.description ?? '',
+  image: withDefaultImage(data?.communityImageText?.image, DEFAULT_IMAGES.communityImage),
 };
 ---
 
-<HomeLayout title="Home - The Creekside School">
+<HomeLayout title={data?.title ?? ''}>
   <div class="animate-fade-in font-sans">
     <HeroSection {...heroText} />
     <CreeksideDifference {...creeksideDifferenceText} />

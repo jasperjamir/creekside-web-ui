@@ -43,10 +43,6 @@ export default defineType({
         defineField({ name: 'headingPrefix', type: 'string', title: 'Heading Prefix' }),
         defineField({ name: 'headingHighlight', type: 'string', title: 'Heading Highlight' }),
         defineField({ name: 'subheading', type: 'text', title: 'Subheading' }),
-        defineField({ name: 'contactCta', type: 'string', title: 'Contact CTA Text' }),
-        defineField({ name: 'donateCta', type: 'string', title: 'Donate CTA Text' }),
-        defineField({ name: 'contactHref', type: 'string', title: 'Contact Link' }),
-        defineField({ name: 'donateHref', type: 'string', title: 'Donate Link' }),
       ],
     }),
     defineField({

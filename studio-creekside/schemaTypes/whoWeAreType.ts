@@ -9,8 +9,6 @@ export default defineType({
       name: 'title',
       type: 'string',
       title: 'Page Title',
-      validation: (rule) => rule.required(),
-      initialValue: 'Who We Are - The Creekside School',
     }),
     defineField({
       name: 'ourStoryText',
@@ -21,7 +19,6 @@ export default defineType({
           name: 'heading',
           type: 'string',
           title: 'Section Heading',
-          initialValue: 'Our Story',
         }),
         defineField({
           name: 'body',
@@ -94,7 +91,6 @@ export default defineType({
           name: 'sectionHeading',
           type: 'string',
           title: 'Section Heading',
-          initialValue: 'Mission & Vision',
         }),
         defineField({
           name: 'mission',
@@ -131,7 +127,6 @@ export default defineType({
           name: 'sectionHeading',
           type: 'string',
           title: 'Section Heading',
-          initialValue: 'Our Team',
         }),
         defineField({
           name: 'groups',
@@ -185,7 +180,6 @@ export default defineType({
           name: 'sectionHeading',
           type: 'string',
           title: 'Section Heading',
-          initialValue: 'What is Profound Autism?',
         }),
         defineField({
           name: 'definition',
@@ -203,62 +197,6 @@ export default defineType({
               type: 'string',
               title: 'Alternative Text',
               validation: (rule) => rule.required().warning('Alt text is important for SEO'),
-            }),
-          ],
-        }),
-        defineField({
-          name: 'learnMoreHeading',
-          type: 'string',
-          title: 'Learn More Heading',
-          initialValue: 'Learn More:',
-        }),
-        defineField({
-          name: 'supportLinksHeading',
-          type: 'string',
-          title: 'Support Links Heading',
-          initialValue: 'Support Creekside:',
-        }),
-        defineField({
-          name: 'learnMoreLinks',
-          type: 'array',
-          title: 'Learn More Links',
-          of: [
-            defineArrayMember({
-              type: 'object',
-              fields: [
-                defineField({
-                  name: 'name',
-                  type: 'string',
-                  title: 'Label',
-                }),
-                defineField({
-                  name: 'href',
-                  type: 'string',
-                  title: 'URL',
-                }),
-              ],
-            }),
-          ],
-        }),
-        defineField({
-          name: 'supportLinks',
-          type: 'array',
-          title: 'Support Links',
-          of: [
-            defineArrayMember({
-              type: 'object',
-              fields: [
-                defineField({
-                  name: 'name',
-                  type: 'string',
-                  title: 'Label',
-                }),
-                defineField({
-                  name: 'href',
-                  type: 'string',
-                  title: 'URL',
-                }),
-              ],
             }),
           ],
         }),

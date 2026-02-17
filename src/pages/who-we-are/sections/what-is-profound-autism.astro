@@ -1,26 +1,28 @@
 ---
-import { COLORS, ASSETS_BASE_URL } from '../../../constants';
+import { COLORS } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
 import Button from '../../../components/ui/Button.astro';
 
-interface CtaLink {
-  name: string;
-  href: string;
-}
+const LEARN_MORE_HEADING = 'Learn More:';
+const SUPPORT_LINKS_HEADING = 'Support Creekside:';
+const LEARN_MORE_LINKS = [
+  { name: 'Our Programs', href: '/what-we-do/' },
+  { name: 'Our Students', href: '/families/' },
+];
+const SUPPORT_LINKS = [
+  { name: 'Donate', href: '/support/donate/' },
+  { name: 'Volunteer', href: '/support/#volunteer' },
+  { name: 'Student Wish List', href: '/support/#student-wish-list' },
+  { name: 'Join Our Staff', href: '/join-us/join-our-team/' },
+];
 
 interface Props {
   sectionHeading?: string;
   definition: string;
-  image?: { asset?: { url: string }; alt?: string };
-  learnMoreHeading?: string;
-  supportLinksHeading?: string;
-  learnMoreLinks: readonly CtaLink[];
-  supportLinks: readonly CtaLink[];
+  image: { asset: { url: string }; alt?: string };
 }
 
-const { sectionHeading = 'What is Profound Autism?', definition = '', image, learnMoreHeading = 'Learn More:', supportLinksHeading = 'Support Creekside:', learnMoreLinks = [], supportLinks = [] } = Astro.props;
-const imageUrl = image?.asset?.url ?? `${ASSETS_BASE_URL}/images/who-we-are--profound-autism.jpg`;
-const imageAlt = image?.alt ?? 'What is profound autism';
+const { sectionHeading = '', definition = '', image } = Astro.props;
 ---
 
 <section id="what-is-profound-autism" class="py-20" style={{ backgroundColor: COLORS.cream }}>
@@ -34,9 +36,9 @@ const imageAlt = image?.alt ?? 'What is profound autism';
 
         <div class="mt-12 space-y-8">
           <div>
-            <h4 class="text-lg font-semibold mb-4" style={{ color: COLORS.blue.navy }}>{learnMoreHeading}</h4>
+            <h4 class="text-lg font-semibold mb-4" style={{ color: COLORS.blue.navy }}>{LEARN_MORE_HEADING}</h4>
             <div class="flex flex-wrap gap-4">
-              {learnMoreLinks.map((link) => (
+              {LEARN_MORE_LINKS.map((link) => (
                 <Button variant="primary" href={link.href} className="shadow-lg transform hover:-translate-y-0.5">
                   {link.name}
                 </Button>
@@ -44,9 +46,9 @@ const imageAlt = image?.alt ?? 'What is profound autism';
             </div>
           </div>
           <div>
-            <h4 class="text-lg font-semibold mb-4" style={{ color: COLORS.blue.navy }}>{supportLinksHeading}</h4>
+            <h4 class="text-lg font-semibold mb-4" style={{ color: COLORS.blue.navy }}>{SUPPORT_LINKS_HEADING}</h4>
             <div class="flex flex-wrap gap-4">
-              {supportLinks.map((link) => (
+              {SUPPORT_LINKS.map((link) => (
                 <Button variant="outline" href={link.href} className="shadow-md">
                   {link.name}
                 </Button>
@@ -58,8 +60,8 @@ const imageAlt = image?.alt ?? 'What is profound autism';
       <div class="flex justify-center lg:justify-end">
         <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md">
           <img
-            src={imageUrl}
-            alt={imageAlt}
+            src={image.asset.url}
+            alt={image.alt ?? ''}
             class="w-full h-auto object-contain"
             loading="lazy"
             width="600"
