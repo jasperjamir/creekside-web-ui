@@ -1,12 +1,21 @@
 ---
 import PageHeader from '../../../components/sections/PageHeader.astro';
-import { ASSETS_BASE_URL } from '../../../constants';
+
+interface Props {
+  heading?: string;
+  body?: string;
+  body2?: string;
+  image: { asset: { url: string }; alt?: string };
+}
+
+const { heading = '', body = '', body2 = '', image } = Astro.props;
 ---
 
 <PageHeader
-  heading="What We Do"
-  body="Lifelong Learning"
-  body2="begins with belonging, connection, and understanding"
-  imageUrl={`${ASSETS_BASE_URL}/images/what-we-do--our-services--page-header.jpg`}
-  imageAlt="Lifelong learning at Creekside"
+  sectionId="what-we-do-hero"
+  heading={heading}
+  body={body}
+  body2={body2}
+  imageUrl={image.asset.url}
+  imageAlt={image.alt ?? ''}
 />

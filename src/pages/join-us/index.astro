@@ -1,4 +1,5 @@
 ---
+import { sanityClient } from 'sanity:client';
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/sections/PageHeader.astro';
 import WhyWorkAtCreekside from './_sections/why-work-at-creekside.astro';
@@ -9,30 +10,127 @@ import EqualOpportunity from './_sections/equal-opportunity.astro';
 import HowWeHire from './_sections/how-we-hire.astro';
 import OpenPositions from './_sections/open-positions.astro';
 import { ASSETS_BASE_URL } from '../../constants';
-import { WHY_WORK_AT_CREEKSIDE, JOIN_TEAM_CONTENT, BENEFITS, OPEN_POSITIONS, HIRING_STEPS, EQUAL_OPPORTUNITY } from './_constants';
 
-const whyWorkAtCreeksideText = {
-  heading: 'Why Work at Creekside',
-  subheading: 'We foster a transparent and open environment where every team member is encouraged to question, innovate, and continuously refine our methods.',
-  pillars: WHY_WORK_AT_CREEKSIDE,
+const DEFAULT_IMAGES = {
+  hero: {
+    url: `${ASSETS_BASE_URL}/images/join-us--place-of-excellence.png`,
+    alt: 'Creekside campus or team',
+  },
+  joinOurTeam: {
+    url: `${ASSETS_BASE_URL}/images/join-us--join-our-team.jpg`,
+    alt: 'A Creekside teacher working one-on-one with a student on a learning activity.',
+  },
+};
+
+function withDefaultImage(
+  cmsImage: { asset?: { url: string }; alt?: string } | undefined,
+  defaultImage: { url: string; alt: string }
+) {
+  if (cmsImage?.asset?.url) {
+    return { asset: { url: cmsImage.asset.url }, alt: cmsImage.alt ?? '' };
+  }
+  return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
+}
+
+const QUERY = /* groq */ `*[_type == "joinUs"][0] {
+  title,
+  heroText {
+    heading,
+    body,
+    body2,
+    image { asset->{ _id, url }, alt }
+  },
+  whyWorkAtCreeksideText {
+    heading,
+    subheading,
+    pillars[] { title, icon, text }
+  },
+  joinOurTeamText {
+    title,
+    description,
+    image { asset->{ _id, url }, alt },
+    benefits[]
+  },
+  applyInstructionsText { text, email },
+  openPositionsText {
+    heading,
+    subheading,
+    positions[] { title, type, description, link, tagColor }
+  },
+  howWeHireText { heading, steps[] { title, description } },
+  questionsEmailText { text, email },
+  equalOpportunityText { title, text }
+}`;
+
+const data = await sanityClient.fetch(QUERY);
+
+const content = {
+  pageTitle: data?.title ?? '',
+  hero: {
+    heading: data?.heroText?.heading ?? '',
+    body: data?.heroText?.body ?? '',
+    body2: data?.heroText?.body2 ?? '',
+    image: withDefaultImage(data?.heroText?.image, DEFAULT_IMAGES.hero),
+  },
+  whyWorkAtCreekside: {
+    heading: data?.whyWorkAtCreeksideText?.heading ?? '',
+    subheading: data?.whyWorkAtCreeksideText?.subheading ?? '',
+    pillars: data?.whyWorkAtCreeksideText?.pillars ?? [],
+  },
+  joinOurTeam: {
+    title: data?.joinOurTeamText?.title ?? '',
+    description: data?.joinOurTeamText?.description ?? '',
+    image: withDefaultImage(data?.joinOurTeamText?.image, DEFAULT_IMAGES.joinOurTeam),
+    benefits: data?.joinOurTeamText?.benefits ?? [],
+  },
+  applyInstructions: {
+    text: data?.applyInstructionsText?.text ?? '',
+    email: data?.applyInstructionsText?.email ?? '',
+  },
+  openPositions: {
+    heading: data?.openPositionsText?.heading ?? '',
+    subheading: data?.openPositionsText?.subheading ?? '',
+    positions: data?.openPositionsText?.positions ?? [],
+  },
+  howWeHire: {
+    heading: data?.howWeHireText?.heading ?? '',
+    steps: data?.howWeHireText?.steps ?? [],
+  },
+  questionsEmail: {
+    text: data?.questionsEmailText?.text ?? '',
+    email: data?.questionsEmailText?.email ?? '',
+  },
+  equalOpportunity: {
+    title: data?.equalOpportunityText?.title ?? '',
+    text: data?.equalOpportunityText?.text ?? '',
+  },
 };
 ---
 
-<Layout title="Join Us - The Creekside School">
+<Layout title={content.pageTitle ? `${content.pageTitle} - The Creekside School` : 'Join Us - The Creekside School'}>
   <div class="animate-fade-in font-sans">
     <PageHeader
-      heading="Join Us"
-      body="Our team shares the commitment to integrity, collegiality, and the mission of improving the lives of our students and their families. Our deep sense of purpose fuels our motivation to embrace the challenges of our work and rise to meet the needs of our students."
-      body2="Creekside is a place where excellence, passion, and dedication are at the heart of our work."
-      imageUrl={`${ASSETS_BASE_URL}/images/join-us--place-of-excellence.png`}
-      imageAlt="Creekside campus or team"
+      heading={content.hero.heading}
+      body={content.hero.body}
+      body2={content.hero.body2}
+      imageUrl={content.hero.image.asset.url}
+      imageAlt={content.hero.image.alt}
     />
-    <WhyWorkAtCreekside {...whyWorkAtCreeksideText} />
-    <JoinOurTeamSection content={JOIN_TEAM_CONTENT} benefits={BENEFITS} />
-    <ApplyInstructions text="To apply, read through any of the job descriptions listed below and send your resume to " email="jobs@creeksideschool.org" />
-    <OpenPositions positions={OPEN_POSITIONS} />
-    <HowWeHire steps={HIRING_STEPS} />
-    <QuestionsEmail />
-    <EqualOpportunity {...EQUAL_OPPORTUNITY} />
+    <WhyWorkAtCreekside {...content.whyWorkAtCreekside} />
+    <JoinOurTeamSection
+      title={content.joinOurTeam.title}
+      description={content.joinOurTeam.description}
+      image={content.joinOurTeam.image}
+      benefits={content.joinOurTeam.benefits}
+    />
+    <ApplyInstructions text={content.applyInstructions.text} email={content.applyInstructions.email} />
+    <OpenPositions
+      heading={content.openPositions.heading}
+      subheading={content.openPositions.subheading}
+      positions={content.openPositions.positions}
+    />
+    <HowWeHire heading={content.howWeHire.heading} steps={content.howWeHire.steps} />
+    <QuestionsEmail text={content.questionsEmail.text} email={content.questionsEmail.email} />
+    <EqualOpportunity title={content.equalOpportunity.title} text={content.equalOpportunity.text} />
   </div>
 </Layout>

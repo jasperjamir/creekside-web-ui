@@ -1,32 +1,30 @@
 ---
-import { ASSETS_BASE_URL, COLORS } from '../../../constants';
+import { COLORS } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
 
 interface Props {
-  content: {
-    title: string;
-    description: string;
-    image: string;
-    imageAlt: string;
-  };
+  title: string;
+  description: string;
+  image: { asset?: { url: string }; alt?: string };
   benefits: readonly string[];
 }
 
-const { content, benefits } = Astro.props;
-const imageSrc = content.image.startsWith('http') ? content.image : `${ASSETS_BASE_URL}/images/${content.image}`;
+const { title, description, image, benefits } = Astro.props;
+const imageUrl = image?.asset?.url ?? '';
+const imageAlt = image?.alt ?? '';
 ---
 
 <section class="join-section font-sans" style={{ backgroundColor: COLORS.white }}>
   <div class="container">
     <div class="image-wrapper">
-      <img src={imageSrc} alt={content.imageAlt} loading="lazy" />
+      <img src={imageUrl} alt={imageAlt} loading="lazy" />
     </div>
 
     <div class="text-content">
-      <SectionHeading>{content.title}</SectionHeading>
+      <SectionHeading>{title}</SectionHeading>
 
       <p class="description">
-        {content.description}
+        {description}
       </p>
 
       <ul class="benefits-list">

@@ -2,33 +2,39 @@
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
 import ServiceCard from '../../../components/ui/ServiceCard.astro';
 import { COLORS } from '../../../constants';
-import { ASSETS_BASE_URL } from '../../../constants';
 
-const SERVICES = [
-  { title: 'Music Therapy', imageUrl: `${ASSETS_BASE_URL}/images/what-we-do--services--music-therapy.jpg`, imageAlt: 'Music therapy at Creekside' },
-  { title: 'Occupational Therapy', imageUrl: `${ASSETS_BASE_URL}/images/what-we-do--our-services-ot.png`, imageAlt: 'Occupational therapy' },
-  { title: 'Speech and Language Therapy', imageUrl: `${ASSETS_BASE_URL}/images/what-we-do--our-services--sl-therapy.jpg`, imageAlt: 'Speech and language therapy' },
-  { title: 'Art Therapy', imageUrl: `${ASSETS_BASE_URL}/images/what-we-do--what-we-do--our-services--art-therapy.png`, imageAlt: 'Art therapy' },
-  { title: 'Applied Behavioral Analysis (ABA) Therapy', imageUrl: `${ASSETS_BASE_URL}/images/what-we-do--our-services--aba-therapy.png`, imageAlt: 'ABA therapy' },
-];
+interface Service {
+  title: string;
+  image?: { asset?: { url: string }; alt?: string };
+}
+
+interface Props {
+  sectionHeading?: string;
+  body?: string;
+  services: readonly Service[];
+}
+
+const { sectionHeading = '', body = '', services = [] } = Astro.props;
 ---
 
 <section id="our-services" class="py-16" style={{ backgroundColor: COLORS.cream }}>
   <div class="container mx-auto px-4 lg:px-8">
     <div class="max-w-3xl mx-auto text-center mb-12">
       <div class="flex justify-center mb-6">
-        <SectionHeading>Our Services</SectionHeading>
+        <SectionHeading>{sectionHeading}</SectionHeading>
       </div>
-      <p class="text-lg text-gray-600 leading-relaxed">
-      Creekside offers a complete suite of autism-related services. Our speech, behavior, occupational, art, music, and mental health therapists work closely with our teachers to address students' social, emotional, and psychological needs.
-      </p>
+      {body && (
+        <p class="text-lg text-gray-600 leading-relaxed">
+          {body}
+        </p>
+      )}
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
-      {SERVICES.map((service) => (
+      {services.filter((s) => s?.image?.asset?.url).map((service) => (
         <ServiceCard
           title={service.title}
-          imageUrl={service.imageUrl}
-          imageAlt={service.imageAlt}
+          imageUrl={service.image!.asset!.url}
+          imageAlt={service.image!.alt ?? service.title}
         />
       ))}
     </div>

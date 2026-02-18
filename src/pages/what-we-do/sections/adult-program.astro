@@ -1,25 +1,22 @@
 ---
 import ImageTextSection from '../../../components/sections/ImageTextSection.astro';
-import { ASSETS_BASE_URL } from '../../../constants';
 
 interface Props {
   title?: string;
   subheading?: string;
-  imageUrl?: string;
-  imageAlt?: string;
-  approachImageAlt?: string;
   overviewParagraph?: string;
   approachParagraph?: string;
+  image: { asset: { url: string }; alt?: string };
+  approachImageAlt?: string;
 }
 
 const {
-  title = 'The Adult Day Program',
-  subheading = 'The Creekside Adult Program (CAP) serves adults 22+ with profound autism and significant support needs.',
-  imageUrl = `${ASSETS_BASE_URL}/images/what-we-do--the-adult-day-program.jpg`,
-  imageAlt = 'Creekside Adult Program participants',
-  approachImageAlt = 'Creekside Adult Program - community and activities',
-  overviewParagraph = 'After our first students graduated, we noticed that there was a clear lack of adult programs designed to support individuals with profound autism. CAP ensures that Creekside students have access to lifelong learning.',
-  approachParagraph = "By building on the values that define The Creekside School, we create spaces for connection, purpose, and joy through meaningful activities from community outings across San Jose to more personally aligned choices showcased in our MakerSpace.\n\nGuided by each participant's Individual Program Plan (IPP) and their Person-Centered Plan (PCP), the Creekside Adult Program supports each participant as they live a fulfilling life that honors their individuality and strengths.",
+  title = '',
+  subheading = '',
+  overviewParagraph = '',
+  approachParagraph = '',
+  image,
+  approachImageAlt = '',
 } = Astro.props;
 ---
 
@@ -28,8 +25,8 @@ const {
   title={title}
   subheading={subheading}
   body={overviewParagraph}
-  imageUrl={imageUrl}
-  imageAlt={imageAlt}
+  imageUrl={image.asset.url}
+  imageAlt={image.alt ?? ''}
   imageLeft={false}
   backgroundColor="white"
 />
@@ -37,8 +34,8 @@ const {
 <ImageTextSection
   sectionId="adult-program-approach"
   body={approachParagraph}
-  imageUrl={imageUrl}
-  imageAlt={approachImageAlt}
+  imageUrl={image.asset.url}
+  imageAlt={approachImageAlt ? approachImageAlt : (image.alt ?? '')}
   imageLeft={true}
   backgroundColor="cream"
 />

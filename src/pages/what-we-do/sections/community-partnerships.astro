@@ -4,65 +4,71 @@ import ImageTextSection from '../../../components/sections/ImageTextSection.astr
 interface Partner {
   name: string;
   href: string;
-  imageUrl: string;
-  imageAlt: string;
+  image?: { asset?: { url: string }; alt?: string };
 }
 
-const PARTNERS: Partner[] = [
-  { name: 'Community Stanford Preschool Autism Lab', href: 'https://med.stanford.edu/autism.html', imageUrl: 'https://picsum.photos/seed/stanford-preschool/200/80', imageAlt: 'Stanford Preschool Autism Lab' },
-  { name: 'Autism Speaks', href: 'https://www.autismspeaks.org/', imageUrl: 'https://picsum.photos/seed/autism-speaks/200/80', imageAlt: 'Autism Speaks' },
-  { name: 'Bay Area Furniture Bank', href: 'https://www.bayareafurniturebank.org/', imageUrl: 'https://picsum.photos/seed/bafb/200/80', imageAlt: 'Bay Area Furniture Bank' },
-  { name: 'Stanford Autism Center', href: 'https://med.stanford.edu/autism.html', imageUrl: 'https://picsum.photos/seed/stanford-autism/200/80', imageAlt: 'Stanford Autism Center' },
-  { name: 'South Valley YMCA', href: 'https://www.ymcasv.org/', imageUrl: 'https://picsum.photos/seed/sv-ymca/200/80', imageAlt: 'South Valley YMCA' },
-  { name: 'University Partners', href: '#', imageUrl: 'https://picsum.photos/seed/university-partners/200/80', imageAlt: 'University Partners' },
-];
+interface Props {
+  title?: string;
+  cbiTitle?: string;
+  cbiBody?: string;
+  image: { asset: { url: string }; alt?: string };
+  partners: readonly Partner[];
+}
+
+const { title = '', cbiTitle = '', cbiBody = '', image, partners = [] } = Astro.props;
 ---
 
 <ImageTextSection
   sectionId="community-partnerships"
-  title="Community Partnerships"
-  imageUrl="https://picsum.photos/seed/community-partnerships/800/500"
-  imageAlt="Community partnerships at Creekside"
+  title={title}
+  imageUrl={image.asset.url}
+  imageAlt={image.alt ?? ''}
   imageLeft={false}
   backgroundColor="white"
 >
-  <details class="group bg-gray-50 rounded-2xl overflow-hidden border border-gray-100">
-    <summary class="flex items-center justify-between p-5 cursor-pointer list-none select-none focus:outline-none hover:bg-gray-100 transition-colors">
-      <span class="font-semibold text-gray-800">About Community-Based Instruction (CBI)</span>
-      <span class="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 transition-transform duration-300 group-open:rotate-180" aria-hidden="true">
-        <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-        </svg>
-      </span>
-    </summary>
-    <div class="px-5 pb-6 pt-0">
-      <p class="text-gray-600 leading-relaxed">
-        Community-Based Instruction (CBI) is an integral part of the Creekside approach, focusing on real-world application of skills. Through CBI, we support students in building independence and confidence by engaging with their community.
-      </p>
-    </div>
-  </details>
+  {(cbiTitle || cbiBody) && (
+    <details class="group bg-gray-50 rounded-2xl overflow-hidden border border-gray-100">
+      <summary class="flex items-center justify-between p-5 cursor-pointer list-none select-none focus:outline-none hover:bg-gray-100 transition-colors">
+        <span class="font-semibold text-gray-800">{cbiTitle || 'About Community-Based Instruction (CBI)'}</span>
+        <span class="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 transition-transform duration-300 group-open:rotate-180" aria-hidden="true">
+          <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </span>
+      </summary>
+      <div class="px-5 pb-6 pt-0">
+        {cbiBody && (
+          <p class="text-gray-600 leading-relaxed">
+            {cbiBody}
+          </p>
+        )}
+      </div>
+    </details>
+  )}
 
-  <div class="mt-10">
-    <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-6">Our partners</p>
-    <div class="flex flex-wrap items-center gap-8">
-      {PARTNERS.map((partner) => (
-        <a
-          href={partner.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="block opacity-80 hover:opacity-100 transition-opacity focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg focus:ring-[#2658B2]"
-          title={partner.name}
-        >
-          <img
-            src={partner.imageUrl}
-            alt={partner.imageAlt}
-            class="h-12 w-auto object-contain max-w-[180px]"
-            loading="lazy"
-            width="180"
-            height="48"
-          />
-        </a>
-      ))}
+  {partners.length > 0 && (
+    <div class="mt-10">
+      <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-6">Our partners</p>
+      <div class="flex flex-wrap items-center gap-8">
+        {partners.filter((p) => p?.image?.asset?.url).map((partner) => (
+          <a
+            href={partner.href || '#'}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="block opacity-80 hover:opacity-100 transition-opacity focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg focus:ring-[#2658B2]"
+            title={partner.name}
+          >
+            <img
+              src={partner.image!.asset!.url}
+              alt={partner.image!.alt ?? partner.name}
+              class="h-12 w-auto object-contain max-w-[180px]"
+              loading="lazy"
+              width="180"
+              height="48"
+            />
+          </a>
+        ))}
+      </div>
     </div>
-  </div>
+  )}
 </ImageTextSection>

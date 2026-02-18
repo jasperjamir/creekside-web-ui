@@ -12,35 +12,10 @@ interface Goal {
 interface Props {
   heading?: string;
   subheading?: string;
-  goals?: readonly Goal[];
+  goals: readonly Goal[];
 }
 
-const {
-  heading = 'Long-Term Goal',
-  subheading = 'We support our students in achieving greater independence by helping them:',
-  goals = [
-    {
-      title: 'Academic Skills',
-      icon: 'BookOpen',
-      text: 'Develop academic skills that they can apply across multiple life contexts',
-    },
-    {
-      title: 'Communication & Social Skills',
-      icon: 'Users',
-      text: 'Build effective communication and social skills to promote meaningful interactions',
-    },
-    {
-      title: 'Positive Behaviors & Self-Regulation',
-      icon: 'Target',
-      text: 'Learn positive behaviors and self-regulation strategies',
-    },
-    {
-      title: 'Life Skills & Community',
-      icon: 'TrendingUp',
-      text: 'Gain life skills and experience through frequent and meaningful interactions in the community',
-    },
-  ],
-} = Astro.props;
+const { heading = '', subheading = '', goals = [] } = Astro.props;
 ---
 
 <section id="long-term-goal" class="py-20 relative overflow-hidden" style={{ backgroundColor: COLORS.cream }}>
@@ -49,9 +24,11 @@ const {
   <div class="container mx-auto px-4 lg:px-8 relative z-10">
     <div class="text-center max-w-3xl mx-auto mb-16">
       <SectionHeading>{heading}</SectionHeading>
-      <h3 class="text-lg text-gray-600 mt-4">
-        {subheading}
-      </h3>
+      {subheading && (
+        <h3 class="text-lg text-gray-600 mt-4">
+          {subheading}
+        </h3>
+      )}
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">

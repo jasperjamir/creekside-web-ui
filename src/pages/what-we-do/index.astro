@@ -1,18 +1,128 @@
 ---
+import { sanityClient } from "sanity:client";
 import PageLayout from '../../layouts/PageLayout.astro';
 import WhatWeDoHero from './sections/hero.astro';
 import OurServices from './sections/our-services.astro';
 import AdultProgram from './sections/adult-program.astro';
 import LongTermGoal from './sections/long-term-goal.astro';
 import CommunityPartnerships from './sections/community-partnerships.astro';
+import { ASSETS_BASE_URL } from '../../constants';
+
+const DEFAULT_IMAGES = {
+  hero: {
+    url: `${ASSETS_BASE_URL}/images/what-we-do--our-services--page-header.jpg`,
+    alt: 'Lifelong learning at Creekside',
+  },
+  adultProgram: {
+    url: `${ASSETS_BASE_URL}/images/what-we-do--the-adult-day-program.jpg`,
+    alt: 'Creekside Adult Program participants',
+  },
+  communityPartnerships: {
+    url: `${ASSETS_BASE_URL}/images/what-we-do--community-partnerships.jpg`,
+    alt: 'Community partnerships at Creekside',
+  },
+};
+
+function withDefaultImage(
+  cmsImage: { asset?: { url: string }; alt?: string } | undefined,
+  defaultImage: { url: string; alt: string }
+) {
+  if (cmsImage?.asset?.url) {
+    return { asset: { url: cmsImage.asset.url }, alt: cmsImage.alt ?? '' };
+  }
+  return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
+}
+
+const QUERY = /* groq */ `*[_type == "whatWeDo"][0] {
+  title,
+  heroText {
+    heading,
+    body,
+    body2,
+    image { asset->{ _id, url }, alt }
+  },
+  ourServicesText {
+    sectionHeading,
+    body,
+    services[] {
+      title,
+      image { asset->{ _id, url }, alt }
+    }
+  },
+  adultProgramText {
+    title,
+    subheading,
+    overviewParagraph,
+    approachParagraph,
+    image { asset->{ _id, url }, alt },
+    approachImageAlt
+  },
+  longTermGoalText {
+    heading,
+    subheading,
+    goals[] {
+      title,
+      icon,
+      text
+    }
+  },
+  communityPartnershipsText {
+    title,
+    cbiTitle,
+    cbiBody,
+    image { asset->{ _id, url }, alt },
+    partners[] {
+      name,
+      href,
+      image { asset->{ _id, url }, alt }
+    }
+  }
+}`;
+
+const data = await sanityClient.fetch(QUERY);
+
+const content = {
+  pageTitle: data?.title ?? '',
+  hero: {
+    heading: data?.heroText?.heading ?? '',
+    body: data?.heroText?.body ?? '',
+    body2: data?.heroText?.body2 ?? '',
+    image: withDefaultImage(data?.heroText?.image, DEFAULT_IMAGES.hero),
+  },
+  ourServices: {
+    sectionHeading: data?.ourServicesText?.sectionHeading ?? '',
+    body: data?.ourServicesText?.body ?? '',
+    services: data?.ourServicesText?.services ?? [],
+  },
+  adultProgram: {
+    title: data?.adultProgramText?.title ?? '',
+    subheading: data?.adultProgramText?.subheading ?? '',
+    overviewParagraph: data?.adultProgramText?.overviewParagraph ?? '',
+    approachParagraph: data?.adultProgramText?.approachParagraph ?? '',
+    image: withDefaultImage(data?.adultProgramText?.image, DEFAULT_IMAGES.adultProgram),
+    approachImageAlt: data?.adultProgramText?.approachImageAlt ?? '',
+  },
+  longTermGoal: {
+    heading: data?.longTermGoalText?.heading ?? '',
+    subheading: data?.longTermGoalText?.subheading ?? '',
+    goals: data?.longTermGoalText?.goals ?? [],
+  },
+  communityPartnerships: {
+    title: data?.communityPartnershipsText?.title ?? '',
+    cbiTitle: data?.communityPartnershipsText?.cbiTitle ?? '',
+    cbiBody: data?.communityPartnershipsText?.cbiBody ?? '',
+    image: withDefaultImage(data?.communityPartnershipsText?.image, DEFAULT_IMAGES.communityPartnerships),
+    partners: data?.communityPartnershipsText?.partners ?? [],
+  },
+};
 ---
 
-<PageLayout title="What We Do - The Creekside School">
+<PageLayout title={content.pageTitle}>
   <div class="animate-fade-in font-sans">
-    <WhatWeDoHero />
-    <OurServices />
-    <AdultProgram />
-    <LongTermGoal />
-    <CommunityPartnerships />
+    <WhatWeDoHero {...content.hero} />
+    <OurServices {...content.ourServices} />
+    <AdultProgram {...content.adultProgram} />
+    <LongTermGoal {...content.longTermGoal} />
+    <CommunityPartnerships {...content.communityPartnerships} />
   </div>
 </PageLayout>
