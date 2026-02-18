@@ -5,10 +5,12 @@ interface Props {
   heading?: string;
   body: string;
   body2?: string;
-  image: { asset: { url: string }; alt?: string };
+  image?: { asset?: { url: string }; alt?: string };
 }
 
 const { heading = '', body = '', body2 = '', image } = Astro.props;
+const imageUrl = image?.asset?.url ?? '';
+const imageAlt = image?.alt ?? '';
 ---
 
 <PageHeader
@@ -16,6 +18,6 @@ const { heading = '', body = '', body2 = '', image } = Astro.props;
   heading={heading}
   body={body}
   body2={body2}
-  imageUrl={image.asset.url}
-  imageAlt={image.alt ?? ''}
+  imageUrl={imageUrl}
+  imageAlt={imageAlt}
 />

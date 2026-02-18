@@ -8,7 +8,7 @@ const CONTACT_HREF = '/contact';
 const DONATE_HREF = '/support/donate';
 
 interface Props {
-  image: { asset: { url: string }; alt?: string };
+  image?: { asset?: { url: string }; alt?: string };
   badge: string;
   headingPrefix: string;
   headingHighlight: string;
@@ -17,14 +17,16 @@ interface Props {
 }
 
 const { image, badge, headingPrefix, headingHighlight, subheading, subheadingHtml } = Astro.props;
+const imageUrl = image?.asset?.url ?? '';
+const imageAlt = image?.alt ?? '';
 ---
 
 <section class="relative h-[85vh] flex items-center overflow-hidden">
   <!-- Background Image with Overlay -->
   <div class="absolute inset-0 z-0">
     <img 
-      src={image.asset.url} 
-      alt={image.alt ?? ''} 
+      src={imageUrl} 
+      alt={imageAlt} 
       class="w-full h-full object-cover"
     />
     <!-- Dominant background gradient overlay -->

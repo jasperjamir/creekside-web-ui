@@ -11,18 +11,20 @@ interface Props {
   title?: string;
   cbiTitle?: string;
   cbiBody?: string;
-  image: { asset: { url: string }; alt?: string };
+  image?: { asset?: { url: string }; alt?: string };
   partners: readonly Partner[];
 }
 
 const { title = '', cbiTitle = '', cbiBody = '', image, partners = [] } = Astro.props;
+const imageUrl = image?.asset?.url ?? '';
+const imageAlt = image?.alt ?? '';
 ---
 
 <ImageTextSection
   sectionId="community-partnerships"
   title={title}
-  imageUrl={image.asset.url}
-  imageAlt={image.alt ?? ''}
+  imageUrl={imageUrl}
+  imageAlt={imageAlt}
   imageLeft={false}
   backgroundColor="white"
 >
@@ -59,8 +61,8 @@ const { title = '', cbiTitle = '', cbiBody = '', image, partners = [] } = Astro.
             title={partner.name}
           >
             <img
-              src={partner.image!.asset!.url}
-              alt={partner.image!.alt ?? partner.name}
+              src={partner.image?.asset?.url ?? ''}
+              alt={partner.image?.alt ?? partner.name}
               class="h-12 w-auto object-contain max-w-[180px]"
               loading="lazy"
               width="180"

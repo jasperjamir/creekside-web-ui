@@ -33,8 +33,8 @@ const { sectionHeading = '', body = '', services = [] } = Astro.props;
       {services.filter((s) => s?.image?.asset?.url).map((service) => (
         <ServiceCard
           title={service.title}
-          imageUrl={service.image!.asset!.url}
-          imageAlt={service.image!.alt ?? service.title}
+          imageUrl={service.image?.asset?.url ?? ''}
+          imageAlt={service.image?.alt ?? service.title}
         />
       ))}
     </div>

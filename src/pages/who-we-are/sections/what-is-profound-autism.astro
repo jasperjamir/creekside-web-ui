@@ -19,10 +19,12 @@ const SUPPORT_LINKS = [
 interface Props {
   sectionHeading?: string;
   definition: string;
-  image: { asset: { url: string }; alt?: string };
+  image?: { asset?: { url: string }; alt?: string };
 }
 
 const { sectionHeading = '', definition = '', image } = Astro.props;
+const imageUrl = image?.asset?.url ?? '';
+const imageAlt = image?.alt ?? '';
 ---
 
 <section id="what-is-profound-autism" class="py-20" style={{ backgroundColor: COLORS.cream }}>
@@ -60,8 +62,8 @@ const { sectionHeading = '', definition = '', image } = Astro.props;
       <div class="flex justify-center lg:justify-end">
         <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md">
           <img
-            src={image.asset.url}
-            alt={image.alt ?? ''}
+            src={imageUrl}
+            alt={imageAlt}
             class="w-full h-auto object-contain"
             loading="lazy"
             width="600"

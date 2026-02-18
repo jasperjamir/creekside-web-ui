@@ -5,18 +5,20 @@ interface Props {
   headline: string;
   subheading: string;
   body: string;
-  image: { asset: { url: string }; alt?: string };
+  image?: { asset?: { url: string }; alt?: string };
 }
 
 const { headline = '', subheading = '', body = '', image } = Astro.props;
+const imageUrl = image?.asset?.url ?? '';
+const imageAlt = image?.alt ?? '';
 ---
 
 <ImageTextSection
   sectionId="lifelong-learning"
   title={headline}
   subheading={subheading}
-  imageUrl={image.asset.url}
-  imageAlt={image.alt ?? ''}
+  imageUrl={imageUrl}
+  imageAlt={imageAlt}
   imageLeft={true}
   backgroundColor="white"
 >

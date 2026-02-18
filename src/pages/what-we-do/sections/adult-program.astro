@@ -6,7 +6,7 @@ interface Props {
   subheading?: string;
   overviewParagraph?: string;
   approachParagraph?: string;
-  image: { asset: { url: string }; alt?: string };
+  image?: { asset?: { url: string }; alt?: string };
   approachImageAlt?: string;
 }
 
@@ -18,6 +18,8 @@ const {
   image,
   approachImageAlt = '',
 } = Astro.props;
+const imageUrl = image?.asset?.url ?? '';
+const imageAlt = image?.alt ?? '';
 ---
 
 <ImageTextSection
@@ -25,8 +27,8 @@ const {
   title={title}
   subheading={subheading}
   body={overviewParagraph}
-  imageUrl={image.asset.url}
-  imageAlt={image.alt ?? ''}
+  imageUrl={imageUrl}
+  imageAlt={imageAlt}
   imageLeft={false}
   backgroundColor="white"
 />
@@ -34,8 +36,8 @@ const {
 <ImageTextSection
   sectionId="adult-program-approach"
   body={approachParagraph}
-  imageUrl={image.asset.url}
-  imageAlt={approachImageAlt ? approachImageAlt : (image.alt ?? '')}
+  imageUrl={imageUrl}
+  imageAlt={approachImageAlt ? approachImageAlt : imageAlt}
   imageLeft={true}
   backgroundColor="cream"
 />

@@ -6,10 +6,12 @@ interface Props {
   sectionHeading?: string;
   mission: string;
   vision: string;
-  image: { asset: { url: string }; alt?: string };
+  image?: { asset?: { url: string }; alt?: string };
 }
 
 const { sectionHeading = '', mission = '', vision = '', image } = Astro.props;
+const imageUrl = image?.asset?.url ?? '';
+const imageAlt = image?.alt ?? '';
 ---
 
 <section id="mission-vision" class="py-20" style={{ backgroundColor: COLORS.cream }}>
@@ -18,8 +20,8 @@ const { sectionHeading = '', mission = '', vision = '', image } = Astro.props;
       <div class="flex justify-center lg:justify-start order-first lg:order-none">
         <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md aspect-[5/3]">
           <img
-            src={image.asset.url}
-            alt={image.alt ?? ''}
+            src={imageUrl}
+            alt={imageAlt}
             class="w-full h-full object-cover object-center"
             loading="lazy"
             width="600"
