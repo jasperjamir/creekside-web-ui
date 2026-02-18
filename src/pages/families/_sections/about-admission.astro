@@ -11,14 +11,12 @@ interface Props {
   };
 }
 
-const { content: contentProp } = Astro.props;
-const content = contentProp ?? {
-  title: 'About Admission',
-  description: 'Creekside serves students with profound autism. Interested parents may complete an Admissions Interest Form and are encouraged to read About Our Waitlist. We work with families through each step of the process.',
-  image: 'support--why-support-matters.png',
-  imageAlt: 'Students and staff at Creekside engaging in a learning activity.',
-};
-const imageSrc = content.image && content.image.startsWith('http') ? content.image : `${ASSETS_BASE_URL}/images/${content.image ?? 'support--why-support-matters.png'}`;
+const { content = { title: '', description: '', image: '', imageAlt: '' } } = Astro.props;
+const imageSrc = content.image && (content.image.startsWith('http') || content.image.startsWith('/'))
+  ? content.image
+  : content.image
+    ? `${ASSETS_BASE_URL}/images/${content.image}`
+    : '';
 const paragraphs = content.description.split(/\n\n+/).filter(Boolean);
 ---
 
@@ -35,7 +33,7 @@ const paragraphs = content.description.split(/\n\n+/).filter(Boolean);
     </div>
 
     <div class="image-wrapper">
-      <img src={imageSrc} alt={content.imageAlt} loading="lazy" />
+      {imageSrc && <img src={imageSrc} alt={content.imageAlt ?? ''} loading="lazy" />}
     </div>
   </div>
 </section>

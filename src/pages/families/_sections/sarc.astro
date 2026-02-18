@@ -12,20 +12,20 @@ interface Props {
   };
 }
 
-const { content: contentProp } = Astro.props;
-const content = contentProp ?? {
-  title: 'School Accountability Report Card (SARC)',
-  description: [
-    'A SARC provides parents and the community with information about schools that receive state funding.',
-    'School report cards are updated annually and made available on February 1st of each year.',
-  ],
-  button: { label: 'Creekside SARC Report', link: '/reports/sarc-current.pdf' },
-  image: { src: '/images/sarc-student.jpg', alt: 'Student working on a laptop in the classroom' },
-};
+const {
+  content = {
+    title: '',
+    description: [],
+    button: { label: '', link: '' },
+    image: { src: '', alt: '' },
+  },
+} = Astro.props;
 const imageSrc =
-  content.image.src.startsWith('http') || content.image.src.startsWith('/')
+  content.image?.src && (content.image.src.startsWith('http') || content.image.src.startsWith('/'))
     ? content.image.src
-    : `${ASSETS_BASE_URL}/images/${content.image.src}`;
+    : content.image?.src
+      ? `${ASSETS_BASE_URL}/images/${content.image.src}`
+      : '';
 ---
 
 <section class="sarc-section font-sans" style={{ backgroundColor: COLORS.white }}>
@@ -47,7 +47,7 @@ const imageSrc =
     </div>
 
     <div class="image-wrapper">
-      <img src={imageSrc} alt={content.image.alt} loading="lazy" />
+      {imageSrc && <img src={imageSrc} alt={content.image?.alt ?? ''} loading="lazy" />}
     </div>
   </div>
 </section>

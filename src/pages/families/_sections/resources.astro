@@ -12,31 +12,34 @@ interface Props {
   };
 }
 
-const { content: contentProp } = Astro.props;
-const content = contentProp ?? {
-  title: 'Resource for Parents',
-  features: [
-    "The Creekside School's emphasis on family stems from our recognition that autism doesn't just impact parents.",
-  ],
-  button: { label: 'View Parent Resources', link: '/families/parent-resources' },
-  imageSrc: '/images/parents-bg.jpg',
-  alt: 'Parents and students walking together outdoors',
-};
+const {
+  content = {
+    title: '',
+    features: [],
+    button: { label: '', link: '' },
+    imageSrc: '',
+    alt: '',
+  },
+} = Astro.props;
 const imageUrl =
   content.imageSrc?.startsWith('http') || content.imageSrc?.startsWith('/')
     ? content.imageSrc
-    : `${ASSETS_BASE_URL}/images/${content.imageSrc || 'support--why-support-matters.png'}`;
+    : content.imageSrc
+      ? `${ASSETS_BASE_URL}/images/${content.imageSrc}`
+      : '';
 ---
 
 <section class="resources-cta-section font-sans" style={{ '--cta-green': COLORS.green, '--cta-navy': COLORS.blue.navy }}>
   <div class="container">
     <div class="cta-card">
-      <img
-        src={imageUrl}
-        alt={content.alt}
-        class="bg-image"
-        loading="lazy"
-      />
+      {imageUrl && (
+        <img
+          src={imageUrl}
+          alt={content.alt ?? ''}
+          class="bg-image"
+          loading="lazy"
+        />
+      )}
       <div class="overlay"></div>
 
       <div class="content">

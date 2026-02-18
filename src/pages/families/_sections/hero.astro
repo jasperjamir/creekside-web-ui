@@ -4,23 +4,33 @@ import Button from '../../../components/ui/Button.astro';
 import heroImage from '../../../assets/images/hero-image.png';
 
 interface Props {
-  imageAlt: string;
-  headingPrefix: string;
-  headingHighlight: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  headingPrefix?: string;
+  headingHighlight?: string;
   headingSuffix?: string;
-  subheading: string;
+  subheading?: string;
   ctaText?: string;
   ctaHref?: string;
 }
 
-const { imageAlt, headingPrefix, headingHighlight, headingSuffix = '', subheading, ctaText, ctaHref } =
-  Astro.props;
+const {
+  imageUrl = '',
+  imageAlt = '',
+  headingPrefix = '',
+  headingHighlight = '',
+  headingSuffix = '',
+  subheading = '',
+  ctaText = '',
+  ctaHref = '',
+} = Astro.props;
+const heroSrc = imageUrl || heroImage.src;
 ---
 
 <section class="relative h-[85vh] flex items-center overflow-hidden">
   <div class="absolute inset-0 z-0">
     <img 
-      src={heroImage.src} 
+      src={heroSrc} 
       alt={imageAlt} 
       class="w-full h-full object-cover"
     />

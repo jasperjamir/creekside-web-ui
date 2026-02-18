@@ -33,6 +33,9 @@ const PAGE_MODULES: Record<
   'what-we-do': () => import('../../src/lib/what-we-do-defaults'),
   'who-we-are': () => import('../../src/lib/who-we-are-defaults'),
   'join-us': () => import('../../src/lib/join-us-defaults'),
+  'families': () => import('../../src/lib/families-defaults'),
+  'parent-resources': () => import('../../src/lib/parent-resources-defaults'),
+  'admissions-process': () => import('../../src/lib/admissions-process-defaults'),
 }
 
 async function main() {

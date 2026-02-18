@@ -1,26 +1,126 @@
 ---
+import { sanityClient } from 'sanity:client';
 import PageLayout from '../../layouts/PageLayout.astro';
 import HeroSection from './_sections/hero.astro';
 import AboutAdmission from './_sections/about-admission.astro';
 import SarcSection from './_sections/sarc.astro';
 import SarcArchive from './_sections/sarc-archive.astro';
 import ResourcesSection from './_sections/resources.astro';
-import { FAMILIES_HERO, ABOUT_ADMISSION_CONTENT, SARC_CONTENT, SARC_ARCHIVE, RESOURCE_CONTENT } from './_constants';
+import { ASSETS_BASE_URL } from '../../constants';
 
-const heroText = {
-  imageAlt: FAMILIES_HERO.imageAlt,
-  headingPrefix: FAMILIES_HERO.headingPrefix,
-  headingHighlight: FAMILIES_HERO.headingHighlight,
-  subheading: FAMILIES_HERO.subheading,
-  ctaText: FAMILIES_HERO.ctaText,
-  ctaHref: FAMILIES_HERO.ctaHref,
+const DEFAULT_IMAGES = {
+  hero: {
+    url: `${ASSETS_BASE_URL}/images/hero-image.png`,
+    alt: 'Students and families at Creekside School',
+  },
+  aboutAdmission: {
+    url: `${ASSETS_BASE_URL}/images/support--why-support-matters.png`,
+    alt: 'Students and staff at Creekside engaging in a learning activity.',
+  },
+  sarc: {
+    url: `${ASSETS_BASE_URL}/images/support--why-support-matters.png`,
+    alt: 'Students and staff at Creekside engaging in a learning activity.',
+  },
+  resources: {
+    url: `${ASSETS_BASE_URL}/images/support--why-support-matters.png`,
+    alt: 'Students and staff at Creekside engaging in a learning activity.',
+  },
+};
+
+function withDefaultImage(
+  cmsImage: { asset?: { url: string }; alt?: string } | undefined,
+  defaultImage: { url: string; alt: string }
+) {
+  if (cmsImage?.asset?.url) {
+    return { asset: { url: cmsImage.asset.url }, alt: cmsImage.alt ?? '' };
+  }
+  return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
+}
+
+const QUERY = /* groq */ `*[_type == "families"][0] {
+  title,
+  heroText {
+    imageAlt,
+    headingPrefix,
+    headingHighlight,
+    headingSuffix,
+    subheading,
+    ctaText,
+    ctaHref,
+    image { asset->{ _id, url }, alt }
+  },
+  aboutAdmissionText {
+    title,
+    description,
+    imageAlt,
+    image { asset->{ _id, url }, alt }
+  },
+  sarcText {
+    title,
+    description,
+    button { label, link },
+    imageAlt,
+    image { asset->{ _id, url }, alt }
+  },
+  sarcArchiveItems[] { years, label, theme, link },
+  resourcesText {
+    title,
+    features,
+    button { label, link },
+    imageAlt,
+    image { asset->{ _id, url }, alt }
+  }
+}`;
+
+const data = await sanityClient.fetch(QUERY);
+
+const heroImage = withDefaultImage(data?.heroText?.image, DEFAULT_IMAGES.hero);
+const aboutAdmissionImage = withDefaultImage(data?.aboutAdmissionText?.image, DEFAULT_IMAGES.aboutAdmission);
+const sarcImage = withDefaultImage(data?.sarcText?.image, DEFAULT_IMAGES.sarc);
+const resourcesImage = withDefaultImage(data?.resourcesText?.image, DEFAULT_IMAGES.resources);
+
+const pageTitle = data?.title ?? ''
+
+const content = {
+  hero: {
+    imageUrl: heroImage.asset.url,
+    imageAlt: heroImage.alt,
+    headingPrefix: data?.heroText?.headingPrefix ?? '',
+    headingHighlight: data?.heroText?.headingHighlight ?? '',
+    headingSuffix: data?.heroText?.headingSuffix ?? '',
+    subheading: data?.heroText?.subheading ?? '',
+    ctaText: data?.heroText?.ctaText ?? '',
+    ctaHref: data?.heroText?.ctaHref ?? '',
+  },
+  aboutAdmission: {
+    title: data?.aboutAdmissionText?.title ?? '',
+    description: data?.aboutAdmissionText?.description ?? '',
+    image: aboutAdmissionImage.asset.url,
+    imageAlt: aboutAdmissionImage.alt,
+  },
+  sarc: {
+    title: data?.sarcText?.title ?? '',
+    description: data?.sarcText?.description ?? [],
+    button: data?.sarcText?.button ?? { label: '', link: '' },
+    image: { src: sarcImage.asset.url, alt: sarcImage.alt },
+  },
+  sarcArchive: {
+    items: data?.sarcArchiveItems ?? [],
+  },
+  resources: {
+    title: data?.resourcesText?.title ?? '',
+    features: data?.resourcesText?.features ?? [],
+    button: data?.resourcesText?.button ?? { label: '', link: '' },
+    imageSrc: resourcesImage.asset.url,
+    alt: resourcesImage.alt,
+  },
 };
 ---
 
-<PageLayout title="For Families - The Creekside School">
-  <HeroSection {...heroText} />
-  <AboutAdmission content={ABOUT_ADMISSION_CONTENT} />
-  <SarcSection content={SARC_CONTENT} />
-  <SarcArchive items={SARC_ARCHIVE} />
-  <ResourcesSection content={RESOURCE_CONTENT} />
+<PageLayout title={pageTitle ? `${pageTitle} - The Creekside School` : 'For Families - The Creekside School'}>
+  <HeroSection {...content.hero} />
+  <AboutAdmission content={content.aboutAdmission} />
+  <SarcSection content={content.sarc} />
+  <SarcArchive items={content.sarcArchive.items} />
+  <ResourcesSection content={content.resources} />
 </PageLayout>
