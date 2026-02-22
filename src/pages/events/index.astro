@@ -1,12 +1,24 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import HeroSection from './_sections/hero.astro';
+import CalendarOfEventsSection from './_sections/calendar-of-events.astro';
+import SchoolCalendarSection from './_sections/school-calendar.astro';
+import { EVENTS_HERO, SCHOOL_CALENDAR_CONTENT, CALENDAR_CONTENT } from './_constants';
+
+const heroText = {
+  imageAlt: EVENTS_HERO.imageAlt,
+  headingPrefix: EVENTS_HERO.headingPrefix,
+  headingHighlight: EVENTS_HERO.headingHighlight,
+  subheading: EVENTS_HERO.subheading,
+  ctaText: EVENTS_HERO.ctaText,
+  ctaHref: EVENTS_HERO.ctaHref,
+};
 ---
 
 <PageLayout title="Events & Updates - The Creekside School">
-  <div class="min-h-screen py-20">
-    <div class="container mx-auto px-4 lg:px-8">
-      <h1 class="text-4xl font-bold mb-4">Events & Updates</h1>
-      <p class="text-gray-600">Content will be added here</p>
-    </div>
+  <div class="animate-fade-in font-sans">
+    <HeroSection {...heroText} />
+    <CalendarOfEventsSection content={CALENDAR_CONTENT} />
+    <SchoolCalendarSection content={SCHOOL_CALENDAR_CONTENT} />
   </div>
 </PageLayout>

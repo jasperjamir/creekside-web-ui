@@ -1,0 +1,24 @@
+---
+import { COLORS } from '../../../constants';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = 'Events & Updates', description = '' } = Astro.props;
+---
+
+<section class="intro-section font-sans" style={{ backgroundColor: COLORS.white }}>
+  <div class="container mx-auto px-4 lg:px-8 max-w-4xl">
+    <SectionHeading>{title}</SectionHeading>
+    {description && <p class="text-lg text-gray-700 leading-relaxed">{description}</p>}
+  </div>
+</section>
+
+<style>
+  .intro-section {
+    padding: 4rem 0;
+  }
+</style>
