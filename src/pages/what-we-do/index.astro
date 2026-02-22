@@ -17,10 +17,6 @@ const DEFAULT_IMAGES = {
     url: `${ASSETS_BASE_URL}/images/what-we-do--the-adult-day-program.jpg`,
     alt: 'Creekside Adult Program participants',
   },
-  communityPartnerships: {
-    url: `${ASSETS_BASE_URL}/images/what-we-do--community-partnerships.jpg`,
-    alt: 'Community partnerships at Creekside',
-  },
 };
 
 function withDefaultImage(
@@ -67,9 +63,7 @@ const QUERY = /* groq */ `*[_type == "whatWeDo"][0] {
   },
   communityPartnershipsText {
     title,
-    cbiTitle,
     cbiBody,
-    image { asset->{ _id, url } },
     partners[] {
       name,
       href,
@@ -107,9 +101,7 @@ const content = {
   },
   communityPartnerships: {
     title: data?.communityPartnershipsText?.title ?? '',
-    cbiTitle: data?.communityPartnershipsText?.cbiTitle ?? '',
     cbiBody: data?.communityPartnershipsText?.cbiBody ?? '',
-    image: withDefaultImage(data?.communityPartnershipsText?.image, DEFAULT_IMAGES.communityPartnerships),
     partners: data?.communityPartnershipsText?.partners ?? [],
   },
 };

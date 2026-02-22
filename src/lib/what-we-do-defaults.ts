@@ -56,9 +56,9 @@ export const DEFAULT_CONTENT = {
   },
   communityPartnerships: {
     title: 'Community Partnerships',
-    cbiTitle: 'The Creekside School',
     cbiBody:
       'Community-Based Instruction (CBI) is an integral part of the Creekside approach, focusing on real-world application of skills. Through CBI, we support students in building independence and confidence by engaging with their community.',
+    partners: [],
   },
 } as const
 
@@ -99,13 +99,11 @@ export function buildSanityDocument(): Record<string, unknown> {
     },
     communityPartnershipsText: {
       title: d.communityPartnerships.title,
-      cbiTitle: d.communityPartnerships.cbiTitle,
       cbiBody: d.communityPartnerships.cbiBody,
-      partners: d.communityPartnerships.partners.map((p, i) => ({
+      partners: (d.communityPartnerships.partners ?? []).map((p: { name: string; href?: string }, i: number) => ({
         _type: 'object',
         _key: `partner-${i}`,
         name: p.name,
-        description: p.description,
         href: p.href || undefined,
       })),
     },

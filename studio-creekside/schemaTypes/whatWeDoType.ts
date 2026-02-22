@@ -101,13 +101,11 @@ export default defineType({
       title: 'Community Partnerships Section',
       fields: [
         defineField({ name: 'title', type: 'string', title: 'Section Title' }),
-        defineField({ name: 'cbiTitle', type: 'string', title: 'CBI Details Title' }),
-        defineField({ name: 'cbiBody', type: 'text', title: 'CBI Description' }),
         defineField({
-          name: 'image',
-          type: 'image',
-          title: 'Section Image',
-          options: { hotspot: true },
+          name: 'cbiBody',
+          type: 'text',
+          title: 'CBI Description',
+          description: 'Paragraph below the heading. Default: "Community-Based Instruction (CBI) is an integral part of the Creekside approach..."',
         }),
         defineField({
           name: 'partners',
@@ -122,7 +120,7 @@ export default defineType({
                 defineField({
                   name: 'image',
                   type: 'image',
-                  title: 'Logo / Image',
+                  title: 'Logo',
                   options: { hotspot: true },
                 }),
               ],
