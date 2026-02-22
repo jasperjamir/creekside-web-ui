@@ -1,0 +1,48 @@
+---
+import { COLORS } from '../../../constants';
+
+interface Props {
+  title: string;
+  imageSrc: string;
+  imageAlt: string;
+  paragraphs: readonly string[];
+}
+
+const { title, imageSrc, imageAlt, paragraphs } = Astro.props;
+---
+
+<section
+  id="first-step"
+  class="py-16 lg:py-20"
+  style={{ backgroundColor: COLORS?.blue?.navy ?? '#052049' }}
+>
+  <div class="container mx-auto px-4 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-bold mb-12 lg:mb-16 text-center text-white">
+        <span
+          class="px-2 transform -skew-x-6 inline-block"
+          style={{ backgroundColor: COLORS.green, color: COLORS.blue.navy }}
+        >Taking The First Step</span>
+      </h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div class="flex items-center justify-center lg:justify-start order-first min-h-0">
+          <div class="w-full max-w-sm overflow-hidden rounded-2xl shadow-md aspect-[3/4]">
+            <img
+              src={imageSrc}
+              alt={imageAlt}
+              class="w-full h-full object-cover object-center"
+              loading="lazy"
+              width="400"
+              height="533"
+            />
+          </div>
+        </div>
+        <div class="space-y-6">
+          {paragraphs.map((p) => (
+            <p class="text-lg md:text-xl text-blue-50 leading-relaxed">{p}</p>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

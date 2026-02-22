@@ -1,0 +1,89 @@
+---
+import { COLORS, ASSETS_BASE_URL } from '../../../constants';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
+
+type SanityImage = { asset?: { url: string }; alt?: string };
+
+interface TeamGroup {
+  title: string;
+  description: string;
+  images?: readonly (SanityImage | string)[];
+}
+
+interface Props {
+  sectionHeading?: string;
+  groups: readonly TeamGroup[];
+}
+
+const { sectionHeading = '', groups = [] } = Astro.props;
+
+function getImageUrl(fallback: string) {
+  return `${ASSETS_BASE_URL}/images/${fallback}`;
+}
+---
+
+<section id="our-team" class="py-20" style={{ backgroundColor: COLORS.white }}>
+  <div class="container mx-auto px-4 lg:px-8">
+    <SectionHeading>{sectionHeading}</SectionHeading>
+
+    <div class="mt-16 space-y-20">
+      {groups.map((group, groupIndex) => {
+        const imageItems = group.images?.length
+          ? group.images
+          : [getImageUrl(`who-we-are--team-${groupIndex}.jpg`)];
+        const imageLeft = groupIndex % 2 === 0;
+        return (
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div class={imageLeft ? '' : 'lg:order-2'}>
+              <div
+                class="team-photo-scroll flex gap-4 overflow-x-auto overflow-y-hidden pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory scroll-smooth"
+                role="region"
+                aria-label={`${group.title} photos`}
+              >
+                {imageItems
+                  .map((item) => {
+                    const src = typeof item === 'string' ? item : item?.asset?.url;
+                    return src ? { src, alt: typeof item === 'string' ? '' : (item?.alt ?? '') } : null;
+                  })
+                  .filter((x): x is { src: string; alt: string } => x !== null)
+                  .map(({ src, alt }, imgIndex) => (
+                  <div class="team-photo-scroll__item flex-shrink-0 w-[42vw] sm:w-44 md:w-52 snap-center">
+                    <img
+                      src={src}
+                      alt={alt || `${group.title} — ${imgIndex + 1}`}
+                      class="w-full aspect-[3/4] object-cover object-center rounded-xl shadow-md bg-gray-200"
+                      loading="lazy"
+                      width="208"
+                      height="277"
+                    />
+                  </div>
+                  ))}
+              </div>
+            </div>
+            <div class={imageLeft ? '' : 'lg:order-1'}>
+              <h3 class="text-2xl font-bold mb-4" style={{ color: COLORS.blue.navy }}>{group.title}</h3>
+              <p class="text-lg text-gray-600 leading-relaxed">{group.description}</p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .team-photo-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb, #cbd5e1) transparent;
+  }
+  .team-photo-scroll::-webkit-scrollbar {
+    height: 6px;
+  }
+  .team-photo-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .team-photo-scroll::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb, #cbd5e1);
+    border-radius: 3px;
+  }
+</style>

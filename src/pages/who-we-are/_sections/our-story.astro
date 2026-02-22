@@ -1,0 +1,23 @@
+---
+import PageHeader from '../../../components/sections/PageHeader.astro';
+
+interface Props {
+  heading?: string;
+  body: string;
+  body2?: string;
+  image?: { asset?: { url: string }; alt?: string };
+}
+
+const { heading = '', body = '', body2 = '', image } = Astro.props;
+const imageUrl = image?.asset?.url ?? '';
+const imageAlt = image?.alt ?? '';
+---
+
+<PageHeader
+  sectionId="our-story"
+  heading={heading}
+  body={body}
+  body2={body2}
+  imageUrl={imageUrl}
+  imageAlt={imageAlt}
+/>

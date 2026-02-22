@@ -1,31 +1,12 @@
 ---
 import { sanityClient } from "sanity:client";
 import PageLayout from '../../layouts/PageLayout.astro';
-import OurStory from './sections/our-story.astro';
-import LifelongLearning from './sections/lifelong-learning.astro';
-import MissionVision from './sections/mission-vision.astro';
-import OurTeam from './sections/our-team.astro';
-import WhatIsProfoundAutism from './sections/what-is-profound-autism.astro';
-import { ASSETS_BASE_URL } from '../../constants';
-
-const DEFAULT_IMAGES = {
-  ourStory: {
-    url: `${ASSETS_BASE_URL}/images/who-we-are--we-are-a-community.png`,
-    alt: 'Creekside School - staff or campus',
-  },
-  lifelongLearning: {
-    url: `${ASSETS_BASE_URL}/images/who-we-are--lifelong-learning.jpg`,
-    alt: 'Lifelong learning at Creekside',
-  },
-  missionVision: {
-    url: `${ASSETS_BASE_URL}/images/who-we-are--mission-vision.jpg`,
-    alt: 'Mission and Vision',
-  },
-  whatIsProfoundAutism: {
-    url: `${ASSETS_BASE_URL}/images/who-we-are--profound-autism.jpg`,
-    alt: 'What is profound autism',
-  },
-};
+import OurStory from './_sections/our-story.astro';
+import LifelongLearning from './_sections/lifelong-learning.astro';
+import MissionVision from './_sections/mission-vision.astro';
+import OurTeam from './_sections/our-team.astro';
+import WhatIsProfoundAutism from './_sections/what-is-profound-autism.astro';
+import { DEFAULT_IMAGES, DEFAULT_CONTENT } from './_constants';
 
 function withDefaultImage(
   cmsImage: { asset?: { url: string }; alt?: string } | undefined,
@@ -74,39 +55,40 @@ const QUERY = /* groq */ `*[_type == "whoWeAre"][0] {
 
 const data = await sanityClient.fetch(QUERY);
 
+const d = DEFAULT_CONTENT;
 const content = {
-  pageTitle: data?.title ?? '',
+  pageTitle: data?.title ?? d.pageTitle,
   ourStory: {
-    heading: data?.ourStoryText?.heading ?? '',
-    body: data?.ourStoryText?.body ?? '',
-    body2: data?.ourStoryText?.body2 ?? '',
+    heading: data?.ourStoryText?.heading ?? d.ourStory.heading,
+    body: data?.ourStoryText?.body ?? d.ourStory.body,
+    body2: data?.ourStoryText?.body2 ?? d.ourStory.body2,
     image: withDefaultImage(data?.ourStoryText?.image, DEFAULT_IMAGES.ourStory),
   },
   lifelongLearning: {
-    headline: data?.lifelongLearningText?.headline ?? '',
-    subheading: data?.lifelongLearningText?.subheading ?? '',
-    body: data?.lifelongLearningText?.body ?? '',
+    headline: data?.lifelongLearningText?.headline ?? d.lifelongLearning.headline,
+    subheading: data?.lifelongLearningText?.subheading ?? d.lifelongLearning.subheading,
+    body: data?.lifelongLearningText?.body ?? d.lifelongLearning.body,
     image: withDefaultImage(data?.lifelongLearningText?.image, DEFAULT_IMAGES.lifelongLearning),
   },
   missionVision: {
-    sectionHeading: data?.missionVisionText?.sectionHeading ?? '',
-    mission: data?.missionVisionText?.mission ?? '',
-    vision: data?.missionVisionText?.vision ?? '',
+    sectionHeading: data?.missionVisionText?.sectionHeading ?? d.missionVision.sectionHeading,
+    mission: data?.missionVisionText?.mission ?? d.missionVision.mission,
+    vision: data?.missionVisionText?.vision ?? d.missionVision.vision,
     image: withDefaultImage(data?.missionVisionText?.image, DEFAULT_IMAGES.missionVision),
   },
   ourTeam: {
-    sectionHeading: data?.ourTeamText?.sectionHeading ?? '',
-    groups: data?.ourTeamText?.groups ?? [],
+    sectionHeading: data?.ourTeamText?.sectionHeading ?? d.ourTeam.sectionHeading,
+    groups: data?.ourTeamText?.groups ?? d.ourTeam.groups,
   },
   whatIsProfoundAutism: {
-    sectionHeading: data?.whatIsProfoundAutismText?.sectionHeading ?? '',
-    definition: data?.whatIsProfoundAutismText?.definition ?? '',
+    sectionHeading: data?.whatIsProfoundAutismText?.sectionHeading ?? d.whatIsProfoundAutism.sectionHeading,
+    definition: data?.whatIsProfoundAutismText?.definition ?? d.whatIsProfoundAutism.definition,
     image: withDefaultImage(data?.whatIsProfoundAutismText?.image, DEFAULT_IMAGES.whatIsProfoundAutism),
   },
 };
 ---
 
-<PageLayout title={content.pageTitle}>
+<PageLayout title={content.pageTitle || 'Who We Are - The Creekside School'}>
   <div class="animate-fade-in font-sans">
     <OurStory {...content.ourStory} />
     <LifelongLearning {...content.lifelongLearning} />

@@ -1,0 +1,70 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import HeroSection from '../_sections/hero.astro';
+import { DEFAULT_IMAGES, OUR_STORY_HERO, HISTORY_CONTENT, HISTORY_EXPANSION_CONTENT, HISTORY_CONCLUSION_CONTENT, JONAH_LEGACY_CONTENT, FIRST_STEP_CONTENT, JONAH_MEMORIAM_CONTENT } from '../_constants';
+import SchoolHistory from '../_sections/school-history.astro';
+import HistoryExpansion from '../_sections/history-expansion.astro';
+import HistoryConclusion from '../_sections/history-conclusion.astro';
+import JonahLegacy from '../_sections/jonah-legacy.astro';
+import FirstStep from '../_sections/first-step.astro';
+import JonahMemoriam from '../_sections/jonah-memoriam.astro';
+
+const heroProps = {
+  imageAlt: OUR_STORY_HERO.imageAlt,
+  headingPrefix: OUR_STORY_HERO.headingPrefix,
+  headingHighlight: OUR_STORY_HERO.headingHighlight,
+  headingSuffix: OUR_STORY_HERO.headingSuffix,
+  subheadingParagraphs: OUR_STORY_HERO.subheadingParagraphs,
+  ctaText: OUR_STORY_HERO.ctaText,
+  ctaHref: OUR_STORY_HERO.ctaHref,
+};
+---
+
+<PageLayout title="Our Story - The Creekside School">
+  <div class="animate-fade-in font-sans">
+    <HeroSection {...heroProps} />
+
+    <SchoolHistory
+      imageSrc={DEFAULT_IMAGES.ourStory.url}
+      imageAlt={DEFAULT_IMAGES.ourStory.alt}
+      paragraphs={HISTORY_CONTENT.paragraphs}
+    />
+
+    <HistoryExpansion
+      imageSrc={DEFAULT_IMAGES.ourStory.url}
+      imageAlt={DEFAULT_IMAGES.ourStory.alt}
+      text={HISTORY_EXPANSION_CONTENT.text}
+    />
+
+    <HistoryConclusion
+      imageSrc={DEFAULT_IMAGES.ourStory.url}
+      imageAlt={DEFAULT_IMAGES.ourStory.alt}
+      paragraphs={HISTORY_CONCLUSION_CONTENT.paragraphs}
+    />
+
+    <JonahLegacy
+      kicker={JONAH_LEGACY_CONTENT.kicker}
+      title={JONAH_LEGACY_CONTENT.title}
+      quote={JONAH_LEGACY_CONTENT.quote}
+      attribution={JONAH_LEGACY_CONTENT.attribution}
+      imageSrc={DEFAULT_IMAGES.ourStory.url}
+      imageAlt={JONAH_LEGACY_CONTENT.image.alt}
+    />
+
+    <FirstStep
+      title={FIRST_STEP_CONTENT.header.title}
+      imageSrc={DEFAULT_IMAGES.ourStory.url}
+      imageAlt={FIRST_STEP_CONTENT.image.alt}
+      paragraphs={FIRST_STEP_CONTENT.paragraphs}
+    />
+
+    <JonahMemoriam
+      imageSrc={DEFAULT_IMAGES.ourStory.url}
+      imageAlt={JONAH_MEMORIAM_CONTENT.image.alt}
+      kicker={JONAH_MEMORIAM_CONTENT.overlay.kicker}
+      name={JONAH_MEMORIAM_CONTENT.overlay.name}
+      dates={JONAH_MEMORIAM_CONTENT.overlay.dates}
+      quote={JONAH_MEMORIAM_CONTENT.quote}
+    />
+  </div>
+</PageLayout>

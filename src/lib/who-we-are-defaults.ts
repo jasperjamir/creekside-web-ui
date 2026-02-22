@@ -9,7 +9,7 @@ export const SANITY_TYPE = 'whoWeAre' as const
 export const DEFAULT_CONTENT = {
   pageTitle: '',
   ourStory: {
-    heading: '',
+    heading: 'The Creekside Difference',
     body:
       'Founded by parents who faced challenges finding a suitable school.',
     body2:

@@ -1,0 +1,28 @@
+---
+import ImageTextSection from '../../../components/sections/ImageTextSection.astro';
+
+interface Props {
+  headline: string;
+  subheading: string;
+  body: string;
+  image?: { asset?: { url: string }; alt?: string };
+}
+
+const { headline = '', subheading = '', body = '', image } = Astro.props;
+const imageUrl = image?.asset?.url ?? '';
+const imageAlt = image?.alt ?? '';
+---
+
+<ImageTextSection
+  sectionId="lifelong-learning"
+  title={headline}
+  subheading={subheading}
+  imageUrl={imageUrl}
+  imageAlt={imageAlt}
+  imageLeft={true}
+  backgroundColor="white"
+>
+  <p class="text-lg leading-relaxed">
+    {body}
+  </p>
+</ImageTextSection>

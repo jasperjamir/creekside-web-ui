@@ -1,0 +1,51 @@
+---
+import { COLORS } from '../../../constants';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
+
+interface Props {
+  sectionHeading?: string;
+  mission: string;
+  vision: string;
+  image?: { asset?: { url: string }; alt?: string };
+}
+
+const { sectionHeading = '', mission = '', vision = '', image } = Astro.props;
+const imageUrl = image?.asset?.url ?? '';
+const imageAlt = image?.alt ?? '';
+---
+
+<section id="mission-vision" class="py-20" style={{ backgroundColor: COLORS.cream }}>
+  <div class="container mx-auto px-4 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="flex justify-center lg:justify-start order-first lg:order-none">
+        <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md aspect-[5/3]">
+          <img
+            src={imageUrl}
+            alt={imageAlt}
+            class="w-full h-full object-cover object-center"
+            loading="lazy"
+            width="600"
+            height="360"
+          />
+        </div>
+      </div>
+      <div class="max-w-2xl space-y-6">
+        <SectionHeading>{sectionHeading}</SectionHeading>
+        <div class="p-6 rounded-2xl shadow-md" style={{ backgroundColor: COLORS.white }}>
+          <h3 class="text-xl font-bold mb-3" style={{ color: COLORS.blue.navy }}>Mission</h3>
+          <p class="text-gray-600 leading-relaxed">
+            {mission}
+          </p>
+          <div class="h-1 w-24 mt-4 rounded-full" style={{ backgroundColor: COLORS.blue.royal }}></div>
+        </div>
+        <div class="p-6 rounded-2xl shadow-md" style={{ backgroundColor: COLORS.white }}>
+          <h3 class="text-xl font-bold mb-3" style={{ color: COLORS.blue.navy }}>Vision</h3>
+          <p class="text-gray-600 leading-relaxed">
+            {vision}
+          </p>
+          <div class="h-1 w-24 mt-4 rounded-full" style={{ backgroundColor: COLORS.blue.royal }}></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
