@@ -101,7 +101,13 @@ export function buildSanityDocument(): Record<string, unknown> {
       title: d.communityPartnerships.title,
       cbiTitle: d.communityPartnerships.cbiTitle,
       cbiBody: d.communityPartnerships.cbiBody,
-      partners: [],
+      partners: d.communityPartnerships.partners.map((p, i) => ({
+        _type: 'object',
+        _key: `partner-${i}`,
+        name: p.name,
+        description: p.description,
+        href: p.href || undefined,
+      })),
     },
   }
 }

@@ -2,10 +2,49 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHeader from '../../components/sections/PageHeader.astro';
 import ImageTextSection from '../../components/sections/ImageTextSection.astro';
-import { ASSETS_BASE_URL } from '../../constants';
+import { ASSETS_BASE_URL, COLORS } from '../../constants';
 
 const heroImageUrl = `${ASSETS_BASE_URL}/images/what-we-do--community-partnerships.jpg`;
 const approachImageUrl = `${ASSETS_BASE_URL}/images/what-we-do--community-partnerships.jpg`;
+
+const partners = [
+  {
+    name: 'Community Stanford Preschool Autism Lab',
+    description:
+      'Creekside is one of only three locations of the Stanford Preschool Autism Lab, a program of the Stanford University School of Medicine. Through this program, new models of early intervention can be developed, evaluated, and disseminated for children with Autism Spectrum Disorder.',
+    logoUrl: `${ASSETS_BASE_URL}/images/partners/stanford-preschool-autism-lab.png`,
+  },
+  {
+    name: 'Autism Speaks',
+    description:
+      'As one of only three schools in the country working with Autism Speaks, Creekside supports the development of a worldwide training program for school staff that complements the Autism Speaks Caregiver Skills Training program, which has been a major success for families before diagnosis and beyond.',
+    logoUrl: `${ASSETS_BASE_URL}/images/partners/autism-speaks.png`,
+  },
+  {
+    name: 'Bay Area Furniture Bank',
+    description:
+      'Each week, a group of our Adult Transition Students volunteers at the Bay Area Furniture Bank in Santa Clara, where they focus on using tools safely and appropriately, while working together with a peer or individually on a project. Students have assembled a variety of items, including tables, desks, organizer cubbies, side tables, and more, providing a wealth of precious memories and valuable practical experiences.',
+    logoUrl: `${ASSETS_BASE_URL}/images/partners/bay-area-furniture-bank.png`,
+  },
+  {
+    name: 'Stanford Autism Center',
+    description:
+      'We collaborate closely with the Stanford Autism research team on mutual research projects, sharing program resources, with Stanford providing training to our staff, and The Creekside School (TCS) offering on-site space and support for the Preschool Autism Lab.',
+    logoUrl: `${ASSETS_BASE_URL}/images/partners/stanford-autism-center.png`,
+  },
+  {
+    name: 'South Valley YMCA',
+    description:
+      'Each week, a group of our Adult Transition Students volunteers at the Bay Area Furniture Bank in Santa Clara, where they focus on using tools safely and appropriately, while working together with a peer or individually on a project. Students have assembled a variety of items, including tables, desks, organizer cubbies, side tables, and more, providing a wealth of precious memories and valuable practical experiences.',
+    logoUrl: `${ASSETS_BASE_URL}/images/partners/south-valley-ymca.png`,
+  },
+  {
+    name: 'University Partners',
+    description:
+      'The Creekside School partners with several universities to provide university students with internship hours and practical experience by supporting Creekside teachers and staff.',
+    logoUrl: `${ASSETS_BASE_URL}/images/partners/university-partners.png`,
+  },
+];
 ---
 
 <PageLayout title="Community-Based Instruction - The Creekside School">
@@ -25,5 +64,31 @@ const approachImageUrl = `${ASSETS_BASE_URL}/images/what-we-do--community-partne
       imageLeft={false}
       backgroundColor="white"
     />
+    <section id="community-partners" class="py-20" style={{ backgroundColor: COLORS.white }}>
+      <div class="container mx-auto px-4 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold mb-2" style={{ color: COLORS.blue.navy }}>Our Community Partners</h2>
+          <div class="h-1 w-16 mx-auto rounded-full" style={{ backgroundColor: COLORS.green }}></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 max-w-5xl mx-auto">
+          {partners.map((partner) => (
+            <article class="flex flex-col gap-4">
+              <div class="min-h-[60px] flex items-center">
+                <img
+                  src={partner.logoUrl}
+                  alt={partner.name}
+                  class="max-h-14 w-auto max-w-[180px] object-contain"
+                  loading="lazy"
+                  width="180"
+                  height="56"
+                />
+              </div>
+              <h3 class="text-lg font-bold" style={{ color: COLORS.blue.navy }}>{partner.name}</h3>
+              <p class="text-gray-600 leading-relaxed text-base">{partner.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
   </div>
 </PageLayout>
