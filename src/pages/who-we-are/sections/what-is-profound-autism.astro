@@ -24,7 +24,6 @@ interface Props {
 
 const { sectionHeading = '', definition = '', image } = Astro.props;
 const imageUrl = image?.asset?.url ?? '';
-const imageAlt = image?.alt ?? '';
 ---
 
 <section id="what-is-profound-autism" class="py-20" style={{ backgroundColor: COLORS.cream }}>
@@ -63,7 +62,7 @@ const imageAlt = image?.alt ?? '';
         <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md">
           <img
             src={imageUrl}
-            alt={imageAlt}
+            alt="What is profound autism"
             class="w-full h-auto object-contain"
             loading="lazy"
             width="600"

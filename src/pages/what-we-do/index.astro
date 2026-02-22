@@ -28,7 +28,7 @@ function withDefaultImage(
   defaultImage: { url: string; alt: string }
 ) {
   if (cmsImage?.asset?.url) {
-    return { asset: { url: cmsImage.asset.url }, alt: cmsImage.alt ?? '' };
+    return { asset: { url: cmsImage.asset.url }, alt: defaultImage.alt };
   }
   return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
 }
@@ -39,14 +39,14 @@ const QUERY = /* groq */ `*[_type == "whatWeDo"][0] {
     heading,
     body,
     body2,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   ourServicesText {
     sectionHeading,
     body,
     services[] {
       title,
-      image { asset->{ _id, url }, alt }
+      image { asset->{ _id, url } }
     }
   },
   adultProgramText {
@@ -54,8 +54,7 @@ const QUERY = /* groq */ `*[_type == "whatWeDo"][0] {
     subheading,
     overviewParagraph,
     approachParagraph,
-    image { asset->{ _id, url }, alt },
-    approachImageAlt
+    image { asset->{ _id, url } }
   },
   longTermGoalText {
     heading,
@@ -70,11 +69,11 @@ const QUERY = /* groq */ `*[_type == "whatWeDo"][0] {
     title,
     cbiTitle,
     cbiBody,
-    image { asset->{ _id, url }, alt },
+    image { asset->{ _id, url } },
     partners[] {
       name,
       href,
-      image { asset->{ _id, url }, alt }
+      image { asset->{ _id, url } }
     }
   }
 }`;
@@ -100,7 +99,6 @@ const content = {
     overviewParagraph: data?.adultProgramText?.overviewParagraph ?? '',
     approachParagraph: data?.adultProgramText?.approachParagraph ?? '',
     image: withDefaultImage(data?.adultProgramText?.image, DEFAULT_IMAGES.adultProgram),
-    approachImageAlt: data?.adultProgramText?.approachImageAlt ?? '',
   },
   longTermGoal: {
     heading: data?.longTermGoalText?.heading ?? '',

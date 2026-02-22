@@ -2,7 +2,7 @@
 import { ASSETS_BASE_URL, COLORS } from '../../../constants';
 
 interface Props {
-  cards: { title: string; link: string; imageSrc: string; alt: string; description?: string }[];
+  cards: { title: string; link: string; imageSrc: string; description?: string }[];
 }
 
 const { cards = [] } = Astro.props;
@@ -23,7 +23,7 @@ const blueRgb = '5, 32, 73';
           <div class="card-image-wrapper">
             <img
               src={getImageSrc(card.imageSrc)}
-              alt={card.alt}
+              alt={card.title ? `${card.title} at Creekside School` : 'Benefits at Creekside School'}
               class="card-bg"
               loading="lazy"
               width="450"

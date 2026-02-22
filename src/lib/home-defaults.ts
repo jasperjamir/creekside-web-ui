@@ -10,53 +10,59 @@ export const DEFAULT_CONTENT = {
   pageTitle: 'Home Page',
   hero: {
     badge: '',
-    headingPrefix: 'Welcome to ',
-    headingHighlight: 'The Creekside School',
+    headingPrefix: 'Specialized Education for ',
+    headingHighlight: 'Students with Profound Autism',
     subheading:
-      'A place where students with profound autism learn, grow, and thrive in a supportive community.',
+      'At Creekside, we create tailored learning experiences and environments where students with profound autism are truly seen and understood.',
   },
   creeksideDifference: {
     heading: 'The Creekside Difference',
-    body: 'We are committed to providing the highest quality education and care for students with profound autism, in partnership with families and the community.',
+    body: 'Located on a 6-acre campus in South Blossom Hill, San Jose, Creekside provides ample space for students to learn and grow.',
   },
   ourPillars: {
     heading: 'Our Pillars',
-    subheading: 'The values that guide everything we do.',
+    subheading:
+      'The Creekside School serves a unique student population and their families. We take a special, holistic approach to educating students guided by 7 pillars, which create the foundation of our approach.',
     pillars: [
       { title: 'Relationships', icon: 'Users', text: 'We build sincere and meaningful relationships with all of our students.' },
       { title: 'Fun', icon: 'Smile', text: 'We incorporate interests and highly engaging activities in everything we do to ensure that students want to be at school and to participate.' },
       { title: 'Regulation', icon: 'HandHeart', text: 'All students learn important emotional, sensory, and behavioral regulation strategies.' },
       { title: 'Data Driven', icon: 'BarChart', text: 'We decide Creekside programming, goals, and treatment options by consulting high-quality data.' },
-      { title: 'Best in Class Education', icon: 'BookOpen', text: 'We only follow evidence-based practices backed by extensive research that have been shown to benefit people with autism.' },
+      { title: 'Best In Class Education', icon: 'BookOpen', text: 'We only follow evidence-based practices backed by extensive research that have been shown to benefit people with autism.' },
       { title: 'Person Centered', icon: 'User', text: "Our approach is person-first, trauma-sensitive, and humanistic. We adapt programming for students based on their personal preferences, history, and assent." },
       { title: 'Family Partnership', icon: 'Heart', text: "Families are our partners in holistically educating and caring for our students. We work together with parents to meet all students' needs." },
     ],
   },
   communityPartners: {
-    heading: 'Community Partners',
-    partners: [] as { name: string }[],
+    heading: 'Our heartfelt thanks to our community partners:',
+    partners: [
+      { name: "Stanford Medicine, Stanford Autism Center at Packard Children's Hospital" },
+      { name: 'Bay Area Furniture Bank' },
+      { name: 'autism speaks' },
+      { name: 'the Y' },
+    ],
   },
   navigationGrid: {
-    heading: 'Explore',
+    heading: 'What are you interested in learning about?',
     linkLabel: 'Learn more',
     items: [
-      { title: 'For Families', icon: 'Heart', link: '/families/' },
-      { title: 'What We Do', icon: 'BookOpen', link: '/what-we-do/' },
-      { title: 'Who We Are', icon: 'Users', link: '/who-we-are/' },
-      { title: 'Support', icon: 'Heart', link: '/support/' },
-      { title: 'Join Us', icon: 'User', link: '/join-us/' },
+      { title: 'Admission Process', icon: 'FileText', link: '/families/admissions-process' },
+      { title: 'Community Partnerships', icon: 'Users', link: '/what-we-do/#community-partnerships' },
+      { title: 'Donating To Creekside', icon: 'Heart', link: '/support/donate' },
+      { title: 'Job Opportunities', icon: 'Briefcase', link: '/join-us/' },
     ],
   },
   testimonials: {
-    heading: 'What People Say',
+    heading: 'Join the Creekside Community',
     testimonials: [
+      { text: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...', author: 'First Name M.L. Last Name,', role: 'Affiliation with Creekside' },
       { text: 'Parents are genuinely surprised their students can cook, use power tools, and perform complex tasks that will benefit them beyond the classroom.', author: 'Jer Sanchez', role: 'Adult Transition Teacher' },
       { text: "After 15 - 16 years with a client, I feel like these students, and often their families, are part of my family.", author: 'Karen Hook', role: 'Music Therapist' },
     ],
   },
   communityImage: {
-    title: 'Our Community',
-    description: 'Students, staff, and families together at Creekside.',
+    title: 'What are you interested in learning about?',
+    description: 'Explore admissions, community partnerships, giving, and career opportunities at Creekside.',
   },
 } as const
 
@@ -116,10 +122,6 @@ export function buildSanityDocument(): Record<string, unknown> {
         author: t.author,
         role: t.role,
       })),
-    },
-    communityImageText: {
-      title: d.communityImage.title,
-      description: d.communityImage.description,
-    },
+    }
   }
 }

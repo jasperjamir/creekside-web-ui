@@ -37,6 +37,7 @@ const PAGE_MODULES: Record<
   'families': () => import('../../src/lib/families-defaults'),
   'parent-resources': () => import('../../src/lib/parent-resources-defaults'),
   'admissions-process': () => import('../../src/lib/admissions-process-defaults'),
+  'support-donate': () => import('../../src/lib/support-donate-defaults'),
 }
 
 async function main() {

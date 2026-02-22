@@ -25,7 +25,7 @@ const greenRgb = '164, 209, 106';
           <div class="card-image-wrapper">
             <img
               src={getImageSrc(item.imageSrc)}
-              alt={item.alt}
+              alt={item.title ? `${item.title} at Creekside School` : 'Impact at Creekside School'}
               class="card-bg"
               loading="lazy"
               width="450"

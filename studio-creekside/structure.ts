@@ -1,35 +1,55 @@
 import type { StructureResolver } from 'sanity/structure'
 
-const singletonTypes = [
-  { id: 'home', type: 'home', title: 'Home' },
-  { id: 'whatWeDo', type: 'whatWeDo', title: 'What We Do' },
-  { id: 'whoWeAre', type: 'whoWeAre', title: 'Who We Are' },
-  { id: 'joinUs', type: 'joinUs', title: 'Join Us' },
-  { id: 'families', type: 'families', title: 'For Families' },
-  { id: 'parentResources', type: 'parentResources', title: 'Parent Resources' },
-] as const
-
 export const structure: StructureResolver = (S) =>
   S.list()
-    .title('Content')
+    .title('Menu')
     .items([
       S.listItem()
-        .title('Pages')
+        .title('Home')
+        .id('home')
+        .schemaType('home')
+        .child(S.editor().id('home').schemaType('home').documentId('home')),
+      S.listItem()
+        .title('Who We Are')
+        .id('whoWeAre')
+        .schemaType('whoWeAre')
+        .child(S.editor().id('whoWeAre').schemaType('whoWeAre').documentId('whoWeAre')),
+      S.listItem()
+        .title('Our Programs')
+        .id('whatWeDo')
+        .schemaType('whatWeDo')
+        .child(S.editor().id('whatWeDo').schemaType('whatWeDo').documentId('whatWeDo')),
+      S.listItem()
+        .title('Families')
+        .id('families-group')
         .child(
           S.list()
-            .title('Pages')
-            .items(
-              singletonTypes.map(({ id, type, title }) =>
-                S.listItem()
-                  .id(id)
-                  .title(title)
-                  .schemaType(type)
-                  .child(S.editor().id(id).schemaType(type).documentId(id))
-              )
-            )
+            .title('Families')
+            .items([
+              S.listItem()
+                .title('For Families')
+                .id('families')
+                .schemaType('families')
+                .child(S.editor().id('families').schemaType('families').documentId('families')),
+              S.listItem()
+                .title('Parent Resources')
+                .id('parentResources')
+                .schemaType('parentResources')
+                .child(
+                  S.editor().id('parentResources').schemaType('parentResources').documentId('parentResources')
+                ),
+            ])
         ),
-      S.divider(),
-      ...S.documentTypeListItems().filter(
-        (item) => !singletonTypes.some((s) => s.type === item.getId())
-      ),
+      S.listItem()
+        .title('Support')
+        .id('supportDonate')
+        .schemaType('supportDonate')
+        .child(
+          S.editor().id('supportDonate').schemaType('supportDonate').documentId('supportDonate')
+        ),
+      S.listItem()
+        .title('Join Us')
+        .id('joinUs')
+        .schemaType('joinUs')
+        .child(S.editor().id('joinUs').schemaType('joinUs').documentId('joinUs')),
     ])

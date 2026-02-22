@@ -27,7 +27,7 @@ function withDefaultImage(
   defaultImage: { url: string; alt: string }
 ) {
   if (cmsImage?.asset?.url) {
-    return { asset: { url: cmsImage.asset.url }, alt: cmsImage.alt ?? '' };
+    return { asset: { url: cmsImage.asset.url }, alt: defaultImage.alt };
   }
   return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
 }
@@ -38,7 +38,7 @@ const QUERY = /* groq */ `*[_type == "joinUs"][0] {
     heading,
     body,
     body2,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   whyWorkAtCreeksideText {
     heading,
@@ -48,7 +48,7 @@ const QUERY = /* groq */ `*[_type == "joinUs"][0] {
   joinOurTeamText {
     title,
     description,
-    image { asset->{ _id, url }, alt },
+    image { asset->{ _id, url } },
     benefits[]
   },
   applyInstructionsText { text, email },

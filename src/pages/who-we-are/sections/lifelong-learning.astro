@@ -10,7 +10,6 @@ interface Props {
 
 const { headline = '', subheading = '', body = '', image } = Astro.props;
 const imageUrl = image?.asset?.url ?? '';
-const imageAlt = image?.alt ?? '';
 ---
 
 <ImageTextSection
@@ -18,7 +17,7 @@ const imageAlt = image?.alt ?? '';
   title={headline}
   subheading={subheading}
   imageUrl={imageUrl}
-  imageAlt={imageAlt}
+  imageAlt="Lifelong learning at Creekside"
   imageLeft={true}
   backgroundColor="white"
 >

@@ -2,7 +2,7 @@
 import { ASSETS_BASE_URL, COLORS } from '../../../constants';
 import { DONATE_CTA_CONTENT } from '../_constants/donate-now';
 
-const { imageSrc, alt } = DONATE_CTA_CONTENT;
+const { imageSrc } = DONATE_CTA_CONTENT;
 const imageUrl = imageSrc?.startsWith('http') ? imageSrc : `${ASSETS_BASE_URL}/images/${imageSrc || 'support--why-support-matters.png'}`;
 ---
 
@@ -11,7 +11,7 @@ const imageUrl = imageSrc?.startsWith('http') ? imageSrc : `${ASSETS_BASE_URL}/i
     <div class="cta-card">
       <img
         src={imageUrl}
-        alt={DONATE_CTA_CONTENT.alt}
+        alt="Donate to Creekside School"
         class="bg-image"
         loading="lazy"
       />

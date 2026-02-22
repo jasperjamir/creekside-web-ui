@@ -8,7 +8,6 @@ interface Props {
     features: string[];
     button: { label: string; link: string };
     imageSrc: string;
-    alt: string;
   };
 }
 
@@ -18,7 +17,6 @@ const {
     features: [],
     button: { label: '', link: '' },
     imageSrc: '',
-    alt: '',
   },
 } = Astro.props;
 const imageUrl =
@@ -35,7 +33,7 @@ const imageUrl =
       {imageUrl && (
         <img
           src={imageUrl}
-          alt={content.alt ?? ''}
+          alt="Family resources at Creekside School"
           class="bg-image"
           loading="lazy"
         />

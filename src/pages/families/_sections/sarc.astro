@@ -8,7 +8,7 @@ interface Props {
     title: string;
     description: string[];
     button: { label: string; link: string };
-    image: { src: string; alt: string };
+    image: { src: string };
   };
 }
 
@@ -17,7 +17,7 @@ const {
     title: '',
     description: [],
     button: { label: '', link: '' },
-    image: { src: '', alt: '' },
+    image: { src: '' },
   },
 } = Astro.props;
 const imageSrc =
@@ -47,7 +47,7 @@ const imageSrc =
     </div>
 
     <div class="image-wrapper">
-      {imageSrc && <img src={imageSrc} alt={content.image?.alt ?? ''} loading="lazy" />}
+      {imageSrc && <img src={imageSrc} alt="SARC at Creekside School" loading="lazy" />}
     </div>
   </div>
 </section>

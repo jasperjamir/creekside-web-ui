@@ -9,7 +9,6 @@ export const SANITY_TYPE = 'parentResources' as const
 export const DEFAULT_CONTENT = {
   pageTitle: 'Parent Resources',
   hero: {
-    imageAlt: 'Students and families at Creekside School',
     headingPrefix: 'Key resources for ',
     headingHighlight: 'Parents',
     headingSuffix: '',
@@ -22,7 +21,6 @@ export const DEFAULT_CONTENT = {
       'Autism impacts the whole family: siblings, grandparents, aunts, uncles and cousins.',
       "All families play an important role in their students' success. The families of students with autism play a crucial role in supporting their child's journey to adulthood.",
     ],
-    imageAlt: 'Students and staff at Creekside engaging in a learning activity.',
   },
   contactWithImage: {
     schoolName: 'The Creekside School:',
@@ -31,7 +29,6 @@ export const DEFAULT_CONTENT = {
     contactLabel: 'Contact us:',
     phone: '408.448.2494',
     email: 'info@creeksideschool.org',
-    imageAlt: 'Students and staff at Creekside engaging in a learning activity.',
   },
   navigatingSystems: {
     title: 'Navigating the systems that support your family',
@@ -64,7 +61,6 @@ export const DEFAULT_CONTENT = {
       text: 'View Complete List',
       link: 'https://undivided.io/resources/california-public-benefits-for-children-with-disabilities-236',
     },
-    imageAlt: 'Students and staff at Creekside engaging in a learning activity.',
   },
   publicBenefitsLibraryItems: [
     { title: 'Regional Center 101', link: '/resources/regional-center' },
@@ -85,7 +81,6 @@ export const DEFAULT_CONTENT = {
     title: 'Education',
     description:
       'Students with disabilities and learning challenges can receive personalized help, services, and accommodations through an Individualized Education Program (IEP) or 504 Plan.',
-    imageAlt: 'Student working at a desk with a teacher',
   },
   educationLibraryItems: [
     { title: 'Least Restrictive Environment and Placement Options in an IEP', link: '/resources/least-restrictive-environment' },
@@ -97,7 +92,6 @@ export const DEFAULT_CONTENT = {
     title: 'Insurance',
     description:
       'If you use private insurance, Medi-Cal, or both, these resources provide information about maximizing your benefits, filing claims, handling denials, and more.',
-    imageAlt: 'Student working at a desk with a teacher',
   },
   insuranceLibraryItems: [
     { title: 'How to Review Your Health Plan Benefits & Coverage', link: '/resources/review-benefits' },
@@ -115,7 +109,6 @@ export function buildSanityDocument(): Record<string, unknown> {
     _type: SANITY_TYPE,
     title: d.pageTitle,
     heroText: {
-      imageAlt: d.hero.imageAlt,
       headingPrefix: d.hero.headingPrefix,
       headingHighlight: d.hero.headingHighlight,
       headingSuffix: d.hero.headingSuffix,
@@ -125,7 +118,6 @@ export function buildSanityDocument(): Record<string, unknown> {
     },
     familyImpactText: {
       paragraphs: d.familyImpact.paragraphs,
-      imageAlt: d.familyImpact.imageAlt,
     },
     contactWithImageText: {
       schoolName: d.contactWithImage.schoolName,
@@ -134,7 +126,6 @@ export function buildSanityDocument(): Record<string, unknown> {
       contactLabel: d.contactWithImage.contactLabel,
       phone: d.contactWithImage.phone,
       email: d.contactWithImage.email,
-      imageAlt: d.contactWithImage.imageAlt,
     },
     navigatingSystemsText: {
       title: d.navigatingSystems.title,
@@ -152,7 +143,6 @@ export function buildSanityDocument(): Record<string, unknown> {
       title: d.publicBenefits.title,
       description: d.publicBenefits.description,
       button: d.publicBenefits.button,
-      imageAlt: d.publicBenefits.imageAlt,
     },
     publicBenefitsLibraryItems: d.publicBenefitsLibraryItems.map((item, i) => ({
       _type: 'object',
@@ -164,7 +154,6 @@ export function buildSanityDocument(): Record<string, unknown> {
     educationText: {
       title: d.education.title,
       description: d.education.description,
-      imageAlt: d.education.imageAlt,
     },
     educationLibraryItems: d.educationLibraryItems.map((item, i) => ({
       _type: 'object',
@@ -175,7 +164,6 @@ export function buildSanityDocument(): Record<string, unknown> {
     insuranceText: {
       title: d.insurance.title,
       description: d.insurance.description,
-      imageAlt: d.insurance.imageAlt,
     },
     insuranceLibraryItems: d.insuranceLibraryItems.map((item, i) => ({
       _type: 'object',

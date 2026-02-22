@@ -34,7 +34,6 @@ export const DEFAULT_CONTENT = {
     title: 'Join Our Team',
     description:
       "The Creekside School is currently hiring creative, experienced, and passionate teaching professionals. As part of the Creekside staff, you'll be able to enjoy a fulfilling career on top of many different benefits, including:",
-    imageAlt: 'A Creekside teacher working one-on-one with a student on a learning activity.',
     benefits: [
       'Full-time employment',
       'Fully paid premiums for Health, Dental, and Vision Insurance',

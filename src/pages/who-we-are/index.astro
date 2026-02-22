@@ -32,7 +32,7 @@ function withDefaultImage(
   defaultImage: { url: string; alt: string }
 ) {
   if (cmsImage?.asset?.url) {
-    return { asset: { url: cmsImage.asset.url }, alt: cmsImage.alt ?? '' };
+    return { asset: { url: cmsImage.asset.url }, alt: defaultImage.alt };
   }
   return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
 }
@@ -43,32 +43,32 @@ const QUERY = /* groq */ `*[_type == "whoWeAre"][0] {
     heading,
     body,
     body2,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   lifelongLearningText {
     headline,
     subheading,
     body,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   missionVisionText {
     sectionHeading,
     mission,
     vision,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   ourTeamText {
     sectionHeading,
     groups[] {
       title,
       description,
-      images[] { asset->{ _id, url }, alt }
+      images[] { asset->{ _id, url } }
     }
   },
   whatIsProfoundAutismText {
     sectionHeading,
     definition,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   }
 }`;
 

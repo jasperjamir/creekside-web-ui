@@ -14,6 +14,10 @@ const DEFAULT_IMAGES = {
     url: `${ASSETS_BASE_URL}/images/home--hero.jpg`,
     alt: 'Adult and child engaged in art activity at Creekside School',
   },
+  creeksideDifference: {
+    url: `${ASSETS_BASE_URL}/images/home--the-creekside-difference.jpg`,
+    alt: 'Creekside School campus',
+  },
   communityImage: {
     url: `${ASSETS_BASE_URL}/images/home--community.jpg`,
     alt: 'Community',
@@ -25,7 +29,7 @@ function withDefaultImage(
   defaultImage: { url: string; alt: string }
 ) {
   if (cmsImage?.asset?.url) {
-    return { asset: { url: cmsImage.asset.url }, alt: cmsImage.alt ?? '' };
+    return { asset: { url: cmsImage.asset.url }, alt: defaultImage.alt };
   }
   return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
 }
@@ -33,7 +37,7 @@ function withDefaultImage(
 const QUERY = /* groq */ `*[_type == "home"][0] {
   title,
   heroText {
-    image { asset->{ _id, url }, alt },
+    image { asset->{ _id, url } },
     badge,
     headingPrefix,
     headingHighlight,
@@ -41,7 +45,8 @@ const QUERY = /* groq */ `*[_type == "home"][0] {
   },
   creeksideDifferenceText {
     heading,
-    body
+    body,
+    image { asset->{ _id, url } }
   },
   ourPillarsText {
     heading,
@@ -56,7 +61,7 @@ const QUERY = /* groq */ `*[_type == "home"][0] {
     heading,
     partners[] {
       name,
-      image { asset->{ _id, url }, alt }
+      image { asset->{ _id, url } }
     }
   },
   navigationGridText {
@@ -79,7 +84,7 @@ const QUERY = /* groq */ `*[_type == "home"][0] {
   communityImageText {
     title,
     description,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   }
 }`;
 
@@ -96,6 +101,7 @@ const heroText = {
 const creeksideDifferenceText = {
   heading: data?.creeksideDifferenceText?.heading ?? '',
   body: data?.creeksideDifferenceText?.body ?? '',
+  image: withDefaultImage(data?.creeksideDifferenceText?.image, DEFAULT_IMAGES.creeksideDifference),
 };
 
 const ourPillarsText = {
@@ -120,11 +126,6 @@ const testimonialsText = {
   testimonials: data?.testimonialsText?.testimonials ?? [],
 };
 
-const communityImageText = {
-  title: data?.communityImageText?.title ?? '',
-  description: data?.communityImageText?.description ?? '',
-  image: withDefaultImage(data?.communityImageText?.image, DEFAULT_IMAGES.communityImage),
-};
 ---
 
 <HomeLayout title={data?.title ?? ''}>
@@ -132,9 +133,8 @@ const communityImageText = {
     <HeroSection {...heroText} />
     <CreeksideDifference {...creeksideDifferenceText} />
     <OurPillars {...ourPillarsText} />
-    <!-- <CommunityPartners {...communityPartnersText} /> -->
+    <CommunityPartners {...communityPartnersText} />
     <NavigationGrid {...navigationGridText} />
     <Testimonials {...testimonialsText} />
-    <CommunityImage {...communityImageText} />
   </div>
 </HomeLayout>

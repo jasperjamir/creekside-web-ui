@@ -17,14 +17,13 @@ interface Props {
 
 const { title = '', cbiTitle = '', cbiBody = '', image, partners = [] } = Astro.props;
 const imageUrl = image?.asset?.url ?? '';
-const imageAlt = image?.alt ?? '';
 ---
 
 <ImageTextSection
   sectionId="community-partnerships"
   title={title}
   imageUrl={imageUrl}
-  imageAlt={imageAlt}
+  imageAlt="Community partnerships at Creekside School"
   imageLeft={false}
   backgroundColor="white"
 >
@@ -62,7 +61,7 @@ const imageAlt = image?.alt ?? '';
           >
             <img
               src={partner.image?.asset?.url ?? ''}
-              alt={partner.image?.alt ?? partner.name}
+              alt={partner.name}
               class="h-12 w-auto object-contain max-w-[180px]"
               loading="lazy"
               width="180"

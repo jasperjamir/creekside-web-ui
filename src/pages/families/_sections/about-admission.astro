@@ -7,11 +7,10 @@ interface Props {
     title: string;
     description: string;
     image: string;
-    imageAlt: string;
   };
 }
 
-const { content = { title: '', description: '', image: '', imageAlt: '' } } = Astro.props;
+const { content = { title: '', description: '', image: '' } } = Astro.props;
 const imageSrc = content.image && (content.image.startsWith('http') || content.image.startsWith('/'))
   ? content.image
   : content.image
@@ -33,7 +32,7 @@ const paragraphs = content.description.split(/\n\n+/).filter(Boolean);
     </div>
 
     <div class="image-wrapper">
-      {imageSrc && <img src={imageSrc} alt={content.imageAlt ?? ''} loading="lazy" />}
+      {imageSrc && <img src={imageSrc} alt="Students and staff at Creekside engaging in a learning activity." loading="lazy" />}
     </div>
   </div>
 </section>

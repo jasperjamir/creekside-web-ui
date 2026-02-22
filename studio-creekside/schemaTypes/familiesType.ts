@@ -16,7 +16,6 @@ export default defineType({
       type: 'object',
       title: 'Hero Section',
       fields: [
-        defineField({ name: 'imageAlt', type: 'string', title: 'Hero Image Alt Text' }),
         defineField({ name: 'headingPrefix', type: 'string', title: 'Heading Prefix' }),
         defineField({ name: 'headingHighlight', type: 'string', title: 'Heading Highlight' }),
         defineField({ name: 'headingSuffix', type: 'string', title: 'Heading Suffix' }),
@@ -28,14 +27,6 @@ export default defineType({
           type: 'image',
           title: 'Hero Image',
           options: { hotspot: true },
-          fields: [
-            defineField({
-              name: 'alt',
-              type: 'string',
-              title: 'Alternative Text',
-              validation: (rule) => rule.required().warning('Alt text is important for SEO'),
-            }),
-          ],
         }),
       ],
     }),
@@ -46,20 +37,11 @@ export default defineType({
       fields: [
         defineField({ name: 'title', type: 'string', title: 'Title' }),
         defineField({ name: 'description', type: 'text', title: 'Description' }),
-        defineField({ name: 'imageAlt', type: 'string', title: 'Image Alt Text' }),
         defineField({
           name: 'image',
           type: 'image',
           title: 'Image',
           options: { hotspot: true },
-          fields: [
-            defineField({
-              name: 'alt',
-              type: 'string',
-              title: 'Alternative Text',
-              validation: (rule) => rule.required().warning('Alt text is important for SEO'),
-            }),
-          ],
         }),
       ],
     }),
@@ -84,20 +66,11 @@ export default defineType({
             defineField({ name: 'link', type: 'string', title: 'Link URL' }),
           ],
         }),
-        defineField({ name: 'imageAlt', type: 'string', title: 'Image Alt Text' }),
         defineField({
           name: 'image',
           type: 'image',
           title: 'Image',
           options: { hotspot: true },
-          fields: [
-            defineField({
-              name: 'alt',
-              type: 'string',
-              title: 'Alternative Text',
-              validation: (rule) => rule.required().warning('Alt text is important for SEO'),
-            }),
-          ],
         }),
       ],
     }),
@@ -149,20 +122,11 @@ export default defineType({
             defineField({ name: 'link', type: 'string', title: 'Link URL' }),
           ],
         }),
-        defineField({ name: 'imageAlt', type: 'string', title: 'Image Alt Text' }),
         defineField({
           name: 'image',
           type: 'image',
           title: 'Image',
           options: { hotspot: true },
-          fields: [
-            defineField({
-              name: 'alt',
-              type: 'string',
-              title: 'Alternative Text',
-              validation: (rule) => rule.required().warning('Alt text is important for SEO'),
-            }),
-          ],
         }),
       ],
     }),

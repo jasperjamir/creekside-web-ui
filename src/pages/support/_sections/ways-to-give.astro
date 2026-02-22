@@ -5,22 +5,41 @@ import { DONATION_AMOUNTS, SECTION_CONTENT } from '../_constants/ways-to-give';
 
 interface Props {
   sectionTitle?: string;
+  donationAmounts?: string[];
+  monthlyLabel?: string;
+  inKindTitle?: string;
+  inKindSubtitle?: string;
   donateBaseUrl?: string;
   hideInKind?: boolean;
 }
 
-const { sectionTitle = SECTION_CONTENT.title, donateBaseUrl = '/support/donate', hideInKind = false } = Astro.props;
+const {
+  sectionTitle: sectionTitleProp,
+  donationAmounts: donationAmountsProp,
+  monthlyLabel: monthlyLabelProp,
+  inKindTitle: inKindTitleProp,
+  inKindSubtitle: inKindSubtitleProp,
+  donateBaseUrl = '/support/donate',
+  hideInKind = false,
+} = Astro.props;
+const sectionTitle = sectionTitleProp !== undefined ? sectionTitleProp : SECTION_CONTENT.title;
+const donationAmounts = donationAmountsProp !== undefined && donationAmountsProp.length > 0 ? donationAmountsProp : DONATION_AMOUNTS;
+const monthlyLabel = monthlyLabelProp !== undefined ? monthlyLabelProp : SECTION_CONTENT.monthlyLabel;
+const inKindTitle = inKindTitleProp !== undefined ? inKindTitleProp : SECTION_CONTENT.inKind.title;
+const inKindSubtitle = inKindSubtitleProp !== undefined ? inKindSubtitleProp : SECTION_CONTENT.inKind.subtitle;
 const navyRgba = (a: number) => `rgba(5, 32, 73, ${a})`;
 ---
 
 <section class="giving-section font-sans py-20" style={{ backgroundColor: COLORS.white }}>
   <div class="container mx-auto px-4 lg:px-8">
-    <div class="text-center mb-12">
-      <SectionHeading className="inline-block">{sectionTitle}</SectionHeading>
-    </div>
+    {sectionTitle && (
+      <div class="text-center mb-12">
+        <SectionHeading className="inline-block">{sectionTitle}</SectionHeading>
+      </div>
+    )}
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-      {DONATION_AMOUNTS.map((amount) => {
+      {donationAmounts.map((amount) => {
         const isOther = amount === 'Other';
         const href = isOther ? donateBaseUrl : `${donateBaseUrl}?amount=${amount.replace(/[$,]/g, '')}`;
         return (
@@ -34,23 +53,25 @@ const navyRgba = (a: number) => `rgba(5, 32, 73, ${a})`;
           </a>
         );
       })}
-      <a
-        href={donateBaseUrl}
-        class="give-card group flex flex-col items-center justify-center px-4 py-3 rounded-2xl border transition-all duration-300 text-center sm:col-span-2 md:col-span-3 hover:bg-[rgba(5,32,73,0.14)]"
-        style={{ backgroundColor: navyRgba(0.1), borderColor: navyRgba(0.15) }}
-        data-default-border={navyRgba(0.15)}
-      >
-        <h3 class="text-xl font-bold" style={{ color: COLORS.blue.navy }}>{SECTION_CONTENT.monthlyLabel}</h3>
-      </a>
-      {!hideInKind && (
+      {monthlyLabel && (
+        <a
+          href={donateBaseUrl}
+          class="give-card group flex flex-col items-center justify-center px-4 py-3 rounded-2xl border transition-all duration-300 text-center sm:col-span-2 md:col-span-3 hover:bg-[rgba(5,32,73,0.14)]"
+          style={{ backgroundColor: navyRgba(0.1), borderColor: navyRgba(0.15) }}
+          data-default-border={navyRgba(0.15)}
+        >
+          <h3 class="text-xl font-bold" style={{ color: COLORS.blue.navy }}>{monthlyLabel}</h3>
+        </a>
+      )}
+      {!hideInKind && inKindTitle && (
         <a
           href="/support/in-kind-donations"
           class="give-card group flex flex-col items-center justify-center px-4 py-3 rounded-2xl border transition-all duration-300 text-center sm:col-span-2 md:col-span-3 hover:bg-[rgba(5,32,73,0.14)]"
           style={{ backgroundColor: navyRgba(0.1), borderColor: navyRgba(0.15) }}
           data-default-border={navyRgba(0.15)}
         >
-          <h3 class="text-xl font-bold mb-0.5" style={{ color: COLORS.blue.navy }}>{SECTION_CONTENT.inKind.title}</h3>
-          <span class="text-sm" style={{ color: COLORS.blue.royal }}>{SECTION_CONTENT.inKind.subtitle}</span>
+          <h3 class="text-xl font-bold mb-0.5" style={{ color: COLORS.blue.navy }}>{inKindTitle}</h3>
+          {inKindSubtitle && <span class="text-sm" style={{ color: COLORS.blue.royal }}>{inKindSubtitle}</span>}
         </a>
       )}
     </div>

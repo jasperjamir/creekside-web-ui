@@ -1,19 +1,11 @@
 import { defineType, defineField, defineArrayMember } from 'sanity';
 
-const imageWithAlt = () =>
+const imageField = () =>
   defineField({
     name: 'image',
     type: 'image',
     title: 'Image',
     options: { hotspot: true },
-    fields: [
-      defineField({
-        name: 'alt',
-        type: 'string',
-        title: 'Alternative Text',
-        validation: (rule) => rule.required().warning('Alt text is important for SEO'),
-      }),
-    ],
   });
 
 export default defineType({
@@ -32,14 +24,13 @@ export default defineType({
       type: 'object',
       title: 'Hero Section',
       fields: [
-        defineField({ name: 'imageAlt', type: 'string', title: 'Hero Image Alt Text' }),
         defineField({ name: 'headingPrefix', type: 'string', title: 'Heading Prefix' }),
         defineField({ name: 'headingHighlight', type: 'string', title: 'Heading Highlight' }),
         defineField({ name: 'headingSuffix', type: 'string', title: 'Heading Suffix' }),
         defineField({ name: 'subheading', type: 'text', title: 'Subheading' }),
         defineField({ name: 'ctaText', type: 'string', title: 'CTA Button Text' }),
         defineField({ name: 'ctaHref', type: 'string', title: 'CTA Button Link' }),
-        imageWithAlt(),
+        imageField(),
       ],
     }),
     defineField({
@@ -53,8 +44,7 @@ export default defineType({
           title: 'Paragraphs',
           of: [defineArrayMember({ type: 'string' })],
         }),
-        defineField({ name: 'imageAlt', type: 'string', title: 'Image Alt Text' }),
-        imageWithAlt(),
+        imageField(),
       ],
     }),
     defineField({
@@ -73,8 +63,7 @@ export default defineType({
         defineField({ name: 'contactLabel', type: 'string', title: 'Contact Label' }),
         defineField({ name: 'phone', type: 'string', title: 'Phone' }),
         defineField({ name: 'email', type: 'string', title: 'Email' }),
-        defineField({ name: 'imageAlt', type: 'string', title: 'Image Alt Text' }),
-        imageWithAlt(),
+        imageField(),
       ],
     }),
     defineField({
@@ -98,7 +87,7 @@ export default defineType({
             defineField({ name: 'title', type: 'string', title: 'Title' }),
             defineField({ name: 'link', type: 'string', title: 'Link' }),
             defineField({ name: 'description', type: 'text', title: 'Description' }),
-            imageWithAlt(),
+            imageField(),
           ],
         }),
       ],
@@ -119,8 +108,7 @@ export default defineType({
             defineField({ name: 'link', type: 'string', title: 'Link URL' }),
           ],
         }),
-        defineField({ name: 'imageAlt', type: 'string', title: 'Image Alt Text' }),
-        imageWithAlt(),
+        imageField(),
       ],
     }),
     defineField({
@@ -133,7 +121,7 @@ export default defineType({
           fields: [
             defineField({ name: 'title', type: 'string', title: 'Title' }),
             defineField({ name: 'link', type: 'string', title: 'Link URL' }),
-            imageWithAlt(),
+            imageField(),
           ],
         }),
       ],
@@ -155,8 +143,7 @@ export default defineType({
       fields: [
         defineField({ name: 'title', type: 'string', title: 'Title' }),
         defineField({ name: 'description', type: 'text', title: 'Description' }),
-        defineField({ name: 'imageAlt', type: 'string', title: 'Image Alt Text' }),
-        imageWithAlt(),
+        imageField(),
       ],
     }),
     defineField({
@@ -170,7 +157,7 @@ export default defineType({
             defineField({ name: 'title', type: 'string', title: 'Title' }),
             defineField({ name: 'link', type: 'string', title: 'Link URL' }),
             defineField({ name: 'featured', type: 'boolean', title: 'Featured', initialValue: false }),
-            imageWithAlt(),
+            imageField(),
           ],
         }),
       ],
@@ -182,8 +169,7 @@ export default defineType({
       fields: [
         defineField({ name: 'title', type: 'string', title: 'Title' }),
         defineField({ name: 'description', type: 'text', title: 'Description' }),
-        defineField({ name: 'imageAlt', type: 'string', title: 'Image Alt Text' }),
-        imageWithAlt(),
+        imageField(),
       ],
     }),
     defineField({
@@ -197,7 +183,7 @@ export default defineType({
             defineField({ name: 'title', type: 'string', title: 'Title' }),
             defineField({ name: 'link', type: 'string', title: 'Link URL' }),
             defineField({ name: 'featured', type: 'boolean', title: 'Featured', initialValue: false }),
-            imageWithAlt(),
+            imageField(),
           ],
         }),
       ],

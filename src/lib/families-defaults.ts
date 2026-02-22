@@ -9,7 +9,6 @@ export const SANITY_TYPE = 'families' as const
 export const DEFAULT_CONTENT = {
   pageTitle: 'For Families',
   hero: {
-    imageAlt: 'Students and families at Creekside School',
     headingPrefix: 'Sign up through our ',
     headingHighlight: 'interest form',
     headingSuffix: '',
@@ -27,7 +26,6 @@ Students are enrolled in the program through an offer of Free Appropriate Public
 The Creekside School also maintains its status as a private school. Student enrollment may be made privately through a placement agreement and fulfillment of tuition.
 
 Questions can be directed to: <strong>admissions@creeksideschool.org</strong>`,
-    imageAlt: 'Students and staff at Creekside engaging in a learning activity.',
   },
   sarc: {
     title: 'School Accountability Report Card (SARC)',
@@ -39,7 +37,6 @@ Questions can be directed to: <strong>admissions@creeksideschool.org</strong>`,
       label: 'Creekside SARC Report',
       link: '/reports/sarc-current.pdf',
     },
-    imageAlt: 'Students and staff at Creekside engaging in a learning activity.',
   },
   sarcArchive: [
     { years: '2021-2022', label: 'SARC', theme: 'light-blue', link: '/reports/sarc-21-22.pdf' },
@@ -55,7 +52,6 @@ Questions can be directed to: <strong>admissions@creeksideschool.org</strong>`,
       label: 'View Parent Resources',
       link: '/families/parent-resources',
     },
-    imageAlt: 'Students and staff at Creekside engaging in a learning activity.',
   },
 } as const
 
@@ -67,7 +63,6 @@ export function buildSanityDocument(): Record<string, unknown> {
     _type: SANITY_TYPE,
     title: d.pageTitle,
     heroText: {
-      imageAlt: d.hero.imageAlt,
       headingPrefix: d.hero.headingPrefix,
       headingHighlight: d.hero.headingHighlight,
       headingSuffix: d.hero.headingSuffix,
@@ -78,13 +73,11 @@ export function buildSanityDocument(): Record<string, unknown> {
     aboutAdmissionText: {
       title: d.aboutAdmission.title,
       description: d.aboutAdmission.description,
-      imageAlt: d.aboutAdmission.imageAlt,
     },
     sarcText: {
       title: d.sarc.title,
       description: d.sarc.description,
       button: d.sarc.button,
-      imageAlt: d.sarc.imageAlt,
     },
     sarcArchiveItems: d.sarcArchive.map((item, i) => ({
       _type: 'object',
@@ -98,7 +91,6 @@ export function buildSanityDocument(): Record<string, unknown> {
       title: d.resources.title,
       features: d.resources.features,
       button: d.resources.button,
-      imageAlt: d.resources.imageAlt,
     },
   }
 }

@@ -4,6 +4,7 @@ import { default as whatWeDoType } from './whatWeDoType';
 import { default as joinUsType } from './joinUsType';
 import { default as familiesType } from './familiesType';
 import { default as parentResourcesType } from './parentResourcesType';
+import { default as supportDonateType } from './supportDonateType';
 
 export const schemaTypes = [
   homeType,
@@ -12,4 +13,5 @@ export const schemaTypes = [
   joinUsType,
   familiesType,
   parentResourcesType,
+  supportDonateType,
 ];

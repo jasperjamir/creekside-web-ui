@@ -32,7 +32,7 @@ function withDefaultImage(
   defaultImage: { url: string; alt: string }
 ) {
   if (cmsImage?.asset?.url) {
-    return { asset: { url: cmsImage.asset.url }, alt: cmsImage.alt ?? '' };
+    return { asset: { url: cmsImage.asset.url }, alt: defaultImage.alt };
   }
   return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
 }
@@ -40,35 +40,31 @@ function withDefaultImage(
 const QUERY = /* groq */ `*[_type == "families"][0] {
   title,
   heroText {
-    imageAlt,
     headingPrefix,
     headingHighlight,
     headingSuffix,
     subheading,
     ctaText,
     ctaHref,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   aboutAdmissionText {
     title,
     description,
-    imageAlt,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   sarcText {
     title,
     description,
     button { label, link },
-    imageAlt,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   sarcArchiveItems[] { years, label, theme, link },
   resourcesText {
     title,
     features,
     button { label, link },
-    imageAlt,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   }
 }`;
 
@@ -84,7 +80,6 @@ const pageTitle = data?.title ?? ''
 const content = {
   hero: {
     imageUrl: heroImage.asset.url,
-    imageAlt: heroImage.alt,
     headingPrefix: data?.heroText?.headingPrefix ?? '',
     headingHighlight: data?.heroText?.headingHighlight ?? '',
     headingSuffix: data?.heroText?.headingSuffix ?? '',
@@ -96,13 +91,12 @@ const content = {
     title: data?.aboutAdmissionText?.title ?? '',
     description: data?.aboutAdmissionText?.description ?? '',
     image: aboutAdmissionImage.asset.url,
-    imageAlt: aboutAdmissionImage.alt,
   },
   sarc: {
     title: data?.sarcText?.title ?? '',
     description: data?.sarcText?.description ?? [],
     button: data?.sarcText?.button ?? { label: '', link: '' },
-    image: { src: sarcImage.asset.url, alt: sarcImage.alt },
+    image: { src: sarcImage.asset.url },
   },
   sarcArchive: {
     items: data?.sarcArchiveItems ?? [],
@@ -112,7 +106,6 @@ const content = {
     features: data?.resourcesText?.features ?? [],
     button: data?.resourcesText?.button ?? { label: '', link: '' },
     imageSrc: resourcesImage.asset.url,
-    alt: resourcesImage.alt,
   },
 };
 ---

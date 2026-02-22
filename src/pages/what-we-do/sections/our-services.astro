@@ -34,7 +34,7 @@ const { sectionHeading = '', body = '', services = [] } = Astro.props;
         <ServiceCard
           title={service.title}
           imageUrl={service.image?.asset?.url ?? ''}
-          imageAlt={service.image?.alt ?? service.title}
+          imageAlt={`${service.title} at Creekside School`}
         />
       ))}
     </div>

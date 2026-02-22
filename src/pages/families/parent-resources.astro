@@ -55,7 +55,7 @@ function withDefaultImage(
   defaultImage: { url: string; alt: string }
 ) {
   if (cmsImage?.asset?.url) {
-    return { asset: { url: cmsImage.asset.url }, alt: cmsImage.alt ?? '' };
+    return { asset: { url: cmsImage.asset.url }, alt: defaultImage.alt };
   }
   return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
 }
@@ -63,19 +63,17 @@ function withDefaultImage(
 const QUERY = /* groq */ `*[_type == "parentResources"][0] {
   title,
   heroText {
-    imageAlt,
     headingPrefix,
     headingHighlight,
     headingSuffix,
     subheading,
     ctaText,
     ctaHref,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   familyImpactText {
     paragraphs,
-    imageAlt,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   contactWithImageText {
     schoolName,
@@ -84,8 +82,7 @@ const QUERY = /* groq */ `*[_type == "parentResources"][0] {
     contactLabel,
     phone,
     email,
-    imageAlt,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   navigatingSystemsText { title, titleHighlight, description },
   benefitsCards[] {
@@ -93,47 +90,44 @@ const QUERY = /* groq */ `*[_type == "parentResources"][0] {
     title,
     link,
     description,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   publicBenefitsText {
     title,
     description,
     button { text, link },
-    imageAlt,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   publicBenefitsLibraryItems[] {
     _key,
     title,
     link,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   checkMoreText { text, boldText, link },
   educationText {
     title,
     description,
-    imageAlt,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   educationLibraryItems[] {
     _key,
     title,
     link,
     featured,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   insuranceText {
     title,
     description,
-    imageAlt,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   },
   insuranceLibraryItems[] {
     _key,
     title,
     link,
     featured,
-    image { asset->{ _id, url }, alt }
+    image { asset->{ _id, url } }
   }
 }`;
 
@@ -151,7 +145,6 @@ const insuranceImage = withDefaultImage(data?.insuranceText?.image, DEFAULT_IMAG
 const content = {
   hero: {
     imageUrl: heroImage.asset.url,
-    imageAlt: heroImage.alt,
     headingPrefix: data?.heroText?.headingPrefix ?? '',
     headingHighlight: data?.heroText?.headingHighlight ?? '',
     headingSuffix: data?.heroText?.headingSuffix ?? '',
@@ -161,7 +154,7 @@ const content = {
   },
   familyImpact: {
     paragraphs: data?.familyImpactText?.paragraphs ?? [],
-    image: { src: familyImpactImage.asset.url, alt: familyImpactImage.alt },
+    image: { src: familyImpactImage.asset.url },
   },
   contactWithImage: {
     schoolName: data?.contactWithImageText?.schoolName ?? '',
@@ -170,7 +163,7 @@ const content = {
     contactLabel: data?.contactWithImageText?.contactLabel ?? '',
     phone: data?.contactWithImageText?.phone ?? '',
     email: data?.contactWithImageText?.email ?? '',
-    image: { src: contactImage.asset.url, alt: contactImage.alt },
+    image: { src: contactImage.asset.url },
   },
   navigatingSystems: {
     title: data?.navigatingSystemsText?.title ?? '',
@@ -183,7 +176,6 @@ const content = {
       title: card?.title ?? '',
       link: card?.link ?? '',
       imageSrc: img.asset.url,
-      alt: img.alt,
       description: card?.description ?? '',
     };
   }),
@@ -191,7 +183,7 @@ const content = {
     title: data?.publicBenefitsText?.title ?? '',
     description: data?.publicBenefitsText?.description ?? '',
     button: data?.publicBenefitsText?.button ?? { text: '', link: '' },
-    image: { src: publicBenefitsImage.asset.url, alt: publicBenefitsImage.alt },
+    image: { src: publicBenefitsImage.asset.url },
   },
   publicBenefitsLibraryItems: (data?.publicBenefitsLibraryItems ?? []).map(
     (item: { title?: string; link?: string; image?: { asset?: { url: string }; alt?: string } }) => {
@@ -207,7 +199,7 @@ const content = {
   education: {
     title: data?.educationText?.title ?? '',
     description: data?.educationText?.description ?? '',
-    image: { src: educationImage.asset.url, alt: educationImage.alt },
+    image: { src: educationImage.asset.url },
   },
   educationLibraryItems: (data?.educationLibraryItems ?? []).map(
     (item: { title?: string; link?: string; featured?: boolean; image?: { asset?: { url: string }; alt?: string } }) => {
@@ -223,7 +215,7 @@ const content = {
   insurance: {
     title: data?.insuranceText?.title ?? '',
     description: data?.insuranceText?.description ?? '',
-    image: { src: insuranceImage.asset.url, alt: insuranceImage.alt },
+    image: { src: insuranceImage.asset.url },
   },
   insuranceLibraryItems: (data?.insuranceLibraryItems ?? []).map(
     (item: { title?: string; link?: string; featured?: boolean; image?: { asset?: { url: string }; alt?: string } }) => {

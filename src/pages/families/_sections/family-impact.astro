@@ -4,11 +4,11 @@ import { ASSETS_BASE_URL, COLORS } from '../../../constants';
 interface Props {
   content: {
     paragraphs: string[];
-    image: { src: string; alt: string };
+    image: { src: string };
   };
 }
 
-const { content = { paragraphs: [], image: { src: '', alt: '' } } } = Astro.props;
+const { content = { paragraphs: [], image: { src: '' } } } = Astro.props;
 const imageSrc =
   content.image?.src && (content.image.src.startsWith('http') || content.image.src.startsWith('/'))
     ? content.image.src
@@ -20,7 +20,7 @@ const imageSrc =
 <section class="family-impact-section font-sans" style={{ backgroundColor: COLORS.white }}>
   <div class="container">
     <div class="image-wrapper">
-      {imageSrc && <img src={imageSrc} alt={content.image?.alt ?? ''} loading="lazy" />}
+      {imageSrc && <img src={imageSrc} alt="Students and staff at Creekside engaging in a learning activity." loading="lazy" />}
     </div>
 
     <div class="text-content">

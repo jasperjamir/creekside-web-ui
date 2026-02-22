@@ -1,23 +1,99 @@
 ---
+import { sanityClient } from 'sanity:client';
 import PageLayout from '../../layouts/PageLayout.astro';
 import HeroSection from './_sections/hero.astro';
 import WaysToGive from './_sections/ways-to-give.astro';
 import GivingOptions from './_sections/giving-options.astro';
 import Transparency from './_sections/transparency.astro';
+import { ASSETS_BASE_URL } from '../../constants';
+
+const DEFAULT_IMAGES = {
+  hero: {
+    url: `${ASSETS_BASE_URL}/images/hero-image.png`,
+    alt: 'Adult and child engaged in art activity at Creekside School',
+  },
+};
+
+function withDefaultImage(
+  cmsImage: { asset?: { url: string }; alt?: string } | undefined,
+  defaultImage: { url: string; alt: string }
+) {
+  if (cmsImage?.asset?.url) {
+    return { asset: { url: cmsImage.asset.url }, alt: defaultImage.alt };
+  }
+  return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
+}
+
+const QUERY = /* groq */ `*[_type == "supportDonate"][0] {
+  title,
+  heroText {
+    headingPrefix,
+    headingHighlight,
+    headingSuffix,
+    subheading,
+    donateCta,
+    donateHref,
+    image { asset->{ _id, url } }
+  },
+  waysToGiveText {
+    sectionTitle,
+    donationAmounts,
+    monthlyLabel,
+    inKindTitle,
+    inKindSubtitle
+  },
+  givingOptionsItems[] {
+    _key,
+    title,
+    description,
+    iconSvg
+  },
+  transparencyText { title, body }
+}`;
+
+const data = await sanityClient.fetch(QUERY);
+
+const pageTitle = data?.title ?? '';
+const heroImage = withDefaultImage(data?.heroText?.image, DEFAULT_IMAGES.hero);
+
+const content = {
+  hero: {
+    imageUrl: heroImage.asset.url,
+    headingPrefix: data?.heroText?.headingPrefix ?? '',
+    headingHighlight: data?.heroText?.headingHighlight ?? '',
+    headingSuffix: data?.heroText?.headingSuffix ?? '',
+    subheading: data?.heroText?.subheading ?? '',
+    donateCta: data?.heroText?.donateCta ?? '',
+    donateHref: data?.heroText?.donateHref ?? '',
+  },
+  waysToGive: {
+    sectionTitle: data?.waysToGiveText?.sectionTitle ?? '',
+    donationAmounts: data?.waysToGiveText?.donationAmounts ?? [],
+    monthlyLabel: data?.waysToGiveText?.monthlyLabel ?? '',
+    inKindTitle: data?.waysToGiveText?.inKindTitle ?? '',
+    inKindSubtitle: data?.waysToGiveText?.inKindSubtitle ?? '',
+  },
+  givingOptions: data?.givingOptionsItems ?? [],
+  transparency: {
+    title: data?.transparencyText?.title ?? '',
+    body: data?.transparencyText?.body ?? '',
+  },
+};
 ---
 
-<PageLayout title="Donate - The Creekside School">
-  <HeroSection
-    imageAlt="Adult and child engaged in art activity at Creekside School"
-    headingPrefix="Make a gift to "
-    headingHighlight="Creekside"
-    subheading="Your gift powers individualized education and suite-level autism services for students and their families."
-    donateCta="Donate Now"
-    donateHref="#donate-now"
-  />
+<PageLayout title={pageTitle ? `${pageTitle} - The Creekside School` : 'Donate - The Creekside School'}>
+  <HeroSection {...content.hero} />
   <section id="donate-now" aria-label="Donate Now">
-    <WaysToGive sectionTitle="Donate Now" hideInKind />
+    <WaysToGive
+      sectionTitle={content.waysToGive.sectionTitle}
+      donationAmounts={content.waysToGive.donationAmounts}
+      monthlyLabel={content.waysToGive.monthlyLabel}
+      inKindTitle={content.waysToGive.inKindTitle}
+      inKindSubtitle={content.waysToGive.inKindSubtitle}
+      donateBaseUrl="/support/donate"
+      hideInKind
+    />
   </section>
-  <GivingOptions />
-  <Transparency />
+  <GivingOptions options={content.givingOptions} />
+  <Transparency title={content.transparency.title} body={content.transparency.body} />
 </PageLayout>

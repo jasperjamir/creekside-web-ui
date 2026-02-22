@@ -11,13 +11,12 @@ interface Props {
 
 const { title, description, image, benefits } = Astro.props;
 const imageUrl = image?.asset?.url ?? '';
-const imageAlt = image?.alt ?? '';
 ---
 
 <section class="join-section font-sans" style={{ backgroundColor: COLORS.white }}>
   <div class="container">
     <div class="image-wrapper">
-      <img src={imageUrl} alt={imageAlt} loading="lazy" />
+      <img src={imageUrl} alt="A Creekside teacher working one-on-one with a student on a learning activity." loading="lazy" />
     </div>
 
     <div class="text-content">

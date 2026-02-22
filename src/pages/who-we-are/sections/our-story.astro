@@ -10,7 +10,6 @@ interface Props {
 
 const { heading = '', body = '', body2 = '', image } = Astro.props;
 const imageUrl = image?.asset?.url ?? '';
-const imageAlt = image?.alt ?? '';
 ---
 
 <PageHeader
@@ -19,5 +18,5 @@ const imageAlt = image?.alt ?? '';
   body={body}
   body2={body2}
   imageUrl={imageUrl}
-  imageAlt={imageAlt}
+  imageAlt="Creekside School community"
 />

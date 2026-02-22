@@ -9,7 +9,7 @@ interface Props {
     contactLabel: string;
     phone: string;
     email: string;
-    image: { src: string; alt: string };
+    image: { src: string };
   };
 }
 
@@ -21,7 +21,7 @@ const {
     contactLabel: '',
     phone: '',
     email: '',
-    image: { src: '', alt: '' },
+    image: { src: '' },
   },
 } = Astro.props;
 const imageSrc =
@@ -64,7 +64,7 @@ const imageSrc =
     </div>
 
     <div class="image-wrapper">
-      {imageSrc && <img src={imageSrc} alt={content.image?.alt ?? ''} loading="lazy" />}
+      {imageSrc && <img src={imageSrc} alt="Creekside School contact" loading="lazy" />}
     </div>
   </div>
 </section>

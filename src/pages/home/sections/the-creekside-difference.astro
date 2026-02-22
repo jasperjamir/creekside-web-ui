@@ -1,15 +1,16 @@
 ---
-import { COLORS, ASSETS_BASE_URL } from '../../../constants';
+import { COLORS } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
 import Button from '../../../components/ui/Button.astro';
 
 interface Props {
   heading: string;
   body: string;
+  image?: { asset?: { url: string } };
 }
 
-const { heading = '', body = '' } = Astro.props;
-const imageUrl = `${ASSETS_BASE_URL}/images/home--the-creekside-difference.jpg`;
+const { heading = '', body = '', image } = Astro.props;
+const imageUrl = image?.asset?.url ?? '';
 ---
 
 <section class="py-20" style={{ backgroundColor: COLORS.cream }}>
@@ -27,18 +28,20 @@ const imageUrl = `${ASSETS_BASE_URL}/images/home--the-creekside-difference.jpg`;
           </Button>
         </div>
       </div>
-      <div class="flex justify-center lg:justify-end">
-        <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md aspect-[5/3]">
-          <img
-            src={imageUrl}
-            alt="Creekside School campus"
-            class="w-full h-full object-cover object-center"
-            loading="lazy"
-            width="600"
-            height="360"
-          />
+      {imageUrl && (
+        <div class="flex justify-center lg:justify-end">
+          <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md aspect-[5/3]">
+            <img
+              src={imageUrl}
+              alt="Creekside School campus"
+              class="w-full h-full object-cover object-center"
+              loading="lazy"
+              width="600"
+              height="360"
+            />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   </div>
 </section>

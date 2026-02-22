@@ -4,25 +4,33 @@ import Button from '../../../components/ui/Button.astro';
 import heroImage from '../../../assets/images/hero-image.png';
 
 interface Props {
-  imageAlt: string;
-  headingPrefix: string;
-  headingHighlight: string;
+  imageUrl?: string;
+  headingPrefix?: string;
+  headingHighlight?: string;
   headingSuffix?: string;
-  subheading: string;
-  donateCta: string;
-  donateHref: string;
+  subheading?: string;
+  donateCta?: string;
+  donateHref?: string;
 }
 
-const { imageAlt, headingPrefix, headingHighlight, headingSuffix = '', subheading, donateCta, donateHref } =
-  Astro.props;
+const {
+  imageUrl = '',
+  headingPrefix = '',
+  headingHighlight = '',
+  headingSuffix = '',
+  subheading = '',
+  donateCta = '',
+  donateHref = '',
+} = Astro.props;
+const heroSrc = imageUrl || heroImage.src;
 ---
 
 <section class="relative h-[85vh] flex items-center overflow-hidden">
   <!-- Background Image with Overlay -->
   <div class="absolute inset-0 z-0">
     <img 
-      src={heroImage.src} 
-      alt={imageAlt} 
+      src={heroSrc} 
+      alt="Adult and child engaged in art activity at Creekside School" 
       class="w-full h-full object-cover"
     />
     <!-- Dominant background gradient overlay -->

@@ -43,14 +43,14 @@ function getImageUrl(fallback: string) {
                 {imageItems
                   .map((item) => {
                     const src = typeof item === 'string' ? item : item?.asset?.url;
-                    return src ? { src, alt: typeof item === 'string' ? '' : (item?.alt ?? '') } : null;
+                    return src ? { src, alt: `${group.title} at Creekside School` } : null;
                   })
                   .filter((x): x is { src: string; alt: string } => x !== null)
                   .map(({ src, alt }, imgIndex) => (
                   <div class="team-photo-scroll__item flex-shrink-0 w-[42vw] sm:w-44 md:w-52 snap-center">
                     <img
                       src={src}
-                      alt={alt || `${group.title} — ${imgIndex + 1}`}
+                      alt={alt}
                       class="w-full aspect-[3/4] object-cover object-center rounded-xl shadow-md bg-gray-200"
                       loading="lazy"
                       width="208"

@@ -7,7 +7,6 @@ interface Props {
     title: string;
     description: string;
     image: string;
-    imageAlt: string;
   };
 }
 
@@ -16,7 +15,6 @@ const content = contentProp ?? {
   title: 'Why Your Support Matters',
   description: 'At Creekside, every student\'s program is tailored to their interests, strengths, and needs. Donations sustain small class sizes, suite-level autism services, and a campus built for safety, sensory needs, and learning in community.',
   image: 'support--why-support-matters.png',
-  imageAlt: 'Students and staff at Creekside engaging in a learning activity.',
 };
 const imageSrc = content.image && content.image.startsWith('http') ? content.image : `${ASSETS_BASE_URL}/images/${content.image ?? 'support--why-support-matters.png'}`;
 ---
@@ -32,7 +30,7 @@ const imageSrc = content.image && content.image.startsWith('http') ? content.ima
     </div>
 
     <div class="image-wrapper">
-      <img src={imageSrc} alt={content.imageAlt} loading="lazy" />
+      <img src={imageSrc} alt="Students and staff at Creekside engaging in a learning activity." loading="lazy" />
     </div>
   </div>
 </section>

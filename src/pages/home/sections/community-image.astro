@@ -9,7 +9,6 @@ interface Props {
 
 const { title = '', description = '', image } = Astro.props;
 const imageUrl = image?.asset?.url ?? `${ASSETS_BASE_URL}/images/home--community.jpg`;
-const imageAlt = image?.alt ?? '';
 ---
 
 <section class="py-16">
@@ -19,7 +18,7 @@ const imageAlt = image?.alt ?? '';
     <figure class="mt-6">
       <img
         src={imageUrl}
-        alt={imageAlt}
+        alt="Community at Creekside School"
         class="w-full rounded-lg object-cover max-h-[400px]"
         loading="lazy"
       />

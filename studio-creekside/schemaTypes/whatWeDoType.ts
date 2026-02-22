@@ -23,14 +23,6 @@ export default defineType({
           type: 'image',
           title: 'Image',
           options: { hotspot: true },
-          fields: [
-            defineField({
-              name: 'alt',
-              type: 'string',
-              title: 'Alternative Text',
-              validation: (rule) => rule.required().warning('Alt text is important for SEO'),
-            }),
-          ],
         }),
       ],
     }),
@@ -55,14 +47,6 @@ export default defineType({
                   type: 'image',
                   title: 'Image',
                   options: { hotspot: true },
-                  fields: [
-                    defineField({
-                      name: 'alt',
-                      type: 'string',
-                      title: 'Alternative Text',
-                      validation: (rule) => rule.required().warning('Alt text is important for SEO'),
-                    }),
-                  ],
                 }),
               ],
             }),
@@ -84,20 +68,6 @@ export default defineType({
           type: 'image',
           title: 'Image',
           options: { hotspot: true },
-          fields: [
-            defineField({
-              name: 'alt',
-              type: 'string',
-              title: 'Alternative Text',
-              validation: (rule) => rule.required().warning('Alt text is important for SEO'),
-            }),
-          ],
-        }),
-        defineField({
-          name: 'approachImageAlt',
-          type: 'string',
-          title: 'Approach Block Image Alt',
-          description: 'Alt text for the image in the second (approach) block',
         }),
       ],
     }),
@@ -138,14 +108,6 @@ export default defineType({
           type: 'image',
           title: 'Section Image',
           options: { hotspot: true },
-          fields: [
-            defineField({
-              name: 'alt',
-              type: 'string',
-              title: 'Alternative Text',
-              validation: (rule) => rule.required().warning('Alt text is important for SEO'),
-            }),
-          ],
         }),
         defineField({
           name: 'partners',
@@ -162,14 +124,6 @@ export default defineType({
                   type: 'image',
                   title: 'Logo / Image',
                   options: { hotspot: true },
-                  fields: [
-                    defineField({
-                      name: 'alt',
-                      type: 'string',
-                      title: 'Alternative Text',
-                      validation: (rule) => rule.required().warning('Alt text is important for SEO'),
-                    }),
-                  ],
                 }),
               ],
             }),

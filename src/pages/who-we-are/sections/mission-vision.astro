@@ -11,7 +11,6 @@ interface Props {
 
 const { sectionHeading = '', mission = '', vision = '', image } = Astro.props;
 const imageUrl = image?.asset?.url ?? '';
-const imageAlt = image?.alt ?? '';
 ---
 
 <section id="mission-vision" class="py-20" style={{ backgroundColor: COLORS.cream }}>
@@ -21,7 +20,7 @@ const imageAlt = image?.alt ?? '';
         <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md aspect-[5/3]">
           <img
             src={imageUrl}
-            alt={imageAlt}
+            alt="Mission and vision at Creekside School"
             class="w-full h-full object-cover object-center"
             loading="lazy"
             width="600"

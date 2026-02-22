@@ -6,11 +6,11 @@ interface Props {
   content: {
     title: string;
     description: string;
-    image: { src: string; alt: string };
+    image: { src: string };
   };
 }
 
-const { content = { title: '', description: '', image: { src: '', alt: '' } } } = Astro.props;
+const { content = { title: '', description: '', image: { src: '' } } } = Astro.props;
 const imageUrl =
   content.image?.src && (content.image.src.startsWith('http') || content.image.src.startsWith('/'))
     ? content.image.src
@@ -34,7 +34,7 @@ const imageUrl =
           <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md aspect-[5/3]">
             <img
               src={imageUrl}
-              alt={content.image?.alt ?? ''}
+              alt="Insurance resources at Creekside School"
               class="w-full h-full object-cover object-center"
               loading="lazy"
               width="600"

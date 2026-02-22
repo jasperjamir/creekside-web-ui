@@ -29,16 +29,7 @@ export default defineType({
           type: 'image',
           title: 'Hero Image',
           options: { hotspot: true },
-          fields: [
-            defineField({
-              name: 'alt',
-              type: 'string',
-              title: 'Alternative Text',
-              validation: (rule) => rule.required().warning('Alt text is important for SEO'),
-            }),
-          ],
         }),
-        defineField({ name: 'imageAlt', type: 'string', title: 'Image Alt Text (fallback)' }),
         defineField({ name: 'badge', type: 'string', title: 'Badge' }),
         defineField({ name: 'headingPrefix', type: 'string', title: 'Heading Prefix' }),
         defineField({ name: 'headingHighlight', type: 'string', title: 'Heading Highlight' }),
@@ -52,6 +43,12 @@ export default defineType({
       fields: [
         defineField({ name: 'heading', type: 'string', title: 'Heading' }),
         defineField({ name: 'body', type: 'text', title: 'Body' }),
+        defineField({
+          name: 'image',
+          type: 'image',
+          title: 'Image',
+          options: { hotspot: true },
+        }),
       ],
     }),
     defineField({
@@ -98,14 +95,6 @@ export default defineType({
                   type: 'image',
                   title: 'Image',
                   options: { hotspot: true },
-                  fields: [
-                    defineField({
-                      name: 'alt',
-                      type: 'string',
-                      title: 'Alternative Text',
-                      validation: (rule) => rule.required().warning('Alt text is important for SEO'),
-                    }),
-                  ],
                 }),
               ],
             }),
@@ -155,29 +144,6 @@ export default defineType({
                 defineField({ name: 'author', type: 'string', title: 'Author' }),
                 defineField({ name: 'role', type: 'string', title: 'Role' }),
               ],
-            }),
-          ],
-        }),
-      ],
-    }),
-    defineField({
-      name: 'communityImageText',
-      type: 'object',
-      title: 'Community Image Section',
-      fields: [
-        defineField({ name: 'title', type: 'string', title: 'Title' }),
-        defineField({ name: 'description', type: 'text', title: 'Description' }),
-        defineField({
-          name: 'image',
-          type: 'image',
-          title: 'Image',
-          options: { hotspot: true },
-          fields: [
-            defineField({
-              name: 'alt',
-              type: 'string',
-              title: 'Alternative Text',
-              validation: (rule) => rule.required().warning('Alt text is important for SEO'),
             }),
           ],
         }),

@@ -1,13 +1,16 @@
 ---
-import { TRANSPARENCY_CONTENT } from '../_constants/transparency';
+interface Props {
+  title?: string;
+  body?: string;
+}
 
-const { title, body } = TRANSPARENCY_CONTENT;
+const { title = '', body = '' } = Astro.props;
 ---
 
 <section class="transparency-section font-sans">
   <div class="container">
-    <h2 class="transparency-title">{title}</h2>
-    <p class="transparency-body">{body}</p>
+    {title && <h2 class="transparency-title">{title}</h2>}
+    {body && <p class="transparency-body">{body}</p>}
   </div>
 </section>
 
