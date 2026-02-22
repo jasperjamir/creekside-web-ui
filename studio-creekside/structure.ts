@@ -59,6 +59,16 @@ export const structure: StructureResolver = (S) =>
                 .child(
                   S.editor().id('supportDonate').schemaType('supportDonate').documentId('supportDonate')
                 ),
+              S.listItem()
+                .title('In-Kind Donations')
+                .id('supportInKindDonations')
+                .schemaType('supportInKindDonations')
+                .child(
+                  S.editor()
+                    .id('supportInKindDonations')
+                    .schemaType('supportInKindDonations')
+                    .documentId('supportInKindDonations')
+                ),
             ])
         ),
       S.listItem()

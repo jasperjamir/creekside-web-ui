@@ -39,6 +39,7 @@ const PAGE_MODULES: Record<
   'admissions-process': () => import('../../src/lib/admissions-process-defaults'),
   'support': () => import('../../src/lib/support-defaults'),
   'support-donate': () => import('../../src/lib/support-donate-defaults'),
+  'in-kind-donations': () => import('../../src/lib/in-kind-donations-defaults'),
 }
 
 async function main() {

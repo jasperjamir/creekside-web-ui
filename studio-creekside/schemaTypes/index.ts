@@ -6,6 +6,7 @@ import { default as familiesType } from './familiesType';
 import { default as parentResourcesType } from './parentResourcesType';
 import { default as supportType } from './supportType';
 import { default as supportDonateType } from './supportDonateType';
+import { default as supportInKindDonationsType } from './supportInKindDonationsType';
 
 export const schemaTypes = [
   homeType,
@@ -16,4 +17,5 @@ export const schemaTypes = [
   parentResourcesType,
   supportType,
   supportDonateType,
+  supportInKindDonationsType,
 ];

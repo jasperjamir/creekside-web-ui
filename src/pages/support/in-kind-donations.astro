@@ -1,22 +1,107 @@
 ---
+import { sanityClient } from 'sanity:client';
 import PageLayout from '../../layouts/PageLayout.astro';
 import HeroSection from './_sections/hero.astro';
 import Wishlist from './_sections/wishlist.astro';
 import Drives from './_sections/drives.astro';
 import HowToGive from './_sections/how-to-give.astro';
+import { ASSETS_BASE_URL } from '../../constants';
+
+const DEFAULT_IMAGES = {
+  hero: {
+    url: `${ASSETS_BASE_URL}/images/hero-image.png`,
+    alt: 'Adult and child engaged in art activity at Creekside School',
+  },
+};
+
+function withDefaultImage(
+  cmsImage: { asset?: { url: string }; alt?: string } | undefined,
+  defaultImage: { url: string; alt: string }
+) {
+  if (cmsImage?.asset?.url) {
+    return { url: cmsImage.asset.url, alt: cmsImage.alt ?? defaultImage.alt };
+  }
+  return { url: defaultImage.url, alt: defaultImage.alt };
+}
+
+const QUERY = /* groq */ `*[_type == "supportInKindDonations"][0] {
+  title,
+  heroText {
+    headingPrefix,
+    headingHighlight,
+    headingSuffix,
+    subheading,
+    donateCta,
+    donateHref,
+    image { asset->{ _id, url }, alt }
+  },
+  wishlistText {
+    sectionTitle,
+    categories[] {
+      _key,
+      title,
+      items[] {
+        _key,
+        text,
+        link
+      }
+    }
+  },
+  howToGiveText {
+    sectionTitle,
+    steps[] {
+      _key,
+      heading,
+      subHeading,
+      text,
+      link
+    }
+  },
+  drivesText {
+    cards[] {
+      _key,
+      type,
+      title,
+      text,
+      textHtml,
+      emailLink
+    }
+  }
+}`;
+
+const data = await sanityClient.fetch(QUERY);
+
+const pageTitle = data?.title ?? '';
+const heroImg = withDefaultImage(data?.heroText?.image, DEFAULT_IMAGES.hero);
+
+const content = {
+  hero: {
+    imageUrl: heroImg.url,
+    imageAlt: heroImg.alt,
+    headingPrefix: data?.heroText?.headingPrefix ?? '',
+    headingHighlight: data?.heroText?.headingHighlight ?? '',
+    headingSuffix: data?.heroText?.headingSuffix ?? '',
+    subheading: data?.heroText?.subheading ?? '',
+    donateCta: data?.heroText?.donateCta ?? '',
+    donateHref: data?.heroText?.donateHref ?? '',
+  },
+  wishlist: {
+    sectionTitle: data?.wishlistText?.sectionTitle ?? '',
+    categories: data?.wishlistText?.categories ?? [],
+  },
+  howToGive: {
+    sectionTitle: data?.howToGiveText?.sectionTitle ?? '',
+    steps: data?.howToGiveText?.steps ?? [],
+  },
+  drives: {
+    cards: data?.drivesText?.cards ?? [],
+  },
+};
 ---
 
-<PageLayout title="In-Kind Donations - The Creekside School">
-  <HeroSection
-    imageAlt="Adult and child engaged in art activity at Creekside School"
-    headingPrefix=""
-    headingHighlight="Donate"
-    headingSuffix=" supplies and materials"
-    subheading="Tangible items help classrooms and therapy teams stretch every dollar."
-    donateCta="View Wishlist"
-    donateHref="#content"
-  />
-  <Wishlist />
-  <HowToGive />
-  <Drives />
+<PageLayout title={pageTitle ? `${pageTitle} - The Creekside School` : 'In-Kind Donations - The Creekside School'}>
+  <HeroSection {...content.hero} />
+  <Wishlist sectionTitle={content.wishlist.sectionTitle} categories={content.wishlist.categories} />
+  <HowToGive sectionTitle={content.howToGive.sectionTitle} steps={content.howToGive.steps} />
+  <Drives cards={content.drives.cards} />
 </PageLayout>
