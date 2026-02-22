@@ -8,24 +8,19 @@ interface Props {
   };
 }
 
-const { content: contentProp } = Astro.props;
-const content = contentProp ?? {
-  paragraphs: [
-    'Autism impacts the whole family: siblings, grandparents, aunts, uncles and cousins.',
-    "All families play an important role in their students' success. The families of students with autism play a crucial role in supporting their child's journey to adulthood.",
-  ],
-  image: { src: '/images/family-playground.jpg', alt: 'Students and staff engaging in activities on a playground' },
-};
+const { content = { paragraphs: [], image: { src: '', alt: '' } } } = Astro.props;
 const imageSrc =
-  content.image.src.startsWith('http') || content.image.src.startsWith('/')
+  content.image?.src && (content.image.src.startsWith('http') || content.image.src.startsWith('/'))
     ? content.image.src
-    : `${ASSETS_BASE_URL}/images/${content.image.src}`;
+    : content.image?.src
+      ? `${ASSETS_BASE_URL}/images/${content.image.src}`
+      : '';
 ---
 
 <section class="family-impact-section font-sans" style={{ backgroundColor: COLORS.white }}>
   <div class="container">
     <div class="image-wrapper">
-      <img src={imageSrc} alt={content.image.alt} loading="lazy" />
+      {imageSrc && <img src={imageSrc} alt={content.image?.alt ?? ''} loading="lazy" />}
     </div>
 
     <div class="text-content">

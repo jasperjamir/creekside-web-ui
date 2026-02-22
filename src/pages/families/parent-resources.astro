@@ -1,4 +1,5 @@
 ---
+import { sanityClient } from 'sanity:client';
 import PageLayout from '../../layouts/PageLayout.astro';
 import HeroSection from './_sections/hero.astro';
 import FamilyImpact from './_sections/family-impact.astro';
@@ -12,31 +13,245 @@ import Education from './_sections/education.astro';
 import EducationLibrary from './_sections/education-library.astro';
 import Insurance from './_sections/insurance.astro';
 import InsuranceLibrary from './_sections/insurance-library.astro';
-import { FAMILIES_HERO, FAMILY_IMPACT_CONTENT, NAVIGATING_SYSTEMS_CONTENT, BENEFITS_CARDS, PUBLIC_BENEFITS_CONTENT, RESOURCE_LIBRARY_ITEMS, CONTACT_WITH_IMAGE_CONTENT, CHECK_MORE_CONTENT, EDUCATION_CONTENT, IEP_RESOURCES, INSURANCE_CONTENT, INSURANCE_RESOURCES } from './_constants';
+import { ASSETS_BASE_URL } from '../../constants';
 
-const heroText = {
-  imageAlt: FAMILIES_HERO.imageAlt,
-  headingPrefix: 'Key resources for ',
-  headingHighlight: 'Parents',
-  subheading: '',
-  ctaText: FAMILIES_HERO.ctaText,
-  ctaHref: FAMILIES_HERO.ctaHref,
+const DEFAULT_IMAGES = {
+  hero: {
+    url: `${ASSETS_BASE_URL}/images/hero-image.png`,
+    alt: 'Students and families at Creekside School',
+  },
+  familyImpact: {
+    url: `${ASSETS_BASE_URL}/images/support--why-support-matters.png`,
+    alt: 'Students and staff at Creekside engaging in a learning activity.',
+  },
+  contactWithImage: {
+    url: `${ASSETS_BASE_URL}/images/support--why-support-matters.png`,
+    alt: 'Students and staff at Creekside engaging in a learning activity.',
+  },
+  benefitsCard: {
+    url: `${ASSETS_BASE_URL}/images/support--why-support-matters.png`,
+    alt: 'Students and staff at Creekside engaging in a learning activity.',
+  },
+  publicBenefits: {
+    url: `${ASSETS_BASE_URL}/images/support--why-support-matters.png`,
+    alt: 'Students and staff at Creekside engaging in a learning activity.',
+  },
+  education: {
+    url: `${ASSETS_BASE_URL}/images/support--why-support-matters.png`,
+    alt: 'Student working at a desk with a teacher',
+  },
+  insurance: {
+    url: `${ASSETS_BASE_URL}/images/support--why-support-matters.png`,
+    alt: 'Student working at a desk with a teacher',
+  },
+  libraryItem: {
+    url: `${ASSETS_BASE_URL}/images/support--why-support-matters.png`,
+    alt: '',
+  },
+};
+
+function withDefaultImage(
+  cmsImage: { asset?: { url: string }; alt?: string } | undefined,
+  defaultImage: { url: string; alt: string }
+) {
+  if (cmsImage?.asset?.url) {
+    return { asset: { url: cmsImage.asset.url }, alt: cmsImage.alt ?? '' };
+  }
+  return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
+}
+
+const QUERY = /* groq */ `*[_type == "parentResources"][0] {
+  title,
+  heroText {
+    imageAlt,
+    headingPrefix,
+    headingHighlight,
+    headingSuffix,
+    subheading,
+    ctaText,
+    ctaHref,
+    image { asset->{ _id, url }, alt }
+  },
+  familyImpactText {
+    paragraphs,
+    imageAlt,
+    image { asset->{ _id, url }, alt }
+  },
+  contactWithImageText {
+    schoolName,
+    address,
+    mapsLink,
+    contactLabel,
+    phone,
+    email,
+    imageAlt,
+    image { asset->{ _id, url }, alt }
+  },
+  navigatingSystemsText { title, titleHighlight, description },
+  benefitsCards[] {
+    _key,
+    title,
+    link,
+    description,
+    image { asset->{ _id, url }, alt }
+  },
+  publicBenefitsText {
+    title,
+    description,
+    button { text, link },
+    imageAlt,
+    image { asset->{ _id, url }, alt }
+  },
+  publicBenefitsLibraryItems[] {
+    _key,
+    title,
+    link,
+    image { asset->{ _id, url }, alt }
+  },
+  checkMoreText { text, boldText, link },
+  educationText {
+    title,
+    description,
+    imageAlt,
+    image { asset->{ _id, url }, alt }
+  },
+  educationLibraryItems[] {
+    _key,
+    title,
+    link,
+    featured,
+    image { asset->{ _id, url }, alt }
+  },
+  insuranceText {
+    title,
+    description,
+    imageAlt,
+    image { asset->{ _id, url }, alt }
+  },
+  insuranceLibraryItems[] {
+    _key,
+    title,
+    link,
+    featured,
+    image { asset->{ _id, url }, alt }
+  }
+}`;
+
+const data = await sanityClient.fetch(QUERY);
+
+const pageTitle = data?.title ?? '';
+
+const heroImage = withDefaultImage(data?.heroText?.image, DEFAULT_IMAGES.hero);
+const familyImpactImage = withDefaultImage(data?.familyImpactText?.image, DEFAULT_IMAGES.familyImpact);
+const contactImage = withDefaultImage(data?.contactWithImageText?.image, DEFAULT_IMAGES.contactWithImage);
+const publicBenefitsImage = withDefaultImage(data?.publicBenefitsText?.image, DEFAULT_IMAGES.publicBenefits);
+const educationImage = withDefaultImage(data?.educationText?.image, DEFAULT_IMAGES.education);
+const insuranceImage = withDefaultImage(data?.insuranceText?.image, DEFAULT_IMAGES.insurance);
+
+const content = {
+  hero: {
+    imageUrl: heroImage.asset.url,
+    imageAlt: heroImage.alt,
+    headingPrefix: data?.heroText?.headingPrefix ?? '',
+    headingHighlight: data?.heroText?.headingHighlight ?? '',
+    headingSuffix: data?.heroText?.headingSuffix ?? '',
+    subheading: data?.heroText?.subheading ?? '',
+    ctaText: data?.heroText?.ctaText ?? '',
+    ctaHref: data?.heroText?.ctaHref ?? '',
+  },
+  familyImpact: {
+    paragraphs: data?.familyImpactText?.paragraphs ?? [],
+    image: { src: familyImpactImage.asset.url, alt: familyImpactImage.alt },
+  },
+  contactWithImage: {
+    schoolName: data?.contactWithImageText?.schoolName ?? '',
+    address: data?.contactWithImageText?.address ?? [],
+    mapsLink: data?.contactWithImageText?.mapsLink ?? '',
+    contactLabel: data?.contactWithImageText?.contactLabel ?? '',
+    phone: data?.contactWithImageText?.phone ?? '',
+    email: data?.contactWithImageText?.email ?? '',
+    image: { src: contactImage.asset.url, alt: contactImage.alt },
+  },
+  navigatingSystems: {
+    title: data?.navigatingSystemsText?.title ?? '',
+    titleHighlight: data?.navigatingSystemsText?.titleHighlight ?? '',
+    description: data?.navigatingSystemsText?.description ?? '',
+  },
+  benefitsCards: (data?.benefitsCards ?? []).map((card: { title?: string; link?: string; description?: string; image?: { asset?: { url: string }; alt?: string } }) => {
+    const img = withDefaultImage(card?.image, DEFAULT_IMAGES.benefitsCard);
+    return {
+      title: card?.title ?? '',
+      link: card?.link ?? '',
+      imageSrc: img.asset.url,
+      alt: img.alt,
+      description: card?.description ?? '',
+    };
+  }),
+  publicBenefits: {
+    title: data?.publicBenefitsText?.title ?? '',
+    description: data?.publicBenefitsText?.description ?? '',
+    button: data?.publicBenefitsText?.button ?? { text: '', link: '' },
+    image: { src: publicBenefitsImage.asset.url, alt: publicBenefitsImage.alt },
+  },
+  publicBenefitsLibraryItems: (data?.publicBenefitsLibraryItems ?? []).map(
+    (item: { title?: string; link?: string; image?: { asset?: { url: string }; alt?: string } }) => {
+      const img = withDefaultImage(item?.image, DEFAULT_IMAGES.libraryItem);
+      return { title: item?.title ?? '', link: item?.link ?? '', imageSrc: img.asset.url };
+    }
+  ),
+  checkMore: {
+    text: data?.checkMoreText?.text ?? '',
+    boldText: data?.checkMoreText?.boldText ?? '',
+    link: data?.checkMoreText?.link ?? '',
+  },
+  education: {
+    title: data?.educationText?.title ?? '',
+    description: data?.educationText?.description ?? '',
+    image: { src: educationImage.asset.url, alt: educationImage.alt },
+  },
+  educationLibraryItems: (data?.educationLibraryItems ?? []).map(
+    (item: { title?: string; link?: string; featured?: boolean; image?: { asset?: { url: string }; alt?: string } }) => {
+      const img = withDefaultImage(item?.image, DEFAULT_IMAGES.libraryItem);
+      return {
+        title: item?.title ?? '',
+        link: item?.link ?? '',
+        imageSrc: img.asset.url,
+        featured: item?.featured ?? false,
+      };
+    }
+  ),
+  insurance: {
+    title: data?.insuranceText?.title ?? '',
+    description: data?.insuranceText?.description ?? '',
+    image: { src: insuranceImage.asset.url, alt: insuranceImage.alt },
+  },
+  insuranceLibraryItems: (data?.insuranceLibraryItems ?? []).map(
+    (item: { title?: string; link?: string; featured?: boolean; image?: { asset?: { url: string }; alt?: string } }) => {
+      const img = withDefaultImage(item?.image, DEFAULT_IMAGES.libraryItem);
+      return {
+        title: item?.title ?? '',
+        link: item?.link ?? '',
+        imageSrc: img.asset.url,
+        featured: item?.featured ?? false,
+      };
+    }
+  ),
 };
 ---
 
-<PageLayout title="Parent Resources - The Creekside School">
-  <HeroSection {...heroText} />
-  <FamilyImpact content={FAMILY_IMPACT_CONTENT} />
-  <ContactWithImage content={CONTACT_WITH_IMAGE_CONTENT} />
-  <NavigatingSystems content={NAVIGATING_SYSTEMS_CONTENT} />
-  <Benefits cards={BENEFITS_CARDS} />
-  <PublicBenefits content={PUBLIC_BENEFITS_CONTENT} />
-  <PublicBenefitsLibrary items={RESOURCE_LIBRARY_ITEMS} />
-  <CheckMore content={CHECK_MORE_CONTENT} />
-  <Education content={EDUCATION_CONTENT} />
-  <EducationLibrary items={IEP_RESOURCES} />
-  <CheckMore content={CHECK_MORE_CONTENT} />
-  <Insurance content={INSURANCE_CONTENT} />
-  <InsuranceLibrary items={INSURANCE_RESOURCES} />
-  <CheckMore content={CHECK_MORE_CONTENT} />
+<PageLayout title={pageTitle ? `${pageTitle} - The Creekside School` : 'Parent Resources - The Creekside School'}>
+  <HeroSection {...content.hero} />
+  <FamilyImpact content={content.familyImpact} />
+  <ContactWithImage content={content.contactWithImage} />
+  <NavigatingSystems content={content.navigatingSystems} />
+  <Benefits cards={content.benefitsCards} />
+  <PublicBenefits content={content.publicBenefits} />
+  <PublicBenefitsLibrary items={content.publicBenefitsLibraryItems} />
+  <CheckMore content={content.checkMore} />
+  <Education content={content.education} />
+  <EducationLibrary items={content.educationLibraryItems} />
+  <CheckMore content={content.checkMore} />
+  <Insurance content={content.insurance} />
+  <InsuranceLibrary items={content.insuranceLibraryItems} />
+  <CheckMore content={content.checkMore} />
 </PageLayout>

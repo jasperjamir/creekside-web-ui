@@ -5,8 +5,8 @@ interface Props {
   content: { text: string; boldText?: string; link: string };
 }
 
-const { content } = Astro.props;
-const isExternal = content.link.startsWith('http');
+const { content = { text: '', boldText: '', link: '' } } = Astro.props;
+const isExternal = content.link?.startsWith('http');
 ---
 
 <section class="pt-8 pb-20 bg-white relative overflow-hidden font-sans">

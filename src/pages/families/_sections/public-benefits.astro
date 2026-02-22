@@ -11,18 +11,20 @@ interface Props {
   };
 }
 
-const { content: contentProp } = Astro.props;
-const content = contentProp ?? {
-  title: 'Public Benefits',
-  description:
-    "Depending on your income, your child's age and diagnosis, and other factors, there are many programs you can take advantage of.",
-  button: { text: 'View the complete <u>list here.</u>', link: '/resources/public-benefits-list' },
-  image: { src: 'support--why-support-matters.png', alt: 'Students and staff at Creekside engaging in a learning activity.' },
-};
+const {
+  content = {
+    title: '',
+    description: '',
+    button: { text: '', link: '' },
+    image: { src: '', alt: '' },
+  },
+} = Astro.props;
 const imageUrl =
-  content.image.src.startsWith('http') || content.image.src.startsWith('/')
+  content.image?.src && (content.image.src.startsWith('http') || content.image.src.startsWith('/'))
     ? content.image.src
-    : `${ASSETS_BASE_URL}/images/${content.image.src}`;
+    : content.image?.src
+      ? `${ASSETS_BASE_URL}/images/${content.image.src}`
+      : '';
 const isExternal = content.button.link.startsWith('http');
 ---
 
@@ -48,16 +50,18 @@ const isExternal = content.button.link.startsWith('http');
         </div>
       </div>
       <div class="flex justify-center lg:justify-end">
-        <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md aspect-[5/3]">
-          <img
-            src={imageUrl}
-            alt={content.image.alt}
-            class="w-full h-full object-cover object-center"
-            loading="lazy"
-            width="600"
-            height="360"
-          />
-        </div>
+        {imageUrl && (
+          <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md aspect-[5/3]">
+            <img
+              src={imageUrl}
+              alt={content.image?.alt ?? ''}
+              class="w-full h-full object-cover object-center"
+              loading="lazy"
+              width="600"
+              height="360"
+            />
+          </div>
+        )}
       </div>
     </div>
   </div>

@@ -13,20 +13,23 @@ interface Props {
   };
 }
 
-const { content: contentProp } = Astro.props;
-const content = contentProp ?? {
-  schoolName: 'The Creekside School:',
-  address: ['5629 Lean Avenue', 'San Jose, CA 95123'],
-  mapsLink: 'https://maps.google.com/?q=5629+Lean+Avenue+San+Jose+CA+95123',
-  contactLabel: 'Contact us:',
-  phone: '408.448.2494',
-  email: 'info@creeksideschool.org',
-  image: { src: '/images/high-five.jpg', alt: 'Student giving a high five to a teacher' },
-};
+const {
+  content = {
+    schoolName: '',
+    address: [],
+    mapsLink: '',
+    contactLabel: '',
+    phone: '',
+    email: '',
+    image: { src: '', alt: '' },
+  },
+} = Astro.props;
 const imageSrc =
-  content.image.src.startsWith('http') || content.image.src.startsWith('/')
+  content.image?.src && (content.image.src.startsWith('http') || content.image.src.startsWith('/'))
     ? content.image.src
-    : `${ASSETS_BASE_URL}/images/${content.image.src}`;
+    : content.image?.src
+      ? `${ASSETS_BASE_URL}/images/${content.image.src}`
+      : '';
 ---
 
 <section
@@ -61,7 +64,7 @@ const imageSrc =
     </div>
 
     <div class="image-wrapper">
-      <img src={imageSrc} alt={content.image.alt} loading="lazy" />
+      {imageSrc && <img src={imageSrc} alt={content.image?.alt ?? ''} loading="lazy" />}
     </div>
   </div>
 </section>

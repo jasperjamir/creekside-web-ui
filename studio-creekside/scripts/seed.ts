@@ -30,6 +30,7 @@ const PAGE_MODULES: Record<
   string,
   () => Promise<{ buildSanityDocument: () => Record<string, unknown> }>
 > = {
+  'home': () => import('../../src/lib/home-defaults'),
   'what-we-do': () => import('../../src/lib/what-we-do-defaults'),
   'who-we-are': () => import('../../src/lib/who-we-are-defaults'),
   'join-us': () => import('../../src/lib/join-us-defaults'),

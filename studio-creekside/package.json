@@ -11,6 +11,7 @@
     "deploy": "sanity deploy",
     "deploy-graphql": "sanity graphql deploy",
     "seed": "npx tsx scripts/seed.ts",
+    "seed:home": "npx tsx scripts/seed.ts home",
     "seed:families": "npx tsx scripts/seed.ts families"
   },
   "keywords": [

@@ -3,5 +3,13 @@ import { default as whoWeAreType } from './whoWeAreType';
 import { default as whatWeDoType } from './whatWeDoType';
 import { default as joinUsType } from './joinUsType';
 import { default as familiesType } from './familiesType';
+import { default as parentResourcesType } from './parentResourcesType';
 
-export const schemaTypes = [homeType, whoWeAreType, whatWeDoType, joinUsType, familiesType];
+export const schemaTypes = [
+  homeType,
+  whoWeAreType,
+  whatWeDoType,
+  joinUsType,
+  familiesType,
+  parentResourcesType,
+];
