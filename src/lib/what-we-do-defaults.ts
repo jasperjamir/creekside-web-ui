@@ -9,7 +9,7 @@ export const SANITY_TYPE = 'whatWeDo' as const
 export const DEFAULT_CONTENT = {
   pageTitle: '',
   hero: {
-    heading: 'What We Do',
+    heading: 'Our Programs',
     body: 'Lifelong Learning',
     body2: 'begins with belonging, connection, and understanding',
   },
@@ -56,7 +56,7 @@ export const DEFAULT_CONTENT = {
   },
   communityPartnerships: {
     title: 'Community Partnerships',
-    cbiTitle: 'About Community-Based Instruction (CBI)',
+    cbiTitle: 'The Creekside School',
     cbiBody:
       'Community-Based Instruction (CBI) is an integral part of the Creekside approach, focusing on real-world application of skills. Through CBI, we support students in building independence and confidence by engaging with their community.',
   },
