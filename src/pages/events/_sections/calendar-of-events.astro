@@ -1,168 +1,44 @@
 ---
-import { COLORS } from '../../../constants';
+import { ASSETS_BASE_URL, COLORS } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
-
-interface CalendarEvent {
-  id: string;
-  name: string;
-  rsvpLink: string | null;
-}
-
-interface CalendarDay {
-  dayName: string;
-  date: string;
-  events: CalendarEvent[];
-}
 
 interface Props {
   content: {
     title: string;
-    month?: string;
-    initialDate?: string;
-    days: CalendarDay[];
+    image: string;
+    imageAlt: string;
   };
 }
 
 const { content } = Astro.props;
-const initialDate = content.initialDate ?? '2026-02-21';
+
+function getImageSrc(src: string) {
+  if (!src) return '';
+  return src.startsWith('http') || src.startsWith('/') ? src : `${ASSETS_BASE_URL}/images/${src}`;
+}
 ---
 
-<section id="calendar-of-events" class="calendar-of-events-section font-sans" style={{ backgroundColor: COLORS.cream }}>
+<section id="calendar-of-events" class="calendar-of-events-section font-sans" style={{ backgroundColor: COLORS.white }}>
   <div class="container mx-auto px-4 lg:px-8">
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-      <div class="flex flex-col items-center sm:items-start justify-center sm:justify-start">
-        <SectionHeading>{content.title}</SectionHeading>
-        <p id="calendar-month" class="text-xl font-semibold mt-2 w-full text-center sm:text-left" style={{ color: COLORS.blue.royal }}>{content.month ?? ''}</p>
-      </div>
-      <div class="flex justify-center sm:justify-end items-center">
-        <input
-          type="date"
-          id="calendar-date-input"
-          class="calendar-date-input px-3 py-2 rounded-lg border-2 text-base"
-          style={{ borderColor: COLORS.blue.royal, color: COLORS.blue.navy }}
+    <SectionHeading>{content.title}</SectionHeading>
+    <div class="mt-8 max-w-5xl mx-auto">
+      <div class="w-full overflow-hidden rounded-2xl shadow-lg aspect-[4/3] bg-gray-100">
+        <img
+          src={getImageSrc(content.image)}
+          alt={content.imageAlt}
+          class="w-full h-full object-cover object-center"
+          loading="lazy"
+          width="900"
+          height="675"
         />
       </div>
     </div>
-
-    <div id="calendar-days-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4">
-      {content.days.map((day) => (
-        <div
-          class="day-card rounded-xl p-4 shadow-md"
-          style={{ backgroundColor: COLORS.white }}
-        >
-          <div class="day-header mb-3">
-            <p class="font-bold text-lg" style={{ color: COLORS.blue.navy }}>{day.dayName}</p>
-            <p class="text-2xl font-extrabold" style={{ color: COLORS.blue.royal }}>{day.date}</p>
-          </div>
-          <ul class="events-list space-y-2">
-            {day.events.length === 0 ? (
-              <li class="text-sm text-gray-500">No events</li>
-            ) : (
-              day.events.map((event) => (
-                <li class="event-item">
-                  <p class="font-medium text-sm" style={{ color: COLORS.blue.navy }}>
-                    {event.id} {event.name}
-                  </p>
-                  {event.rsvpLink && (
-                    <a
-                      href={event.rsvpLink}
-                      class="inline-block mt-1 text-xs font-semibold underline"
-                      style={{ color: COLORS.blue.royal }}
-                    >
-                      RSVP
-                    </a>
-                  )}
-                </li>
-              ))
-            )}
-          </ul>
-        </div>
-      ))}
-    </div>
   </div>
 </section>
-
-<script define:vars={{ initialDate }}>
-  const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-  function getWeekForDate(dateStr) {
-    const d = new Date(dateStr + 'T12:00:00');
-    const day = d.getDay();
-    const diff = d.getDate() - day;
-    const sunday = new Date(d);
-    sunday.setDate(diff);
-    const days = [];
-    for (let i = 0; i < 7; i++) {
-      const dayDate = new Date(sunday);
-      dayDate.setDate(sunday.getDate() + i);
-      days.push({
-        dayName: DAY_NAMES[i],
-        date: String(dayDate.getDate()),
-        month: dayDate.getMonth(),
-        year: dayDate.getFullYear(),
-      });
-    }
-    return days;
-  }
-
-  function getMonthLabel(monthIndex, year) {
-    return `${MONTH_NAMES[monthIndex]} ${year}`;
-  }
-
-  function renderWeek(days) {
-    const grid = document.getElementById('calendar-days-grid');
-    if (!grid) return;
-    const navy = '#052049';
-    const royal = '#2658B2';
-    grid.innerHTML = days.map((d) => `
-      <div class="day-card rounded-xl p-4 shadow-md" style="background-color: #FFFFFF">
-        <div class="day-header mb-3">
-          <p class="font-bold text-lg" style="color: ${navy}">${d.dayName}</p>
-          <p class="text-2xl font-extrabold" style="color: ${royal}">${d.date}</p>
-        </div>
-        <ul class="events-list space-y-2" style="list-style: none; padding: 0; margin: 0">
-          <li class="text-sm text-gray-500">No events</li>
-        </ul>
-      </div>
-    `).join('');
-  }
-
-  function updateCalendar(dateStr) {
-    const days = getWeekForDate(dateStr);
-    const monthEl = document.getElementById('calendar-month');
-    if (monthEl && days.length > 0) {
-      monthEl.textContent = getMonthLabel(days[0].month, days[0].year);
-    }
-    renderWeek(days);
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const dateInput = document.getElementById('calendar-date-input');
-    if (dateInput) {
-      dateInput.value = initialDate;
-      dateInput.addEventListener('change', (e) => {
-        const val = e.target.value;
-        if (val) updateCalendar(val);
-      });
-    }
-    updateCalendar(initialDate);
-  });
-</script>
 
 <style>
   .calendar-of-events-section {
     padding: 4rem 0;
     font-family: inherit;
-  }
-
-  .day-card {
-    min-height: 120px;
-  }
-
-  .events-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
   }
 </style>
