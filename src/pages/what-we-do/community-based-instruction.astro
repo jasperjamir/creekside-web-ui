@@ -1,11 +1,29 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import PageHeader from '../../components/sections/PageHeader.astro';
+import ImageTextSection from '../../components/sections/ImageTextSection.astro';
+import { ASSETS_BASE_URL } from '../../constants';
+
+const heroImageUrl = `${ASSETS_BASE_URL}/images/what-we-do--community-partnerships.jpg`;
+const approachImageUrl = `${ASSETS_BASE_URL}/images/what-we-do--community-partnerships.jpg`;
 ---
 
 <PageLayout title="Community-Based Instruction - The Creekside School">
-  <div class="min-h-screen py-20">
-    <div class="container mx-auto px-4 lg:px-8">
-      <h1 class="text-4xl font-bold mb-4">Community-Based Instruction</h1>
-    </div>
+  <div class="animate-fade-in font-sans">
+    <PageHeader
+      sectionId="cbi-hero"
+      heading="Community-Based Instruction"
+      body="CBI is an integral part of the Creekside approach, focusing on real-world application of skills. Through CBI, we support students in building independence and confidence by engaging with their community."
+      imageUrl={heroImageUrl}
+      imageAlt="Community-Based Instruction at Creekside"
+    />
+    <ImageTextSection
+      sectionId="cbi-approach"
+      body="Our approach involves a variety of activities, such as volunteering at local organizations and taking functional outings to places like grocery stores, post offices, and gas stations. These experiences help students develop essential life skills, from navigating public spaces and identifying community helpers to understanding social norms."
+      imageUrl={approachImageUrl}
+      imageAlt="CBI activities and community engagement"
+      imageLeft={false}
+      backgroundColor="white"
+    />
   </div>
 </PageLayout>
