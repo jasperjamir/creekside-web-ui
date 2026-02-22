@@ -2,6 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHeader from '../../components/sections/PageHeader.astro';
 import ImageTextSection from '../../components/sections/ImageTextSection.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
 import { ASSETS_BASE_URL, COLORS } from '../../constants';
 
 const heroImageUrl = `${ASSETS_BASE_URL}/images/what-we-do--community-partnerships.jpg`;
@@ -64,11 +65,15 @@ const partners = [
       imageLeft={false}
       backgroundColor="white"
     />
+
+    
     <section id="community-partners" class="py-20" style={{ backgroundColor: COLORS.white }}>
       <div class="container mx-auto px-4 lg:px-8">
-        <div class="text-center mb-12">
-          <h2 class="text-2xl md:text-3xl font-bold mb-2" style={{ color: COLORS.blue.navy }}>Our Community Partners</h2>
-          <div class="h-1 w-16 mx-auto rounded-full" style={{ backgroundColor: COLORS.green }}></div>
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <SectionHeading>Our Community Partners</SectionHeading>
+          <h3 class="text-lg text-gray-600 mt-4 leading-relaxed">
+            The core benefit of CBI is its dual impact: it supports our students in achieving greater autonomy and offers the public an opportunity to interact with individuals with profound autism, fostering a greater understanding of their capabilities and positive contributions to society.
+          </h3>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 max-w-5xl mx-auto">
           {partners.map((partner) => (
