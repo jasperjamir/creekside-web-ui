@@ -3,20 +3,24 @@ import { COLORS } from '../../../constants';
 
 interface Props {
   content: { text: string; boldText?: string; link: string };
+  dark?: boolean;
 }
 
-const { content = { text: '', boldText: '', link: '' } } = Astro.props;
+const { content = { text: '', boldText: '', link: '' }, dark = false } = Astro.props;
 const isExternal = content.link?.startsWith('http');
 ---
 
-<section class="pt-8 pb-20 bg-white relative overflow-hidden font-sans">
+<section
+  class="pt-8 pb-20 relative overflow-hidden font-sans"
+  style={{ backgroundColor: dark ? COLORS.blue.navy : COLORS.white }}
+>
   <div class="container mx-auto px-4 lg:px-8 relative z-10">
     <div class="text-center max-w-3xl mx-auto">
-      <p class="text-xl md:text-2xl text-black leading-relaxed">
+      <p class={`text-xl md:text-2xl leading-relaxed ${dark ? 'text-white' : 'text-black'}`}>
         <a
           href={content.link}
           class="check-more-link"
-          style={{ color: COLORS.blue.navy }}
+          style={{ color: dark ? COLORS.white : COLORS.blue.navy }}
           target={isExternal ? '_blank' : undefined}
           rel={isExternal ? 'noopener noreferrer' : undefined}
         >
