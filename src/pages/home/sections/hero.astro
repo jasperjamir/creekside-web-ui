@@ -10,13 +10,13 @@ const DONATE_HREF = '/support/donate';
 interface Props {
   image?: { asset?: { url: string }; alt?: string };
   badge: string;
-  headingPrefix: string;
+  headingSuffix: string;
   headingHighlight: string;
   subheading: string;
   subheadingHtml?: string;
 }
 
-const { image, badge, headingPrefix, headingHighlight, subheading, subheadingHtml } = Astro.props;
+const { image, badge, headingSuffix, headingHighlight, subheading, subheadingHtml } = Astro.props;
 const imageUrl = image?.asset?.url ?? '';
 ---
 
@@ -51,13 +51,13 @@ const imageUrl = image?.asset?.url ?? '';
         </div>
       )}
       <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 text-white">
-        {headingPrefix}
         <span 
-          class="px-3 ml-2 transform -skew-x-6 inline-block" 
+          class="px-3 mr-2 transform -skew-x-6 inline-block whitespace-nowrap" 
           style={{ backgroundColor: COLORS.green, color: COLORS.blue.navy }}
         >
           {headingHighlight}
         </span>
+        {headingSuffix}
       </h1>
       {(subheadingHtml != null ? subheadingHtml : subheading) && (
         <p class="text-lg md:text-xl lg:text-2xl text-blue-50 mb-8 leading-relaxed max-w-2xl font-light">

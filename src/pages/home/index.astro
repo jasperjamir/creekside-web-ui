@@ -39,7 +39,7 @@ const QUERY = /* groq */ `*[_type == "home"][0] {
   heroText {
     image { asset->{ _id, url } },
     badge,
-    headingPrefix,
+    headingSuffix,
     headingHighlight,
     subheading
   },
@@ -93,7 +93,7 @@ const data = await sanityClient.fetch(QUERY);
 const heroText = {
   image: withDefaultImage(data?.heroText?.image, DEFAULT_IMAGES.hero),
   badge: data?.heroText?.badge ?? '',
-  headingPrefix: data?.heroText?.headingPrefix ?? '',
+  headingSuffix: data?.heroText?.headingSuffix ?? '',
   headingHighlight: data?.heroText?.headingHighlight ?? '',
   subheading: data?.heroText?.subheading ?? '',
 };

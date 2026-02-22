@@ -10,8 +10,8 @@ export const DEFAULT_CONTENT = {
   pageTitle: 'Home Page',
   hero: {
     badge: '',
-    headingPrefix: 'Specialized Education for ',
-    headingHighlight: 'Students with Profound Autism',
+    headingHighlight: 'Specialized Education for ',
+    headingSuffix: 'Students with Profound Autism',
     subheading:
       'At Creekside, we create tailored learning experiences and environments where students with profound autism are truly seen and understood.',
   },
@@ -75,7 +75,7 @@ export function buildSanityDocument(): Record<string, unknown> {
     title: d.pageTitle,
     heroText: {
       badge: d.hero.badge,
-      headingPrefix: d.hero.headingPrefix,
+      headingSuffix: d.hero.headingSuffix,
       headingHighlight: d.hero.headingHighlight,
       subheading: d.hero.subheading,
     },
