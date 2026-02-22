@@ -40,6 +40,8 @@ const PAGE_MODULES: Record<
   'support': () => import('../../src/lib/support-defaults'),
   'support-donate': () => import('../../src/lib/support-donate-defaults'),
   'in-kind-donations': () => import('../../src/lib/in-kind-donations-defaults'),
+  'community-based-instruction': () =>
+    import('../../src/lib/community-based-instruction-defaults'),
 }
 
 async function main() {

@@ -1,86 +1,115 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
-import PageHeader from '../../components/sections/PageHeader.astro';
-import ImageTextSection from '../../components/sections/ImageTextSection.astro';
-import SectionHeading from '../../components/ui/SectionHeading.astro';
-import { ASSETS_BASE_URL, COLORS } from '../../constants';
+import { sanityClient } from 'sanity:client'
+import PageLayout from '../../layouts/PageLayout.astro'
+import PageHeader from '../../components/sections/PageHeader.astro'
+import ImageTextSection from '../../components/sections/ImageTextSection.astro'
+import SectionHeading from '../../components/ui/SectionHeading.astro'
+import { ASSETS_BASE_URL, COLORS } from '../../constants'
 
-const heroImageUrl = `${ASSETS_BASE_URL}/images/what-we-do--community-partnerships.jpg`;
-const approachImageUrl = `${ASSETS_BASE_URL}/images/what-we-do--community-partnerships.jpg`;
+const DEFAULT_IMAGES = {
+  hero: {
+    url: `${ASSETS_BASE_URL}/images/what-we-do--community-partnerships.jpg`,
+    alt: 'Community-Based Instruction at Creekside',
+  },
+  approach: {
+    url: `${ASSETS_BASE_URL}/images/what-we-do--community-partnerships.jpg`,
+    alt: 'CBI activities and community engagement',
+  },
+  partnerLogo: {
+    url: `${ASSETS_BASE_URL}/images/partners/university-partners.png`,
+    alt: 'Partner logo',
+  },
+}
 
-const partners = [
-  {
-    name: 'Community Stanford Preschool Autism Lab',
-    description:
-      'Creekside is one of only three locations of the Stanford Preschool Autism Lab, a program of the Stanford University School of Medicine. Through this program, new models of early intervention can be developed, evaluated, and disseminated for children with Autism Spectrum Disorder.',
-    logoUrl: `${ASSETS_BASE_URL}/images/partners/stanford-preschool-autism-lab.png`,
+function withDefaultImage(
+  cmsImage: { asset?: { url: string }; alt?: string } | undefined,
+  defaultImage: { url: string; alt: string }
+) {
+  if (cmsImage?.asset?.url) {
+    return { url: cmsImage.asset.url, alt: cmsImage.alt ?? defaultImage.alt }
+  }
+  return { url: defaultImage.url, alt: defaultImage.alt }
+}
+
+const QUERY = /* groq */ `*[_type == "communityBasedInstruction"][0] {
+  title,
+  heroText {
+    heading,
+    body,
+    image { asset->{ _id, url } }
   },
-  {
-    name: 'Autism Speaks',
-    description:
-      'As one of only three schools in the country working with Autism Speaks, Creekside supports the development of a worldwide training program for school staff that complements the Autism Speaks Caregiver Skills Training program, which has been a major success for families before diagnosis and beyond.',
-    logoUrl: `${ASSETS_BASE_URL}/images/partners/autism-speaks.png`,
+  approachText {
+    body,
+    image { asset->{ _id, url } }
   },
-  {
-    name: 'Bay Area Furniture Bank',
-    description:
-      'Each week, a group of our Adult Transition Students volunteers at the Bay Area Furniture Bank in Santa Clara, where they focus on using tools safely and appropriately, while working together with a peer or individually on a project. Students have assembled a variety of items, including tables, desks, organizer cubbies, side tables, and more, providing a wealth of precious memories and valuable practical experiences.',
-    logoUrl: `${ASSETS_BASE_URL}/images/partners/bay-area-furniture-bank.png`,
+  communityPartnersText {
+    heading,
+    body,
+    partners[] {
+      name,
+      description,
+      image { asset->{ _id, url } }
+    }
+  }
+}`
+
+const data = await sanityClient.fetch(QUERY)
+
+const content = {
+  pageTitle: data?.title ?? '',
+  hero: {
+    heading: data?.heroText?.heading ?? '',
+    body: data?.heroText?.body ?? '',
+    image: withDefaultImage(data?.heroText?.image, DEFAULT_IMAGES.hero),
   },
-  {
-    name: 'Stanford Autism Center',
-    description:
-      'We collaborate closely with the Stanford Autism research team on mutual research projects, sharing program resources, with Stanford providing training to our staff, and The Creekside School (TCS) offering on-site space and support for the Preschool Autism Lab.',
-    logoUrl: `${ASSETS_BASE_URL}/images/partners/stanford-autism-center.png`,
+  approach: {
+    body: data?.approachText?.body ?? '',
+    image: withDefaultImage(data?.approachText?.image, DEFAULT_IMAGES.approach),
   },
-  {
-    name: 'South Valley YMCA',
-    description:
-      'Each week, a group of our Adult Transition Students volunteers at the Bay Area Furniture Bank in Santa Clara, where they focus on using tools safely and appropriately, while working together with a peer or individually on a project. Students have assembled a variety of items, including tables, desks, organizer cubbies, side tables, and more, providing a wealth of precious memories and valuable practical experiences.',
-    logoUrl: `${ASSETS_BASE_URL}/images/partners/south-valley-ymca.png`,
+  communityPartners: {
+    heading: data?.communityPartnersText?.heading ?? '',
+    body: data?.communityPartnersText?.body ?? '',
+    partners: (data?.communityPartnersText?.partners ?? []).map((p: { name?: string; description?: string; image?: { asset?: { url: string }; alt?: string } }) => ({
+      name: p?.name ?? '',
+      description: p?.description ?? '',
+      image: withDefaultImage(p?.image, DEFAULT_IMAGES.partnerLogo),
+    })),
   },
-  {
-    name: 'University Partners',
-    description:
-      'The Creekside School partners with several universities to provide university students with internship hours and practical experience by supporting Creekside teachers and staff.',
-    logoUrl: `${ASSETS_BASE_URL}/images/partners/university-partners.png`,
-  },
-];
+}
 ---
 
-<PageLayout title="Community-Based Instruction - The Creekside School">
+<PageLayout title={content.pageTitle || 'Community-Based Instruction - The Creekside School'}>
   <div class="animate-fade-in font-sans">
     <PageHeader
       sectionId="cbi-hero"
-      heading="Community-Based Instruction"
-      body="CBI is an integral part of the Creekside approach, focusing on real-world application of skills. Through CBI, we support students in building independence and confidence by engaging with their community."
-      imageUrl={heroImageUrl}
-      imageAlt="Community-Based Instruction at Creekside"
+      heading={content.hero.heading}
+      body={content.hero.body}
+      imageUrl={content.hero.image.url}
+      imageAlt={content.hero.image.alt}
     />
     <ImageTextSection
       sectionId="cbi-approach"
-      body="Our approach involves a variety of activities, such as volunteering at local organizations and taking functional outings to places like grocery stores, post offices, and gas stations. These experiences help students develop essential life skills, from navigating public spaces and identifying community helpers to understanding social norms."
-      imageUrl={approachImageUrl}
-      imageAlt="CBI activities and community engagement"
+      body={content.approach.body}
+      imageUrl={content.approach.image.url}
+      imageAlt={content.approach.image.alt}
       imageLeft={false}
       backgroundColor="white"
     />
 
-    
     <section id="community-partners" class="py-20" style={{ backgroundColor: COLORS.white }}>
       <div class="container mx-auto px-4 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-12">
-          <SectionHeading>Our Community Partners</SectionHeading>
+          <SectionHeading>{content.communityPartners.heading}</SectionHeading>
           <h3 class="text-lg text-gray-600 mt-4 leading-relaxed">
-            The core benefit of CBI is its dual impact: it supports our students in achieving greater autonomy and offers the public an opportunity to interact with individuals with profound autism, fostering a greater understanding of their capabilities and positive contributions to society.
+            {content.communityPartners.body}
           </h3>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 max-w-5xl mx-auto">
-          {partners.map((partner) => (
+          {content.communityPartners.partners.map((partner: { name: string; description: string; image: { url: string; alt: string } }) => (
             <article class="flex flex-col gap-4">
               <div class="min-h-[60px] flex items-center">
                 <img
-                  src={partner.logoUrl}
+                  src={partner.image.url}
                   alt={partner.name}
                   class="max-h-14 w-auto max-w-[180px] object-contain"
                   loading="lazy"

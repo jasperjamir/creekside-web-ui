@@ -15,7 +15,8 @@
     "seed:families": "npx tsx scripts/seed.ts families",
     "seed:support": "npx tsx scripts/seed.ts support",
     "seed:support-donate": "npx tsx scripts/seed.ts support-donate",
-    "seed:in-kind-donations": "npx tsx scripts/seed.ts in-kind-donations"
+    "seed:in-kind-donations": "npx tsx scripts/seed.ts in-kind-donations",
+    "seed:community-based-instruction": "npx tsx scripts/seed.ts community-based-instruction"
   },
   "keywords": [
     "sanity"

@@ -16,9 +16,28 @@ export const structure: StructureResolver = (S) =>
         .child(S.editor().id('whoWeAre').schemaType('whoWeAre').documentId('whoWeAre')),
       S.listItem()
         .title('Our Programs')
-        .id('whatWeDo')
-        .schemaType('whatWeDo')
-        .child(S.editor().id('whatWeDo').schemaType('whatWeDo').documentId('whatWeDo')),
+        .id('our-programs-group')
+        .child(
+          S.list()
+            .title('Our Programs')
+            .items([
+              S.listItem()
+                .title('What We Do')
+                .id('whatWeDo')
+                .schemaType('whatWeDo')
+                .child(S.editor().id('whatWeDo').schemaType('whatWeDo').documentId('whatWeDo')),
+              S.listItem()
+                .title('Community-Based Instruction')
+                .id('communityBasedInstruction')
+                .schemaType('communityBasedInstruction')
+                .child(
+                  S.editor()
+                    .id('communityBasedInstruction')
+                    .schemaType('communityBasedInstruction')
+                    .documentId('communityBasedInstruction')
+                ),
+            ])
+        ),
       S.listItem()
         .title('Families')
         .id('families-group')
