@@ -1,0 +1,22 @@
+export const STAFF_CONTENT = {
+  title: 'Staff Leadership',
+  members: [
+    { name: 'Megan Cooper', role: 'Interim Executive Director' },
+    { name: 'Katie Shepard', role: 'Principal' },
+    { name: "Alisa D'Angelo", role: 'Finance Manager' },
+    { name: 'Julie Salazar', role: 'HR Administrator' },
+    { name: 'Sandye Gallagher', role: 'Office Manager' },
+    { name: 'Ariel Roullo', role: 'Adult Day Program & Admissions Lead' },
+    { name: "Abigail O'Loughlin", role: 'Lead BCBA' },
+    { name: 'Eve Ngo', role: 'Lead SLP' },
+    { name: 'Ani Abrahamian', role: 'Lead OT' },
+    { name: 'Jennifer Collazo', role: 'Teacher' },
+    { name: 'Jer Sanchez', role: 'Teacher' },
+    { name: 'Sylvia Gonzalez', role: 'Teacher' },
+    { name: 'Susan Ellis', role: 'Teacher' },
+    { name: 'Chloe Le', role: 'Teacher' },
+    { name: 'Angelica Mae Dorn', role: 'Teacher' },
+    { name: 'Anne Tong', role: 'Program Specialist' },
+    { name: 'Joyce Cortez', role: 'MFT/Art Therapist' },
+  ],
+} as const;

@@ -20,7 +20,7 @@ export const NAV_LINKS: readonly NavLink[] = [
     href: '/who-we-are/',
     children: [
       { name: 'Our Story', href: '/who-we-are/our-story/' },
-      { name: 'Our Team', href: '/who-we-are/#our-team' },
+      { name: 'Our Team', href: '/who-we-are/our-team/' },
       { name: 'What is Profound Autism?', href: '/who-we-are/#what-is-profound-autism' },
     ],
   },

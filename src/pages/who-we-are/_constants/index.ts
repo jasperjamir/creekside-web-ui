@@ -1,6 +1,9 @@
 export { DEFAULT_IMAGES } from './default-images';
 export { DEFAULT_CONTENT } from '../../../lib/who-we-are-defaults';
 export { OUR_STORY_HERO } from './our-story';
+export { OUR_TEAM_HERO } from './our-team';
+export { STAFF_CONTENT } from './staff-content';
+export { BOARD_CONTENT } from './board-content';
 export { HISTORY_CONTENT } from './school-history';
 export { HISTORY_EXPANSION_CONTENT } from './history-expansion';
 export { HISTORY_CONCLUSION_CONTENT } from './history-conclusion';

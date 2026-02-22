@@ -1,0 +1,46 @@
+---
+import { sanityClient } from 'sanity:client';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import HeroSection from '../_sections/hero.astro';
+import OurTeam from '../_sections/our-team.astro';
+import StaffLeadership from '../_sections/staff-leadership.astro';
+import BoardOfDirectors from '../_sections/board-of-directors.astro';
+import { OUR_TEAM_HERO, DEFAULT_CONTENT, STAFF_CONTENT, BOARD_CONTENT } from '../_constants';
+
+const QUERY = /* groq */ `*[_type == "whoWeAre"][0] {
+  ourTeamText {
+    sectionHeading,
+    groups[] {
+      title,
+      description,
+      images[] { asset->{ _id, url } }
+    }
+  }
+}`;
+
+const data = await sanityClient.fetch(QUERY);
+const d = DEFAULT_CONTENT.ourTeam;
+const ourTeam = {
+  sectionHeading: data?.ourTeamText?.sectionHeading ?? d.sectionHeading,
+  groups: data?.ourTeamText?.groups ?? d.groups,
+};
+
+const heroProps = {
+  imageAlt: OUR_TEAM_HERO.imageAlt,
+  headingPrefix: OUR_TEAM_HERO.headingPrefix,
+  headingHighlight: OUR_TEAM_HERO.headingHighlight,
+  headingSuffix: OUR_TEAM_HERO.headingSuffix,
+  subheadingParagraphs: OUR_TEAM_HERO.subheadingParagraphs,
+  ctaText: OUR_TEAM_HERO.ctaText,
+  ctaHref: OUR_TEAM_HERO.ctaHref,
+};
+---
+
+<PageLayout title="Our Team - The Creekside School">
+  <div class="animate-fade-in font-sans">
+    <HeroSection {...heroProps} />
+    <StaffLeadership title={STAFF_CONTENT.title} members={STAFF_CONTENT.members} />
+    <BoardOfDirectors title={BOARD_CONTENT.title} members={BOARD_CONTENT.members} />
+    <OurTeam sectionHeading={ourTeam.sectionHeading} groups={ourTeam.groups} />
+  </div>
+</PageLayout>
