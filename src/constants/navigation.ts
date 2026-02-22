@@ -33,7 +33,6 @@ export const NAV_LINKS: readonly NavLink[] = [
       { name: 'Community-Based Instruction (CBI)', href: '/what-we-do/community-partnerships/' },
     ],
   },
-  { name: 'Events', id: 'events', href: '/events/' },
   {
     name: 'Families',
     id: 'families',
@@ -52,7 +51,8 @@ export const NAV_LINKS: readonly NavLink[] = [
       { name: 'In-Kind Donations', href: '/support/in-kind-donations/' },
     ],
   },
-  { name: 'Join Us', id: 'join', href: '/join-us/' },
+  { name: 'Join Our Team', id: 'join', href: '/join-us/' },
+  { name: 'Events', id: 'events', href: '/events/' },
 ];
 
 export const QUICK_LINKS = [
