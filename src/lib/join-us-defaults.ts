@@ -1,5 +1,5 @@
 /**
- * Single source of truth for Join Us default content.
+ * Single source of truth for Join Our Team default content.
  * Used by: studio-creekside/scripts/seed.ts (seed only). Page uses blanks; defaults are for seeding.
  */
 
@@ -9,7 +9,7 @@ export const SANITY_TYPE = 'joinUs' as const
 export const DEFAULT_CONTENT = {
   pageTitle: '',
   hero: {
-    heading: 'Join Us',
+    heading: 'Join Our Team',
     body:
       'Our team shares the commitment to integrity, collegiality, and the mission of improving the lives of our students and their families. Our deep sense of purpose fuels our motivation to embrace the challenges of our work and rise to meet the needs of our students.',
     body2:

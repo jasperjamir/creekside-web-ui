@@ -10,7 +10,7 @@ This doc describes how to add or convert a page so its content comes from Sanity
 4. **Add seed support** — generic seed script creates/updates the document from the defaults file.
 5. **Keep default values in Astro as blanks** — index uses `?? ''` and `?? []` only; no import of default copy. Image fallbacks stay in the index via `DEFAULT_IMAGES` and `withDefaultImage`.
 
-Reference implementations: **What We Do**, **Who We Are**, **Join Us**.
+Reference implementations: **What We Do**, **Who We Are**, **Join Our Team**.
 
 ---
 
