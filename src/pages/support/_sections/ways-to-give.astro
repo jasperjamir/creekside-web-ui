@@ -1,7 +1,6 @@
 ---
 import { COLORS } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
-import { DONATION_AMOUNTS, SECTION_CONTENT } from '../_constants/ways-to-give';
 
 interface Props {
   sectionTitle?: string;
@@ -14,19 +13,14 @@ interface Props {
 }
 
 const {
-  sectionTitle: sectionTitleProp,
-  donationAmounts: donationAmountsProp,
-  monthlyLabel: monthlyLabelProp,
-  inKindTitle: inKindTitleProp,
-  inKindSubtitle: inKindSubtitleProp,
+  sectionTitle = '',
+  donationAmounts = [],
+  monthlyLabel = '',
+  inKindTitle = '',
+  inKindSubtitle = '',
   donateBaseUrl = '/support/donate',
   hideInKind = false,
 } = Astro.props;
-const sectionTitle = sectionTitleProp !== undefined ? sectionTitleProp : SECTION_CONTENT.title;
-const donationAmounts = donationAmountsProp !== undefined && donationAmountsProp.length > 0 ? donationAmountsProp : DONATION_AMOUNTS;
-const monthlyLabel = monthlyLabelProp !== undefined ? monthlyLabelProp : SECTION_CONTENT.monthlyLabel;
-const inKindTitle = inKindTitleProp !== undefined ? inKindTitleProp : SECTION_CONTENT.inKind.title;
-const inKindSubtitle = inKindSubtitleProp !== undefined ? inKindSubtitleProp : SECTION_CONTENT.inKind.subtitle;
 const navyRgba = (a: number) => `rgba(5, 32, 73, ${a})`;
 ---
 

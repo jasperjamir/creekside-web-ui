@@ -42,10 +42,24 @@ export const structure: StructureResolver = (S) =>
         ),
       S.listItem()
         .title('Support')
-        .id('supportDonate')
-        .schemaType('supportDonate')
+        .id('support-group')
         .child(
-          S.editor().id('supportDonate').schemaType('supportDonate').documentId('supportDonate')
+          S.list()
+            .title('Support')
+            .items([
+              S.listItem()
+                .title('Support')
+                .id('support')
+                .schemaType('support')
+                .child(S.editor().id('support').schemaType('support').documentId('support')),
+              S.listItem()
+                .title('Donate')
+                .id('supportDonate')
+                .schemaType('supportDonate')
+                .child(
+                  S.editor().id('supportDonate').schemaType('supportDonate').documentId('supportDonate')
+                ),
+            ])
         ),
       S.listItem()
         .title('Join Our Team')

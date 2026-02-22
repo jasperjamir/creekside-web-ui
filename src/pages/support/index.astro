@@ -1,4 +1,5 @@
 ---
+import { sanityClient } from 'sanity:client';
 import PageLayout from '../../layouts/PageLayout.astro';
 import HeroSection from './_sections/hero.astro';
 import WhySupportMatters from './_sections/why-support-matters.astro';
@@ -9,26 +10,219 @@ import DonateNow from './_sections/donate-now.astro';
 import WhatGiftMakesPossible from './_sections/what-gift-makes-possible.astro';
 import OtherWaysToGive from './_sections/other-ways-to-give.astro';
 import CredibilityCompliance from './_sections/credibility-compliance.astro';
-import { WHY_SUPPORT_MATTERS_CONTENT } from './_constants/why-support-matters';
+import { ASSETS_BASE_URL } from '../../constants';
 
-// Hero content (same as home page first section)
-const heroText = {
-  headingPrefix: 'Help Students with Profound Autism ',
-  headingHighlight: 'Thrive',
-  subheading: 'Your generosity fuels individualized education, therapy, and family support at Creekside.',
-  donateCta: 'Donate',
-  donateHref: '/support/donate',
+const DEFAULT_IMAGES = {
+  hero: {
+    url: `${ASSETS_BASE_URL}/images/hero-image.png`,
+    alt: 'Adult and child engaged in art activity at Creekside School',
+  },
+  whySupportMatters: {
+    url: `${ASSETS_BASE_URL}/images/support--why-support-matters.png`,
+    alt: 'Students and staff at Creekside engaging in a learning activity.',
+  },
+  impactHighlight: {
+    url: `${ASSETS_BASE_URL}/images/support--why-support-matters.png`,
+    alt: 'Students and staff at Creekside engaging in a learning activity.',
+  },
+  donateNow: {
+    url: `${ASSETS_BASE_URL}/images/support--why-support-matters.png`,
+    alt: 'Donate to Creekside School',
+  },
+};
+
+function withDefaultImage(
+  cmsImage: { asset?: { url: string }; alt?: string } | undefined,
+  defaultImage: { url: string; alt: string }
+) {
+  if (cmsImage?.asset?.url) {
+    return { url: cmsImage.asset.url, alt: cmsImage.alt ?? defaultImage.alt };
+  }
+  return { url: defaultImage.url, alt: defaultImage.alt };
+}
+
+const QUERY = /* groq */ `*[_type == "support"][0] {
+  title,
+  heroText {
+    headingPrefix,
+    headingHighlight,
+    headingSuffix,
+    subheading,
+    donateCta,
+    donateHref,
+    image { asset->{ _id, url }, alt }
+  },
+  whySupportMattersText {
+    title,
+    description,
+    image { asset->{ _id, url }, alt }
+  },
+  impactHighlightsText {
+    sectionTitle,
+    items[] {
+      _key,
+      title,
+      description,
+      image { asset->{ _id, url }, alt }
+    }
+  },
+  waysToGiveText {
+    sectionTitle,
+    donationAmounts,
+    monthlyLabel,
+    inKindTitle,
+    inKindSubtitle
+  },
+  howToGiveText {
+    sectionTitle,
+    steps[] {
+      _key,
+      heading,
+      subHeading,
+      text,
+      link
+    }
+  },
+  donateNowText {
+    title,
+    features,
+    image { asset->{ _id, url }, alt }
+  },
+  whatGiftMakesPossibleText {
+    sectionTitle,
+    items[] {
+      _key,
+      title,
+      text,
+      iconSvg
+    }
+  },
+  otherWaysToGiveText {
+    sectionTitle,
+    items[] {
+      _key,
+      title,
+      text,
+      textHtml,
+      icon,
+      link
+    }
+  },
+  credibilityText { title, bodyHtml }
+}`;
+
+const data = await sanityClient.fetch(QUERY);
+
+const pageTitle = data?.title ?? '';
+const heroImg = withDefaultImage(data?.heroText?.image, DEFAULT_IMAGES.hero);
+const whySupportImg = withDefaultImage(data?.whySupportMattersText?.image, DEFAULT_IMAGES.whySupportMatters);
+const donateNowImg = withDefaultImage(data?.donateNowText?.image, DEFAULT_IMAGES.donateNow);
+
+const impactItems = (data?.impactHighlightsText?.items ?? []).map(
+  (item: { title?: string; description?: string; image?: { asset?: { url: string }; alt?: string } }) => {
+    const img = withDefaultImage(item?.image, DEFAULT_IMAGES.impactHighlight);
+    return {
+      title: item?.title ?? '',
+      description: item?.description ?? '',
+      imageUrl: img.url,
+      imageAlt: img.alt,
+    };
+  }
+);
+
+const content = {
+  hero: {
+    imageUrl: heroImg.url,
+    imageAlt: heroImg.alt,
+    headingPrefix: data?.heroText?.headingPrefix ?? '',
+    headingHighlight: data?.heroText?.headingHighlight ?? '',
+    headingSuffix: data?.heroText?.headingSuffix ?? '',
+    subheading: data?.heroText?.subheading ?? '',
+    donateCta: data?.heroText?.donateCta ?? '',
+    donateHref: data?.heroText?.donateHref ?? '',
+  },
+  whySupportMatters: {
+    title: data?.whySupportMattersText?.title ?? '',
+    description: data?.whySupportMattersText?.description ?? '',
+    imageUrl: whySupportImg.url,
+    imageAlt: whySupportImg.alt,
+  },
+  impactHighlights: {
+    sectionTitle: data?.impactHighlightsText?.sectionTitle ?? '',
+    items: impactItems,
+  },
+  waysToGive: {
+    sectionTitle: data?.waysToGiveText?.sectionTitle ?? '',
+    donationAmounts: data?.waysToGiveText?.donationAmounts ?? [],
+    monthlyLabel: data?.waysToGiveText?.monthlyLabel ?? '',
+    inKindTitle: data?.waysToGiveText?.inKindTitle ?? '',
+    inKindSubtitle: data?.waysToGiveText?.inKindSubtitle ?? '',
+  },
+  howToGive: {
+    sectionTitle: data?.howToGiveText?.sectionTitle ?? '',
+    steps: data?.howToGiveText?.steps ?? [],
+  },
+  donateNow: {
+    title: data?.donateNowText?.title ?? '',
+    features: data?.donateNowText?.features ?? [],
+    imageUrl: donateNowImg.url,
+    imageAlt: donateNowImg.alt,
+  },
+  whatGiftMakesPossible: {
+    sectionTitle: data?.whatGiftMakesPossibleText?.sectionTitle ?? '',
+    items: data?.whatGiftMakesPossibleText?.items ?? [],
+  },
+  otherWaysToGive: {
+    sectionTitle: data?.otherWaysToGiveText?.sectionTitle ?? '',
+    items: data?.otherWaysToGiveText?.items ?? [],
+  },
+  credibility: {
+    title: data?.credibilityText?.title ?? '',
+    bodyHtml: data?.credibilityText?.bodyHtml ?? '',
+  },
 };
 ---
 
-<PageLayout title="Support Us - The Creekside School">
-  <HeroSection {...heroText} />
-  <WhySupportMatters content={WHY_SUPPORT_MATTERS_CONTENT} />
-  <ImpactHighlights />
-  <WaysToGive />
-  <HowToGive />
-  <DonateNow />
-  <WhatGiftMakesPossible />
-  <OtherWaysToGive />
-  <CredibilityCompliance />
+<PageLayout title={pageTitle ? `${pageTitle} - The Creekside School` : 'Support Us - The Creekside School'}>
+  <HeroSection {...content.hero} />
+  <WhySupportMatters
+    title={content.whySupportMatters.title}
+    description={content.whySupportMatters.description}
+    imageUrl={content.whySupportMatters.imageUrl}
+    imageAlt={content.whySupportMatters.imageAlt}
+  />
+  <ImpactHighlights
+    sectionTitle={content.impactHighlights.sectionTitle}
+    items={content.impactHighlights.items}
+  />
+  <WaysToGive
+    sectionTitle={content.waysToGive.sectionTitle}
+    donationAmounts={content.waysToGive.donationAmounts}
+    monthlyLabel={content.waysToGive.monthlyLabel}
+    inKindTitle={content.waysToGive.inKindTitle}
+    inKindSubtitle={content.waysToGive.inKindSubtitle}
+    donateBaseUrl="/support/donate"
+  />
+  <HowToGive
+    sectionTitle={content.howToGive.sectionTitle}
+    steps={content.howToGive.steps}
+  />
+  <DonateNow
+    title={content.donateNow.title}
+    features={content.donateNow.features}
+    imageUrl={content.donateNow.imageUrl}
+    imageAlt={content.donateNow.imageAlt}
+  />
+  <WhatGiftMakesPossible
+    sectionTitle={content.whatGiftMakesPossible.sectionTitle}
+    items={content.whatGiftMakesPossible.items}
+  />
+  <OtherWaysToGive
+    sectionTitle={content.otherWaysToGive.sectionTitle}
+    items={content.otherWaysToGive.items}
+  />
+  <CredibilityCompliance
+    title={content.credibility.title}
+    bodyHtml={content.credibility.bodyHtml}
+  />
 </PageLayout>

@@ -1,12 +1,20 @@
 ---
-import { ASSETS_BASE_URL, COLORS } from '../../../constants';
+import { COLORS } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
-import { IMPACT_HIGHLIGHTS } from '../_constants/impact-highlights';
 
-function getImageSrc(src: string | null | undefined) {
-  if (src == null || src === '') return '';
-  return src.startsWith('http') ? src : `${ASSETS_BASE_URL}/images/${src}`;
+interface ImpactItem {
+  title: string;
+  description: string;
+  imageUrl?: string;
+  imageAlt?: string;
 }
+
+interface Props {
+  sectionTitle?: string;
+  items?: ImpactItem[];
+}
+
+const { sectionTitle = '', items = [] } = Astro.props;
 
 // COLORS.green #A4D16A = rgb(164, 209, 106)
 const greenRgb = '164, 209, 106';
@@ -16,25 +24,27 @@ const greenRgb = '164, 209, 106';
   <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
   <div class="container relative z-10">
     <div class="title-wrapper">
-      <SectionHeading>Impact Highlights</SectionHeading>
+      {sectionTitle && <SectionHeading>{sectionTitle}</SectionHeading>}
     </div>
 
     <div class="grid">
-      {IMPACT_HIGHLIGHTS.map((item) => (
+      {items.map((item) => (
         <article class="card">
           <div class="card-image-wrapper">
-            <img
-              src={getImageSrc(item.imageSrc)}
-              alt={item.title ? `${item.title} at Creekside School` : 'Impact at Creekside School'}
-              class="card-bg"
-              loading="lazy"
-              width="450"
-              height="600"
-            />
+            {item.imageUrl && (
+              <img
+                src={item.imageUrl}
+                alt={item.imageAlt ?? (item.title ? `${item.title} at Creekside School` : 'Impact at Creekside School')}
+                class="card-bg"
+                loading="lazy"
+                width="450"
+                height="600"
+              />
+            )}
           </div>
           <div class="card-content" style={{ background: `linear-gradient(to bottom, rgba(${greenRgb}, 0) 0%, rgba(${greenRgb}, 0.6) 20%, rgba(${greenRgb}, 0.9) 100%)` }}>
-            <h3 style={{ color: COLORS.blue.navy }}>{item.title}:</h3>
-            <p style={{ color: COLORS.blue.navy }}>{item.description}</p>
+            {item.title && <h3 style={{ color: COLORS.blue.navy }}>{item.title}:</h3>}
+            {item.description && <p style={{ color: COLORS.blue.navy }}>{item.description}</p>}
           </div>
         </article>
       ))}

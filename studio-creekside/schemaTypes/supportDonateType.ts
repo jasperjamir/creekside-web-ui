@@ -27,6 +27,9 @@ export default defineType({
           type: 'image',
           title: 'Hero Image',
           options: { hotspot: true },
+          fields: [
+            defineField({ name: 'alt', type: 'string', title: 'Alt text' }),
+          ],
         }),
       ],
     }),

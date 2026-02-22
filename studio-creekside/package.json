@@ -13,6 +13,7 @@
     "seed": "npx tsx scripts/seed.ts",
     "seed:home": "npx tsx scripts/seed.ts home",
     "seed:families": "npx tsx scripts/seed.ts families",
+    "seed:support": "npx tsx scripts/seed.ts support",
     "seed:support-donate": "npx tsx scripts/seed.ts support-donate"
   },
   "keywords": [

@@ -1,28 +1,42 @@
 ---
 import { COLORS } from '../../../constants';
-import { SECTION_TITLE, IMPACT_ITEMS } from '../_constants/gift-impact';
+
+interface GiftImpactItem {
+  title?: string;
+  text?: string;
+  iconSvg?: string;
+}
+
+interface Props {
+  sectionTitle?: string;
+  items?: GiftImpactItem[];
+}
+
+const { sectionTitle = '', items = [] } = Astro.props;
 ---
 
 <section class="py-20 relative font-sans" style={{ backgroundColor: COLORS.blue.navy }}>
   <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
   <div class="container mx-auto px-4 lg:px-8 relative z-10">
-    <h2 class="text-3xl font-bold text-white text-center mb-12">
-      {SECTION_TITLE}
-    </h2>
+    {sectionTitle && (
+      <h2 class="text-3xl font-bold text-white text-center mb-12">
+        {sectionTitle}
+      </h2>
+    )}
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {IMPACT_ITEMS.map((item) => (
+      {items.map((item) => (
         <div
           class="group flex flex-col items-center p-8 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all duration-300 text-center nav-grid-item"
           style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}
         >
           <div class="mb-4 group-hover:scale-110 transition-transform" style={{ color: COLORS.green }}>
             <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center" style={{ color: COLORS.green }}>
-              <div class="gift-icon-svg w-6 h-6" set:html={item.iconSvg} />
+              {item.iconSvg && <div class="gift-icon-svg w-6 h-6" set:html={item.iconSvg} />}
             </div>
           </div>
           <p class="text-sm leading-relaxed m-0" style={{ color: COLORS.blue.light }}>
-            <strong class="text-white">{item.title}</strong> {item.text}
+            {item.title && <strong class="text-white">{item.title}</strong>} {item.text ?? ''}
           </p>
         </div>
       ))}

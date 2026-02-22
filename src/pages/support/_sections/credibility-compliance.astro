@@ -1,15 +1,20 @@
 ---
-import { CREDIBILITY_CONTENT } from '../_constants/credibility';
+interface Props {
+  title?: string;
+  bodyHtml?: string;
+}
 
-const { title, bodyHtml } = CREDIBILITY_CONTENT;
+const { title = '', bodyHtml = '' } = Astro.props;
 ---
 
 <section class="credibility-section font-sans">
   <div class="container">
-    <h2 class="credibility-title">{title}</h2>
-    <p class="credibility-body">
-      <span set:html={bodyHtml} />
-    </p>
+    {title && <h2 class="credibility-title">{title}</h2>}
+    {bodyHtml && (
+      <p class="credibility-body">
+        <span set:html={bodyHtml} />
+      </p>
+    )}
   </div>
 </section>
 

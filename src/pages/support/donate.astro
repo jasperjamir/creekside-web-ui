@@ -19,7 +19,7 @@ function withDefaultImage(
   defaultImage: { url: string; alt: string }
 ) {
   if (cmsImage?.asset?.url) {
-    return { asset: { url: cmsImage.asset.url }, alt: defaultImage.alt };
+    return { asset: { url: cmsImage.asset.url }, alt: cmsImage.alt ?? defaultImage.alt };
   }
   return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
 }
@@ -33,7 +33,7 @@ const QUERY = /* groq */ `*[_type == "supportDonate"][0] {
     subheading,
     donateCta,
     donateHref,
-    image { asset->{ _id, url } }
+    image { asset->{ _id, url }, alt }
   },
   waysToGiveText {
     sectionTitle,
@@ -59,6 +59,7 @@ const heroImage = withDefaultImage(data?.heroText?.image, DEFAULT_IMAGES.hero);
 const content = {
   hero: {
     imageUrl: heroImage.asset.url,
+    imageAlt: heroImage.alt,
     headingPrefix: data?.heroText?.headingPrefix ?? '',
     headingHighlight: data?.heroText?.headingHighlight ?? '',
     headingSuffix: data?.heroText?.headingSuffix ?? '',

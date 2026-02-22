@@ -1,36 +1,27 @@
 ---
-import { ASSETS_BASE_URL, COLORS } from '../../../constants';
+import { COLORS } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
 
 interface Props {
-  content: {
-    title: string;
-    description: string;
-    image: string;
-  };
+  title?: string;
+  description?: string;
+  imageUrl?: string;
+  imageAlt?: string;
 }
 
-const { content: contentProp } = Astro.props;
-const content = contentProp ?? {
-  title: 'Why Your Support Matters',
-  description: 'At Creekside, every student\'s program is tailored to their interests, strengths, and needs. Donations sustain small class sizes, suite-level autism services, and a campus built for safety, sensory needs, and learning in community.',
-  image: 'support--why-support-matters.png',
-};
-const imageSrc = content.image && content.image.startsWith('http') ? content.image : `${ASSETS_BASE_URL}/images/${content.image ?? 'support--why-support-matters.png'}`;
+const { title = '', description = '', imageUrl = '', imageAlt = '' } = Astro.props;
 ---
 
 <section class="why-support-section font-sans" style={{ backgroundColor: COLORS.white }}>
   <div class="container">
     <div class="text-content">
-      <SectionHeading>{content.title}</SectionHeading>
+      {title && <SectionHeading>{title}</SectionHeading>}
 
-      <p class="description">
-        {content.description}
-      </p>
+      {description && <p class="description">{description}</p>}
     </div>
 
     <div class="image-wrapper">
-      <img src={imageSrc} alt="Students and staff at Creekside engaging in a learning activity." loading="lazy" />
+      {imageUrl && <img src={imageUrl} alt={imageAlt} loading="lazy" />}
     </div>
   </div>
 </section>

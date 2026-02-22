@@ -1,7 +1,19 @@
 ---
 import { COLORS } from '../../../constants';
-import { HOW_TO_GIVE_STEPS, SECTION_TITLE } from '../_constants/how-to-give';
 
+interface HowToGiveStep {
+  heading?: string;
+  subHeading?: string;
+  text?: string;
+  link?: string | null;
+}
+
+interface Props {
+  sectionTitle?: string;
+  steps?: HowToGiveStep[];
+}
+
+const { sectionTitle = '', steps = [] } = Astro.props;
 ---
 
 <section
@@ -9,22 +21,24 @@ import { HOW_TO_GIVE_STEPS, SECTION_TITLE } from '../_constants/how-to-give';
   style={`--color-green: ${COLORS.green}; --color-navy: ${COLORS.blue.navy}; --color-white: ${COLORS.white};`}
 >
   <div class="container">
-    <h2 class="section-title">
-      <span class="highlight">{SECTION_TITLE}</span>
-    </h2>
+    {sectionTitle && (
+      <h2 class="section-title">
+        <span class="highlight">{sectionTitle}</span>
+      </h2>
+    )}
 
     <div class="timeline">
-      {HOW_TO_GIVE_STEPS.map((step) => {
+      {steps.map((step) => {
         const stepContent = (
           <div class="step-inner">
             <div class="circle-wrapper">
               <div class="circle"></div>
             </div>
             <div class="text-content">
-              <h3 class="step-title">{step.heading}</h3>
+              {step.heading && <h3 class="step-title">{step.heading}</h3>}
               {step.subHeading ? (
                 <p class="step-desc">
-                  <span class="step-email" style={{ color: COLORS.blue.royal }}>{step.subHeading}</span> {step.text}
+                  <span class="step-email" style={{ color: COLORS.blue.royal }}>{step.subHeading}</span> {step.text ?? ''}
                 </p>
               ) : (
                 step.text && <p class="step-desc">{step.text}</p>

@@ -1,29 +1,36 @@
 ---
-import { ASSETS_BASE_URL, COLORS } from '../../../constants';
-import { DONATE_CTA_CONTENT } from '../_constants/donate-now';
+import { COLORS } from '../../../constants';
 
-const { imageSrc } = DONATE_CTA_CONTENT;
-const imageUrl = imageSrc?.startsWith('http') ? imageSrc : `${ASSETS_BASE_URL}/images/${imageSrc || 'support--why-support-matters.png'}`;
+interface Props {
+  title?: string;
+  features?: string[];
+  imageUrl?: string;
+  imageAlt?: string;
+}
+
+const { title = '', features = [], imageUrl = '', imageAlt = '' } = Astro.props;
 ---
 
 <section class="donate-cta-section font-sans" style={{ '--donate-green': COLORS.green, '--donate-navy': COLORS.blue.navy }}>
   <div class="container">
     <div class="cta-card">
-      <img
-        src={imageUrl}
-        alt="Donate to Creekside School"
-        class="bg-image"
-        loading="lazy"
-      />
+      {imageUrl && (
+        <img
+          src={imageUrl}
+          alt={imageAlt}
+          class="bg-image"
+          loading="lazy"
+        />
+      )}
       <div class="overlay"></div>
 
       <div class="content">
-        <h2 class="cta-title">{DONATE_CTA_CONTENT.title}</h2>
+        {title && <h2 class="cta-title">{title}</h2>}
         <div class="cta-subtext">
-          {DONATE_CTA_CONTENT.features.map((feature, index) => (
+          {features.map((feature, index) => (
             <span class="feature-item">
               {feature}
-              {index < DONATE_CTA_CONTENT.features.length - 1 && (
+              {index < features.length - 1 && (
                 <span class="separator">&bull;</span>
               )}
             </span>
