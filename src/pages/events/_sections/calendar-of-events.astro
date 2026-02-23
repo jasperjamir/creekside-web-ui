@@ -1,37 +1,32 @@
 ---
-import { ASSETS_BASE_URL, COLORS } from '../../../constants';
+import { COLORS } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
 
 interface Props {
-  content: {
-    title: string;
-    image: string;
-    imageAlt: string;
-  };
+  title?: string;
+  imageUrl?: string;
+  imageAlt?: string;
 }
 
-const { content } = Astro.props;
-
-function getImageSrc(src: string) {
-  if (!src) return '';
-  return src.startsWith('http') || src.startsWith('/') ? src : `${ASSETS_BASE_URL}/images/${src}`;
-}
+const { title = '', imageUrl = '', imageAlt = '' } = Astro.props;
 ---
 
 <section id="calendar-of-events" class="calendar-of-events-section font-sans" style={{ backgroundColor: COLORS.white }}>
   <div class="container mx-auto px-4 lg:px-8">
-    <SectionHeading>{content.title}</SectionHeading>
+    {title && <SectionHeading>{title}</SectionHeading>}
     <div class="mt-8 max-w-5xl mx-auto">
-      <div class="w-full overflow-hidden rounded-2xl shadow-lg aspect-[4/3] bg-gray-100">
-        <img
-          src={getImageSrc(content.image)}
-          alt={content.imageAlt}
-          class="w-full h-full object-cover object-center"
-          loading="lazy"
-          width="900"
-          height="675"
-        />
-      </div>
+      {imageUrl && (
+        <div class="w-full overflow-hidden rounded-2xl shadow-lg aspect-[4/3] bg-gray-100">
+          <img
+            src={imageUrl}
+            alt={imageAlt}
+            class="w-full h-full object-cover object-center"
+            loading="lazy"
+            width="900"
+            height="675"
+          />
+        </div>
+      )}
     </div>
   </div>
 </section>

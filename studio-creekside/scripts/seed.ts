@@ -42,6 +42,7 @@ const PAGE_MODULES: Record<
   'in-kind-donations': () => import('../../src/lib/in-kind-donations-defaults'),
   'community-based-instruction': () =>
     import('../../src/lib/community-based-instruction-defaults'),
+  'events': () => import('../../src/lib/events-defaults'),
 }
 
 async function main() {

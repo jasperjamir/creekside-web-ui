@@ -91,6 +91,11 @@ export const structure: StructureResolver = (S) =>
             ])
         ),
       S.listItem()
+        .title('Events')
+        .id('events')
+        .schemaType('events')
+        .child(S.editor().id('events').schemaType('events').documentId('events')),
+      S.listItem()
         .title('Join Our Team')
         .id('joinUs')
         .schemaType('joinUs')

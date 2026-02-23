@@ -1,27 +1,22 @@
 ---
-import { ASSETS_BASE_URL, COLORS } from '../../../constants';
+import { COLORS } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
 
 interface Detail {
-  heading: string;
+  heading?: string;
   text?: string;
   list?: string[];
 }
 
 interface Props {
-  content: {
-    title: string;
-    details: Detail[];
-    footerText: string;
-    image: { src: string; alt: string };
-  };
+  title?: string;
+  details?: Detail[];
+  footerText?: string;
+  imageUrl?: string;
+  imageAlt?: string;
 }
 
-const { content } = Astro.props;
-const imageSrc =
-  content.image.src.startsWith('http') || content.image.src.startsWith('/')
-    ? content.image.src
-    : `${ASSETS_BASE_URL}/images/${content.image.src}`;
+const { title = '', details = [], footerText = '', imageUrl = '', imageAlt = '' } = Astro.props;
 ---
 
 <section id="school-calendar" class="school-calendar-section font-sans" style={{ backgroundColor: COLORS.white }}>
@@ -29,12 +24,12 @@ const imageSrc =
     <div class="content-grid">
       <div class="text-content">
         <div class="flex justify-center mb-8">
-          <SectionHeading>{content.title}</SectionHeading>
+          {title && <SectionHeading>{title}</SectionHeading>}
         </div>
         <div class="details">
-          {content.details.map((detail) => (
+          {details.map((detail) => (
             <div class="detail-block">
-              <h3 class="detail-heading" style={{ color: COLORS.blue.navy }}>{detail.heading}</h3>
+              {detail.heading && <h3 class="detail-heading" style={{ color: COLORS.blue.navy }}>{detail.heading}</h3>}
               {detail.text && <p class="detail-text">{detail.text}</p>}
               {detail.list && detail.list.length > 0 && (
                 <ul class="detail-list">
@@ -46,12 +41,12 @@ const imageSrc =
             </div>
           ))}
         </div>
-        {content.footerText && (
-          <p class="footer-text" style={{ color: COLORS.blue.navy }}>{content.footerText}</p>
+        {footerText && (
+          <p class="footer-text" style={{ color: COLORS.blue.navy }}>{footerText}</p>
         )}
       </div>
       <div class="image-wrapper">
-        <img src={imageSrc} alt="School calendar at Creekside School" loading="lazy" />
+        {imageUrl && <img src={imageUrl} alt={imageAlt} loading="lazy" />}
       </div>
     </div>
   </div>

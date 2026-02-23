@@ -1,23 +1,111 @@
 ---
+import { sanityClient } from 'sanity:client';
 import PageLayout from '../../layouts/PageLayout.astro';
 import HeroSection from './_sections/hero.astro';
 import CalendarOfEventsSection from './_sections/calendar-of-events.astro';
 import SchoolCalendarSection from './_sections/school-calendar.astro';
-import { EVENTS_HERO, SCHOOL_CALENDAR_CONTENT, CALENDAR_CONTENT } from './_constants';
+import { ASSETS_BASE_URL } from '../../constants';
 
-const heroText = {
-  headingPrefix: EVENTS_HERO.headingPrefix,
-  headingHighlight: EVENTS_HERO.headingHighlight,
-  subheading: EVENTS_HERO.subheading,
-  ctaText: EVENTS_HERO.ctaText,
-  ctaHref: EVENTS_HERO.ctaHref,
+const DEFAULT_IMAGES = {
+  hero: {
+    url: `${ASSETS_BASE_URL}/images/hero-image.png`,
+    alt: 'Events at Creekside School',
+  },
+  calendarOfEvents: {
+    url: `${ASSETS_BASE_URL}/images/calendar-of-events.jpg`,
+    alt: 'Calendar of Events',
+  },
+  schoolCalendar: {
+    url: `${ASSETS_BASE_URL}/images/support--why-support-matters.png`,
+    alt: 'Student playing basketball on an outdoor school court',
+  },
+};
+
+function withDefaultImage(
+  cmsImage: { asset?: { url: string }; alt?: string } | undefined,
+  defaultImage: { url: string; alt: string }
+) {
+  if (cmsImage?.asset?.url) {
+    return { url: cmsImage.asset.url, alt: cmsImage.alt ?? defaultImage.alt };
+  }
+  return { url: defaultImage.url, alt: defaultImage.alt };
+}
+
+const QUERY = /* groq */ `*[_type == "events"][0] {
+  title,
+  heroText {
+    headingPrefix,
+    headingHighlight,
+    headingSuffix,
+    subheading,
+    ctaText,
+    ctaHref,
+    image { asset->{ _id, url } }
+  },
+  calendarOfEventsText {
+    title,
+    image { asset->{ _id, url } }
+  },
+  schoolCalendarText {
+    title,
+    details[] {
+      _key,
+      heading,
+      text,
+      list
+    },
+    footerText,
+    image { asset->{ _id, url } }
+  }
+}`;
+
+const data = await sanityClient.fetch(QUERY);
+
+const pageTitle = data?.title ?? '';
+const heroImg = withDefaultImage(data?.heroText?.image, DEFAULT_IMAGES.hero);
+const calendarImg = withDefaultImage(data?.calendarOfEventsText?.image, DEFAULT_IMAGES.calendarOfEvents);
+const schoolCalendarImg = withDefaultImage(data?.schoolCalendarText?.image, DEFAULT_IMAGES.schoolCalendar);
+
+const content = {
+  hero: {
+    imageUrl: heroImg.url,
+    imageAlt: heroImg.alt,
+    headingPrefix: data?.heroText?.headingPrefix ?? '',
+    headingHighlight: data?.heroText?.headingHighlight ?? '',
+    headingSuffix: data?.heroText?.headingSuffix ?? '',
+    subheading: data?.heroText?.subheading ?? '',
+    ctaText: data?.heroText?.ctaText ?? '',
+    ctaHref: data?.heroText?.ctaHref ?? '',
+  },
+  calendarOfEvents: {
+    title: data?.calendarOfEventsText?.title ?? '',
+    imageUrl: calendarImg.url,
+    imageAlt: calendarImg.alt,
+  },
+  schoolCalendar: {
+    title: data?.schoolCalendarText?.title ?? '',
+    details: data?.schoolCalendarText?.details ?? [],
+    footerText: data?.schoolCalendarText?.footerText ?? '',
+    imageUrl: schoolCalendarImg.url,
+    imageAlt: schoolCalendarImg.alt,
+  },
 };
 ---
 
-<PageLayout title="Events & Updates - The Creekside School">
+<PageLayout title={pageTitle ? `${pageTitle} - The Creekside School` : 'Events & Updates - The Creekside School'}>
   <div class="animate-fade-in font-sans">
-    <HeroSection {...heroText} />
-    <CalendarOfEventsSection content={CALENDAR_CONTENT} />
-    <SchoolCalendarSection content={SCHOOL_CALENDAR_CONTENT} />
+    <HeroSection {...content.hero} />
+    <CalendarOfEventsSection
+      title={content.calendarOfEvents.title}
+      imageUrl={content.calendarOfEvents.imageUrl}
+      imageAlt={content.calendarOfEvents.imageAlt}
+    />
+    <SchoolCalendarSection
+      title={content.schoolCalendar.title}
+      details={content.schoolCalendar.details}
+      footerText={content.schoolCalendar.footerText}
+      imageUrl={content.schoolCalendar.imageUrl}
+      imageAlt={content.schoolCalendar.imageAlt}
+    />
   </div>
 </PageLayout>

@@ -3,19 +3,34 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import HeroSection from './_sections/hero.astro';
 import SchoolCalendarSection from './_sections/school-calendar.astro';
 import { SCHOOL_CALENDAR_CONTENT, SCHOOL_CALENDAR_HERO } from './_constants';
+import { ASSETS_BASE_URL } from '../../constants';
 
 const heroText = {
+  imageUrl: `${ASSETS_BASE_URL}/images/hero-image.png`,
+  imageAlt: SCHOOL_CALENDAR_HERO.imageAlt,
   headingPrefix: SCHOOL_CALENDAR_HERO.headingPrefix,
   headingHighlight: SCHOOL_CALENDAR_HERO.headingHighlight,
   subheading: SCHOOL_CALENDAR_HERO.subheading,
   ctaText: SCHOOL_CALENDAR_HERO.ctaText,
   ctaHref: SCHOOL_CALENDAR_HERO.ctaHref,
 };
+
+const c = SCHOOL_CALENDAR_CONTENT;
+const schoolCalendarImageUrl =
+  c.image.src.startsWith('http') || c.image.src.startsWith('/')
+    ? c.image.src
+    : `${ASSETS_BASE_URL}/images/${c.image.src}`;
 ---
 
 <PageLayout title="School Calendar - The Creekside School">
   <div class="animate-fade-in font-sans">
     <HeroSection {...heroText} />
-    <SchoolCalendarSection content={SCHOOL_CALENDAR_CONTENT} />
+    <SchoolCalendarSection
+      title={c.title}
+      details={c.details}
+      footerText={c.footerText}
+      imageUrl={schoolCalendarImageUrl}
+      imageAlt={c.image.alt}
+    />
   </div>
 </PageLayout>
