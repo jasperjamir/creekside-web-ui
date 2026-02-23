@@ -17,6 +17,10 @@ const DEFAULT_IMAGES = {
     url: `${ASSETS_BASE_URL}/images/what-we-do--the-adult-day-program.jpg`,
     alt: 'Creekside Adult Program participants',
   },
+  adultProgramApproach: {
+    url: `${ASSETS_BASE_URL}/images/what-we-do--community-partnerships.jpg`,
+    alt: 'Creekside Adult Program - community and activities',
+  },
 };
 
 function withDefaultImage(
@@ -50,7 +54,8 @@ const QUERY = /* groq */ `*[_type == "whatWeDo"][0] {
     subheading,
     overviewParagraph,
     approachParagraph,
-    image { asset->{ _id, url } }
+    image { asset->{ _id, url } },
+    approachImage { asset->{ _id, url } }
   },
   longTermGoalText {
     heading,
@@ -93,6 +98,7 @@ const content = {
     overviewParagraph: data?.adultProgramText?.overviewParagraph ?? '',
     approachParagraph: data?.adultProgramText?.approachParagraph ?? '',
     image: withDefaultImage(data?.adultProgramText?.image, DEFAULT_IMAGES.adultProgram),
+    approachImage: withDefaultImage(data?.adultProgramText?.approachImage, DEFAULT_IMAGES.adultProgramApproach),
   },
   longTermGoal: {
     heading: data?.longTermGoalText?.heading ?? '',

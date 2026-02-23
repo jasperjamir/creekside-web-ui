@@ -7,6 +7,7 @@ interface Props {
   overviewParagraph?: string;
   approachParagraph?: string;
   image?: { asset?: { url: string }; alt?: string };
+  approachImage?: { asset?: { url: string }; alt?: string };
 }
 
 const {
@@ -15,9 +16,12 @@ const {
   overviewParagraph = '',
   approachParagraph = '',
   image,
+  approachImage,
 } = Astro.props;
-const imageUrl = image?.asset?.url ?? '';
-const defaultAlt = 'Creekside Adult Program';
+const overviewImageUrl = image?.asset?.url ?? '';
+const approachImageUrl = approachImage?.asset?.url ?? '';
+const overviewAlt = image?.alt ?? 'Creekside Adult Program';
+const approachAlt = approachImage?.alt ?? 'Creekside Adult Program - community and activities';
 ---
 
 <ImageTextSection
@@ -25,8 +29,8 @@ const defaultAlt = 'Creekside Adult Program';
   title={title}
   subheading={subheading}
   body={overviewParagraph}
-  imageUrl={imageUrl}
-  imageAlt={defaultAlt}
+  imageUrl={overviewImageUrl}
+  imageAlt={overviewAlt}
   imageLeft={false}
   backgroundColor="white"
 />
@@ -34,8 +38,8 @@ const defaultAlt = 'Creekside Adult Program';
 <ImageTextSection
   sectionId="adult-program-approach"
   body={approachParagraph}
-  imageUrl={imageUrl}
-  imageAlt={defaultAlt}
+  imageUrl={approachImageUrl}
+  imageAlt={approachAlt}
   imageLeft={true}
   backgroundColor="cream"
 />

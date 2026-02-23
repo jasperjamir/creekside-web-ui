@@ -66,7 +66,13 @@ export default defineType({
         defineField({
           name: 'image',
           type: 'image',
-          title: 'Image',
+          title: 'Overview Image',
+          options: { hotspot: true },
+        }),
+        defineField({
+          name: 'approachImage',
+          type: 'image',
+          title: 'Approach Image',
           options: { hotspot: true },
         }),
       ],

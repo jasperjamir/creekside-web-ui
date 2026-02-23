@@ -26,7 +26,6 @@ export const DEFAULT_CONTENT = {
       'After our first students graduated, we noticed that there was a clear lack of adult programs designed to support individuals with profound autism. CAP ensures that Creekside students have access to lifelong learning.',
     approachParagraph:
       "By building on the values that define The Creekside School, we create spaces for connection, purpose, and joy through meaningful activities from community outings across San Jose to more personally aligned choices showcased in our MakerSpace.\n\nGuided by each participant's Individual Program Plan (IPP) and their Person-Centered Plan (PCP), the Creekside Adult Program supports each participant as they live a fulfilling life that honors their individuality and strengths.",
-    approachImageAlt: 'Creekside Adult Program - community and activities',
   },
   longTermGoal: {
     heading: 'Long-Term Goal',
@@ -84,7 +83,6 @@ export function buildSanityDocument(): Record<string, unknown> {
       subheading: d.adultProgram.subheading,
       overviewParagraph: d.adultProgram.overviewParagraph,
       approachParagraph: d.adultProgram.approachParagraph,
-      approachImageAlt: d.adultProgram.approachImageAlt,
     },
     longTermGoalText: {
       heading: d.longTermGoal.heading,
