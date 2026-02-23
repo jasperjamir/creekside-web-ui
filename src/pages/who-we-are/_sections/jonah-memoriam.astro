@@ -8,7 +8,7 @@ interface Props {
   quote: string;
 }
 
-const { imageSrc, imageAlt, kicker, name, dates, quote } = Astro.props;
+const { imageSrc = '', imageAlt = '', kicker = '', name = '', dates = '', quote = '' } = Astro.props;
 ---
 
 <section class="memoriam-section font-sans" id="jonah-memoriam">

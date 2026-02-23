@@ -7,7 +7,7 @@ interface Props {
   paragraphs: readonly string[];
 }
 
-const { imageSrc, imageAlt, paragraphs } = Astro.props;
+const { imageSrc = '', imageAlt = '', paragraphs = [] } = Astro.props;
 ---
 
 <section

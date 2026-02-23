@@ -7,7 +7,7 @@ interface Props {
   text: string;
 }
 
-const { imageSrc, imageAlt, text } = Astro.props;
+const { imageSrc = '', imageAlt = '', text = '' } = Astro.props;
 ---
 
 <section

@@ -11,9 +11,25 @@ export const structure: StructureResolver = (S) =>
         .child(S.editor().id('home').schemaType('home').documentId('home')),
       S.listItem()
         .title('Who We Are')
-        .id('whoWeAre')
-        .schemaType('whoWeAre')
-        .child(S.editor().id('whoWeAre').schemaType('whoWeAre').documentId('whoWeAre')),
+        .id('who-we-are-group')
+        .child(
+          S.list()
+            .title('Who We Are')
+            .items([
+              S.listItem()
+                .title('Who We Are')
+                .id('whoWeAre')
+                .schemaType('whoWeAre')
+                .child(S.editor().id('whoWeAre').schemaType('whoWeAre').documentId('whoWeAre')),
+              S.listItem()
+                .title('Our Story')
+                .id('ourStory')
+                .schemaType('ourStory')
+                .child(
+                  S.editor().id('ourStory').schemaType('ourStory').documentId('ourStory')
+                ),
+            ])
+        ),
       S.listItem()
         .title('Our Programs')
         .id('our-programs-group')

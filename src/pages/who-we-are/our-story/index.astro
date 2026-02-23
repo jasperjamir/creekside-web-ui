@@ -1,69 +1,193 @@
 ---
-import PageLayout from '../../../layouts/PageLayout.astro';
-import PageHeader from '../../../components/sections/PageHeader.astro';
-import { DEFAULT_IMAGES, OUR_STORY_HERO, HISTORY_CONTENT, HISTORY_EXPANSION_CONTENT, HISTORY_CONCLUSION_CONTENT, JONAH_LEGACY_CONTENT, FIRST_STEP_CONTENT, JONAH_MEMORIAM_CONTENT } from '../_constants';
-import SchoolHistory from '../_sections/school-history.astro';
-import HistoryExpansion from '../_sections/history-expansion.astro';
-import HistoryConclusion from '../_sections/history-conclusion.astro';
-import JonahLegacy from '../_sections/jonah-legacy.astro';
-import FirstStep from '../_sections/first-step.astro';
-import JonahMemoriam from '../_sections/jonah-memoriam.astro';
+import { sanityClient } from 'sanity:client'
+import PageLayout from '../../../layouts/PageLayout.astro'
+import PageHeader from '../../../components/sections/PageHeader.astro'
+import SchoolHistory from '../_sections/school-history.astro'
+import HistoryExpansion from '../_sections/history-expansion.astro'
+import HistoryConclusion from '../_sections/history-conclusion.astro'
+import JonahLegacy from '../_sections/jonah-legacy.astro'
+import FirstStep from '../_sections/first-step.astro'
+import JonahMemoriam from '../_sections/jonah-memoriam.astro'
+import { ASSETS_BASE_URL } from '../../../constants'
 
-const [body, body2] = OUR_STORY_HERO.subheadingParagraphs;
+const DEFAULT_IMAGES = {
+  hero: {
+    url: `${ASSETS_BASE_URL}/images/who-we-are--we-are-a-community.png`,
+    alt: 'Our Story - Creekside School',
+  },
+  schoolHistory: {
+    url: `${ASSETS_BASE_URL}/images/history-2006.jpg`,
+    alt: 'A teacher and student learning together in 2007',
+  },
+  historyExpansion: {
+    url: `${ASSETS_BASE_URL}/images/creekside-sign.jpg`,
+    alt: 'Creekside School sign in front of the campus building',
+  },
+  historyConclusion: {
+    url: `${ASSETS_BASE_URL}/images/creekside-sign.jpg`,
+    alt: 'Creekside School sign in front of the campus building',
+  },
+  jonahLegacy: {
+    url: `${ASSETS_BASE_URL}/images/jonah-chung.jpg`,
+    alt: "Jonah Chung smiling, wearing a holiday sweater and a Santa hat",
+  },
+  firstStep: {
+    url: `${ASSETS_BASE_URL}/images/jonah-escalator.jpg`,
+    alt: 'Jonah being supported by a staff member while bravely riding an escalator',
+  },
+  jonahMemoriam: {
+    url: `${ASSETS_BASE_URL}/images/jonah-triptych.jpg`,
+    alt: 'Three portraits of Jonah Chung',
+  },
+}
+
+function withDefaultImage(
+  cmsImage: { asset?: { url: string }; alt?: string } | undefined,
+  defaultImage: { url: string; alt: string }
+) {
+  if (cmsImage?.asset?.url) {
+    return { url: cmsImage.asset.url, alt: cmsImage.alt ?? defaultImage.alt }
+  }
+  return { url: defaultImage.url, alt: defaultImage.alt }
+}
+
+const QUERY = /* groq */ `*[_type == "ourStory"][0] {
+  title,
+  heroText {
+    heading,
+    body,
+    body2,
+    image { asset->{ _id, url } }
+  },
+  schoolHistoryText {
+    paragraphs,
+    image { asset->{ _id, url } }
+  },
+  historyExpansionText {
+    text,
+    image { asset->{ _id, url } }
+  },
+  historyConclusionText {
+    paragraphs,
+    image { asset->{ _id, url } }
+  },
+  jonahLegacyText {
+    kicker,
+    title,
+    quote,
+    attribution,
+    image { asset->{ _id, url } }
+  },
+  firstStepText {
+    title,
+    paragraphs,
+    image { asset->{ _id, url } }
+  },
+  jonahMemoriamText {
+    overlay { kicker, name, dates },
+    quote,
+    image { asset->{ _id, url } }
+  }
+}`
+
+const data = await sanityClient.fetch(QUERY)
+
+const content = {
+  pageTitle: data?.title ?? '',
+  hero: {
+    heading: data?.heroText?.heading ?? '',
+    body: data?.heroText?.body ?? '',
+    body2: data?.heroText?.body2 ?? '',
+    image: withDefaultImage(data?.heroText?.image, DEFAULT_IMAGES.hero),
+  },
+  schoolHistory: {
+    paragraphs: data?.schoolHistoryText?.paragraphs ?? [],
+    image: withDefaultImage(data?.schoolHistoryText?.image, DEFAULT_IMAGES.schoolHistory),
+  },
+  historyExpansion: {
+    text: data?.historyExpansionText?.text ?? '',
+    image: withDefaultImage(data?.historyExpansionText?.image, DEFAULT_IMAGES.historyExpansion),
+  },
+  historyConclusion: {
+    paragraphs: data?.historyConclusionText?.paragraphs ?? [],
+    image: withDefaultImage(data?.historyConclusionText?.image, DEFAULT_IMAGES.historyConclusion),
+  },
+  jonahLegacy: {
+    kicker: data?.jonahLegacyText?.kicker ?? '',
+    title: data?.jonahLegacyText?.title ?? '',
+    quote: data?.jonahLegacyText?.quote ?? '',
+    attribution: data?.jonahLegacyText?.attribution ?? '',
+    image: withDefaultImage(data?.jonahLegacyText?.image, DEFAULT_IMAGES.jonahLegacy),
+  },
+  firstStep: {
+    title: data?.firstStepText?.title ?? '',
+    paragraphs: data?.firstStepText?.paragraphs ?? [],
+    image: withDefaultImage(data?.firstStepText?.image, DEFAULT_IMAGES.firstStep),
+  },
+  jonahMemoriam: {
+    overlay: {
+      kicker: data?.jonahMemoriamText?.overlay?.kicker ?? '',
+      name: data?.jonahMemoriamText?.overlay?.name ?? '',
+      dates: data?.jonahMemoriamText?.overlay?.dates ?? '',
+    },
+    quote: data?.jonahMemoriamText?.quote ?? '',
+    image: withDefaultImage(data?.jonahMemoriamText?.image, DEFAULT_IMAGES.jonahMemoriam),
+  },
+}
 ---
 
-<PageLayout title="Our Story - The Creekside School">
+<PageLayout title={content.pageTitle || 'Our Story - The Creekside School'}>
   <div class="animate-fade-in font-sans">
     <PageHeader
       sectionId="our-story"
-      heading="Our Story"
-      body={body ?? ''}
-      body2={body2 ?? ''}
-      imageUrl={DEFAULT_IMAGES.ourStory.url}
-      imageAlt={OUR_STORY_HERO.imageAlt}
+      heading={content.hero.heading}
+      body={content.hero.body}
+      body2={content.hero.body2}
+      imageUrl={content.hero.image.url}
+      imageAlt={content.hero.image.alt}
     />
 
     <SchoolHistory
-      imageSrc={DEFAULT_IMAGES.ourStory.url}
-      imageAlt={DEFAULT_IMAGES.ourStory.alt}
-      paragraphs={HISTORY_CONTENT.paragraphs}
+      imageSrc={content.schoolHistory.image.url}
+      imageAlt={content.schoolHistory.image.alt}
+      paragraphs={content.schoolHistory.paragraphs}
     />
 
     <HistoryExpansion
-      imageSrc={DEFAULT_IMAGES.ourStory.url}
-      imageAlt={DEFAULT_IMAGES.ourStory.alt}
-      text={HISTORY_EXPANSION_CONTENT.text}
+      imageSrc={content.historyExpansion.image.url}
+      imageAlt={content.historyExpansion.image.alt}
+      text={content.historyExpansion.text}
     />
 
     <HistoryConclusion
-      imageSrc={DEFAULT_IMAGES.ourStory.url}
-      imageAlt={DEFAULT_IMAGES.ourStory.alt}
-      paragraphs={HISTORY_CONCLUSION_CONTENT.paragraphs}
+      imageSrc={content.historyConclusion.image.url}
+      imageAlt={content.historyConclusion.image.alt}
+      paragraphs={content.historyConclusion.paragraphs}
     />
 
     <JonahLegacy
-      kicker={JONAH_LEGACY_CONTENT.kicker}
-      title={JONAH_LEGACY_CONTENT.title}
-      quote={JONAH_LEGACY_CONTENT.quote}
-      attribution={JONAH_LEGACY_CONTENT.attribution}
-      imageSrc={DEFAULT_IMAGES.ourStory.url}
-      imageAlt={JONAH_LEGACY_CONTENT.image.alt}
+      kicker={content.jonahLegacy.kicker}
+      title={content.jonahLegacy.title}
+      quote={content.jonahLegacy.quote}
+      attribution={content.jonahLegacy.attribution}
+      imageSrc={content.jonahLegacy.image.url}
+      imageAlt={content.jonahLegacy.image.alt}
     />
 
     <FirstStep
-      title={FIRST_STEP_CONTENT.header.title}
-      imageSrc={DEFAULT_IMAGES.ourStory.url}
-      imageAlt={FIRST_STEP_CONTENT.image.alt}
-      paragraphs={FIRST_STEP_CONTENT.paragraphs}
+      title={content.firstStep.title}
+      imageSrc={content.firstStep.image.url}
+      imageAlt={content.firstStep.image.alt}
+      paragraphs={content.firstStep.paragraphs}
     />
 
     <JonahMemoriam
-      imageSrc={DEFAULT_IMAGES.ourStory.url}
-      imageAlt={JONAH_MEMORIAM_CONTENT.image.alt}
-      kicker={JONAH_MEMORIAM_CONTENT.overlay.kicker}
-      name={JONAH_MEMORIAM_CONTENT.overlay.name}
-      dates={JONAH_MEMORIAM_CONTENT.overlay.dates}
-      quote={JONAH_MEMORIAM_CONTENT.quote}
+      imageSrc={content.jonahMemoriam.image.url}
+      imageAlt={content.jonahMemoriam.image.alt}
+      kicker={content.jonahMemoriam.overlay.kicker}
+      name={content.jonahMemoriam.overlay.name}
+      dates={content.jonahMemoriam.overlay.dates}
+      quote={content.jonahMemoriam.quote}
     />
   </div>
 </PageLayout>

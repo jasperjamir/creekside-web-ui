@@ -43,6 +43,7 @@ const PAGE_MODULES: Record<
   'community-based-instruction': () =>
     import('../../src/lib/community-based-instruction-defaults'),
   'events': () => import('../../src/lib/events-defaults'),
+  'our-story': () => import('../../src/lib/our-story-defaults'),
 }
 
 async function main() {

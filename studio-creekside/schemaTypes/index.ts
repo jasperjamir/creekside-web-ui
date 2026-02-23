@@ -9,6 +9,7 @@ import { default as supportDonateType } from './supportDonateType';
 import { default as supportInKindDonationsType } from './supportInKindDonationsType';
 import { default as communityBasedInstructionType } from './communityBasedInstructionType';
 import { default as eventsType } from './eventsType';
+import { default as ourStoryType } from './ourStoryType';
 
 export const schemaTypes = [
   homeType,
@@ -22,4 +23,5 @@ export const schemaTypes = [
   supportInKindDonationsType,
   communityBasedInstructionType,
   eventsType,
+  ourStoryType,
 ];

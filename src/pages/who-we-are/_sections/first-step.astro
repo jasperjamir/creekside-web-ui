@@ -8,7 +8,7 @@ interface Props {
   paragraphs: readonly string[];
 }
 
-const { title, imageSrc, imageAlt, paragraphs } = Astro.props;
+const { title = '', imageSrc = '', imageAlt = '', paragraphs = [] } = Astro.props;
 ---
 
 <section
@@ -19,10 +19,12 @@ const { title, imageSrc, imageAlt, paragraphs } = Astro.props;
   <div class="container mx-auto px-4 lg:px-8">
     <div class="max-w-6xl mx-auto">
       <h2 class="text-3xl md:text-4xl font-bold mb-12 lg:mb-16 text-center text-white">
-        <span
-          class="px-2 transform -skew-x-6 inline-block"
-          style={{ backgroundColor: COLORS.green, color: COLORS.blue.navy }}
-        >Taking The First Step</span>
+        {title && (
+          <span
+            class="px-2 transform -skew-x-6 inline-block"
+            style={{ backgroundColor: COLORS.green, color: COLORS.blue.navy }}
+          >{title}</span>
+        )}
       </h2>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div class="flex items-center justify-center lg:justify-start order-first min-h-0">
