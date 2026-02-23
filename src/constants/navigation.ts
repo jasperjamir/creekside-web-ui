@@ -29,8 +29,8 @@ export const NAV_LINKS: readonly NavLink[] = [
     id: 'what-we-do',
     href: '/what-we-do/',
     children: [
+      { name: 'The Creekside School', href: '/what-we-do/community-based-instruction/' },
       { name: 'Creekside Adult Program', href: '/what-we-do/#adult-program' },
-      { name: 'Community-Based Instruction', href: '/what-we-do/community-based-instruction/' },
     ],
   },
   {
