@@ -1,14 +1,49 @@
 ---
 import { sanityClient } from 'sanity:client';
+import { ASSETS_BASE_URL } from '../../../constants';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import HeroSection from '../_sections/hero.astro';
 import OurTeam from '../_sections/our-team.astro';
 import StaffLeadership from '../_sections/staff-leadership.astro';
 import BoardOfDirectors from '../_sections/board-of-directors.astro';
-import { OUR_TEAM_HERO, DEFAULT_CONTENT, STAFF_CONTENT, BOARD_CONTENT } from '../_constants';
 
-const QUERY = /* groq */ `*[_type == "whoWeAre"][0] {
-  ourTeamText {
+const DEFAULT_IMAGES = {
+  hero: {
+    url: `${ASSETS_BASE_URL}/images/hero-image.png`,
+    alt: 'Our Team - Creekside School',
+  },
+};
+
+function withDefaultImage(
+  cmsImage: { asset?: { url: string }; alt?: string } | undefined,
+  defaultImage: { url: string; alt: string }
+) {
+  if (cmsImage?.asset?.url) {
+    return { asset: { url: cmsImage.asset.url }, alt: defaultImage.alt };
+  }
+  return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
+}
+
+const QUERY = /* groq */ `*[_type == "ourTeam"][0] {
+  title,
+  heroText {
+    headingPrefix,
+    headingHighlight,
+    headingSuffix,
+    subheadingParagraphs,
+    ctaText,
+    ctaHref,
+    image { asset->{ _id, url } }
+  },
+  staffLeadershipText {
+    title,
+    members[] { name, role }
+  },
+  boardOfDirectorsText {
+    title,
+    members[] { name, role, bio }
+  },
+  ourTeamGroupsText {
     sectionHeading,
     groups[] {
       title,
@@ -19,28 +54,56 @@ const QUERY = /* groq */ `*[_type == "whoWeAre"][0] {
 }`;
 
 const data = await sanityClient.fetch(QUERY);
-const d = DEFAULT_CONTENT.ourTeam;
-const ourTeam = {
-  sectionHeading: data?.ourTeamText?.sectionHeading ?? d.sectionHeading,
-  groups: data?.ourTeamText?.groups ?? d.groups,
-};
 
-const heroProps = {
-  imageAlt: OUR_TEAM_HERO.imageAlt,
-  headingPrefix: OUR_TEAM_HERO.headingPrefix,
-  headingHighlight: OUR_TEAM_HERO.headingHighlight,
-  headingSuffix: OUR_TEAM_HERO.headingSuffix,
-  subheadingParagraphs: OUR_TEAM_HERO.subheadingParagraphs,
-  ctaText: OUR_TEAM_HERO.ctaText,
-  ctaHref: OUR_TEAM_HERO.ctaHref,
+const content = {
+  pageTitle: data?.title ?? '',
+  hero: {
+    headingPrefix: data?.heroText?.headingPrefix ?? '',
+    headingHighlight: data?.heroText?.headingHighlight ?? '',
+    headingSuffix: data?.heroText?.headingSuffix ?? '',
+    subheadingParagraphs: data?.heroText?.subheadingParagraphs ?? [],
+    ctaText: data?.heroText?.ctaText ?? '',
+    ctaHref: data?.heroText?.ctaHref ?? '',
+    image: withDefaultImage(data?.heroText?.image, DEFAULT_IMAGES.hero),
+  },
+  staffLeadership: {
+    title: data?.staffLeadershipText?.title ?? '',
+    members: data?.staffLeadershipText?.members ?? [],
+  },
+  boardOfDirectors: {
+    title: data?.boardOfDirectorsText?.title ?? '',
+    members: data?.boardOfDirectorsText?.members ?? [],
+  },
+  ourTeamGroups: {
+    sectionHeading: data?.ourTeamGroupsText?.sectionHeading ?? '',
+    groups: data?.ourTeamGroupsText?.groups ?? [],
+  },
 };
 ---
 
-<PageLayout title="Our Team - The Creekside School">
+<PageLayout title={content.pageTitle ? `${content.pageTitle}` : 'Our Team - The Creekside School'}>
   <div class="animate-fade-in font-sans">
-    <HeroSection {...heroProps} />
-    <StaffLeadership title={STAFF_CONTENT.title} members={STAFF_CONTENT.members} />
-    <BoardOfDirectors title={BOARD_CONTENT.title} members={BOARD_CONTENT.members} />
-    <OurTeam sectionHeading={ourTeam.sectionHeading} groups={ourTeam.groups} />
+    <HeroSection
+      imageUrl={content.hero.image.asset.url}
+      imageAlt={content.hero.image.alt}
+      headingPrefix={content.hero.headingPrefix}
+      headingHighlight={content.hero.headingHighlight}
+      headingSuffix={content.hero.headingSuffix}
+      subheadingParagraphs={content.hero.subheadingParagraphs}
+      ctaText={content.hero.ctaText}
+      ctaHref={content.hero.ctaHref}
+    />
+    <StaffLeadership
+      title={content.staffLeadership.title}
+      members={content.staffLeadership.members}
+    />
+    <BoardOfDirectors
+      title={content.boardOfDirectors.title}
+      members={content.boardOfDirectors.members}
+    />
+    <OurTeam
+      sectionHeading={content.ourTeamGroups.sectionHeading}
+      groups={content.ourTeamGroups.groups}
+    />
   </div>
 </PageLayout>
