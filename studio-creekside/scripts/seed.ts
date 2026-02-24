@@ -44,6 +44,7 @@ const PAGE_MODULES: Record<
     import('../../src/lib/community-based-instruction-defaults'),
   'events': () => import('../../src/lib/events-defaults'),
   'our-story': () => import('../../src/lib/our-story-defaults'),
+  'our-team': () => import('../../src/lib/our-team-defaults'),
 }
 
 async function main() {

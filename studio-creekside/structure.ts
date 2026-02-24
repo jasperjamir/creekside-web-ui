@@ -28,6 +28,13 @@ export const structure: StructureResolver = (S) =>
                 .child(
                   S.editor().id('ourStory').schemaType('ourStory').documentId('ourStory')
                 ),
+              S.listItem()
+                .title('Our Team')
+                .id('ourTeam')
+                .schemaType('ourTeam')
+                .child(
+                  S.editor().id('ourTeam').schemaType('ourTeam').documentId('ourTeam')
+                ),
             ])
         ),
       S.listItem()
