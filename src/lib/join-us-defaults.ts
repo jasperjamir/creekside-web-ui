@@ -53,6 +53,8 @@ export const DEFAULT_CONTENT = {
   openPositions: {
     heading: 'Open Positions',
     subheading: '',
+    moreRolesUrl: 'https://www.creeksideschool.org/employment',
+    moreRolesLabel: 'See more open roles',
     positions: [
       {
         title: 'Occupational Therapist Assistant',
@@ -142,6 +144,8 @@ export function buildSanityDocument(): Record<string, unknown> {
     openPositionsText: {
       heading: d.openPositions.heading,
       subheading: d.openPositions.subheading,
+      moreRolesUrl: d.openPositions.moreRolesUrl,
+      moreRolesLabel: d.openPositions.moreRolesLabel,
       positions: d.openPositions.positions.map((p, i) => ({
         _type: 'object',
         _key: `pos-${i}`,

@@ -1,64 +1,56 @@
 ---
+import { COLORS } from '../../../constants';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
+
 interface Props {
-  title: string;
-  text: string;
+  title?: string;
+  text?: string;
 }
 
-const { title, text } = Astro.props;
+const { title = '', text = '' } = Astro.props;
 ---
 
-<section class="eo-section font-sans">
-  <div class="container">
-    <h2 class="eo-title">{title}</h2>
-    <p class="eo-text">{text}</p>
+<section
+  class="eo-section font-sans py-16 lg:py-20"
+  style={{ backgroundColor: COLORS.white }}
+>
+  <div class="container mx-auto max-w-6xl px-6 lg:px-12">
+    <div class="eo-inner">
+      {title && (
+        <div class="text-center mb-8">
+          <SectionHeading className="inline-block">{title}</SectionHeading>
+        </div>
+      )}
+      {text && <p class="eo-body">{text}</p>}
+    </div>
   </div>
 </section>
 
-<style>
-  .eo-section {
-    background-color: #000000;
-    color: #ffffff;
-    padding: 6rem 5%;
+<style define:vars={{ navy: COLORS.blue.navy }}>
+  .eo-inner {
+    max-width: 48rem;
+    margin-inline: auto;
+    text-align: center;
   }
 
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .eo-title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
-    color: #ffffff;
-  }
-
-  .eo-text {
-    font-size: 1.25rem;
-    line-height: 1.625;
-    font-weight: 300;
-    max-width: 900px;
-    color: #ffffff;
+  .eo-body {
+    font-size: 1rem;
+    line-height: 1.65;
+    font-weight: 400;
+    color: var(--navy);
+    margin: 0;
   }
 
   @media (min-width: 768px) {
-    .eo-text {
-      font-size: 1.5rem;
+    .eo-body {
+      font-size: 1.0625rem;
+      line-height: 1.65;
     }
   }
 
-  @media (max-width: 768px) {
-    .eo-section {
-      padding: 4rem 1.5rem;
-    }
-
-    .eo-title {
-      font-size: 2rem;
-    }
-
-    .eo-text {
-      font-size: 1.125rem;
+  @media (max-width: 767px) {
+    .eo-body {
+      font-size: 1rem;
     }
   }
 </style>

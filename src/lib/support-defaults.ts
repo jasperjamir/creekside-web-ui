@@ -138,8 +138,7 @@ export const DEFAULT_CONTENT = {
   },
   credibility: {
     title: 'Credibility / Compliance',
-    bodyHtml:
-      'Creekside School is a nonpublic school serving students with moderate-to-severe autism in Santa Clara County. Tax ID (EIN): [insert]. Gifts are tax-deductible as allowed by law.<br />For questions: info@creeksideschool.org, 408-448-2494. 5629 Lean Avenue, San Jose, CA 95123.',
+    bodyHtml: `<p>Creekside School is a nonpublic school serving students with moderate-to-severe autism in Santa Clara County. Tax ID (EIN): [insert]. Gifts are tax-deductible as allowed by law.</p><p>For questions: <a href="mailto:info@creeksideschool.org">info@creeksideschool.org</a>, <a href="tel:+14084482494">408-448-2494</a>. 5629 Lean Avenue, San Jose, CA 95123.</p>`,
   },
 } as const
 

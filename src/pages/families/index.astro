@@ -4,7 +4,6 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import HeroSection from './_sections/hero.astro';
 import AboutAdmission from './_sections/about-admission.astro';
 import SarcSection from './_sections/sarc.astro';
-import SarcArchive from './_sections/sarc-archive.astro';
 import ResourcesSection from './_sections/resources.astro';
 import { ASSETS_BASE_URL } from '../../constants';
 
@@ -59,7 +58,6 @@ const QUERY = /* groq */ `*[_type == "families"][0] {
     button { label, link },
     image { asset->{ _id, url } }
   },
-  sarcArchiveItems[] { years, label, theme, link },
   resourcesText {
     title,
     features,
@@ -98,9 +96,6 @@ const content = {
     button: data?.sarcText?.button ?? { label: '', link: '' },
     image: { src: sarcImage.asset.url },
   },
-  sarcArchive: {
-    items: data?.sarcArchiveItems ?? [],
-  },
   resources: {
     title: data?.resourcesText?.title ?? '',
     features: data?.resourcesText?.features ?? [],
@@ -114,6 +109,5 @@ const content = {
   <HeroSection {...content.hero} />
   <AboutAdmission content={content.aboutAdmission} />
   <SarcSection content={content.sarc} />
-  <SarcArchive items={content.sarcArchive.items} />
   <ResourcesSection content={content.resources} />
 </PageLayout>

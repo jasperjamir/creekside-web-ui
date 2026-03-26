@@ -20,8 +20,20 @@ export default defineType({
         defineField({ name: 'headingHighlight', type: 'string', title: 'Heading Highlight' }),
         defineField({ name: 'headingSuffix', type: 'string', title: 'Heading Suffix' }),
         defineField({ name: 'subheading', type: 'text', title: 'Subheading' }),
-        defineField({ name: 'ctaText', type: 'string', title: 'CTA Button Text' }),
-        defineField({ name: 'ctaHref', type: 'string', title: 'CTA Link' }),
+        defineField({
+          name: 'ctaText',
+          type: 'string',
+          title: 'Hero button label',
+          description:
+            'Shown on the main call-to-action under the headline (e.g. View School Calendar). Leave empty to use the site default.',
+        }),
+        defineField({
+          name: 'ctaHref',
+          type: 'string',
+          title: 'Hero button link',
+          description:
+            'Where the hero button goes: internal path (e.g. /events/#school-calendar) or full URL. Leave empty to use the site default.',
+        }),
         defineField({
           name: 'image',
           type: 'image',

@@ -17,6 +17,8 @@ export default defineType({
       fields: [
         defineField({ name: 'heading', type: 'string', title: 'Heading' }),
         defineField({ name: 'body', type: 'text', title: 'Body' }),
+        defineField({ name: 'ctaText', type: 'string', title: 'CTA Text' }),
+        defineField({ name: 'ctaHref', type: 'string', title: 'CTA Link' }),
         defineField({
           name: 'image',
           type: 'image',

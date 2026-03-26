@@ -33,7 +33,7 @@ const currentPath = Astro.url.pathname;
                   } group-hover/nav:text-white group-hover/nav:bg-[#2658B2]`}
                   style={isActive 
                     ? { color: COLORS.white, backgroundColor: COLORS.blue.royal }
-                    : { color: 'inherit' }
+                    : {}
                   }
                 >
                   {link.name}
@@ -73,11 +73,11 @@ const currentPath = Astro.url.pathname;
             <a
               href={link.href}
               class={`px-3 py-2 text-sm font-semibold rounded-md transition-colors whitespace-nowrap nav-link ${
-                isActive ? '' : 'text-gray-600'
+                isActive ? '' : 'text-gray-600 hover:text-white hover:bg-[#2658B2]'
               }`}
               style={isActive 
                 ? { color: COLORS.white, backgroundColor: COLORS.blue.royal }
-                : { color: 'inherit' }
+                : {}
               }
               data-link-id={link.id}
             >
@@ -89,7 +89,7 @@ const currentPath = Astro.url.pathname;
           <Button variant="outline" href="/contact" className="shadow-lg transform hover:-translate-y-0.5">
             Contact
           </Button>
-          <Button variant="primary" href="/support/donate" className="shadow-lg transform hover:-translate-y-0.5">
+          <Button variant="primary" href="/support" className="shadow-lg transform hover:-translate-y-0.5">
             Donate
           </Button>
         </div>
@@ -145,7 +145,7 @@ const currentPath = Astro.url.pathname;
       )}
       <div class="pt-4 px-4 space-y-3">
         <Button variant="outline" href="/contact" className="w-full">Contact</Button>
-        <Button variant="primary" href="/support/donate" className="w-full">Donate</Button>
+        <Button variant="primary" href="/support" className="w-full">Donate</Button>
       </div>
     </div>
   </div>
@@ -166,14 +166,13 @@ const currentPath = Astro.url.pathname;
     });
   }
 
-  // Add hover effects for simple desktop nav links (dropdown parents use group-hover)
+  // Clear inline color on simple nav links so Tailwind hover classes take effect
   document.querySelectorAll('.nav-link').forEach((link) => {
     const el = link as HTMLElement;
-    if (el.closest('.group\\/nav')) return; // skip dropdown parents
+    if (el.closest('.group\\/nav')) return;
     const isActive = el.style.backgroundColor;
     if (!isActive) {
-      el.addEventListener('mouseenter', () => { el.style.color = '#2658B2'; });
-      el.addEventListener('mouseleave', () => { el.style.color = ''; });
+      el.addEventListener('mouseenter', () => { el.style.color = ''; });
     }
   });
 </script>

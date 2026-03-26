@@ -4,7 +4,6 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import OurStory from './_sections/our-story.astro';
 import LifelongLearning from './_sections/lifelong-learning.astro';
 import MissionVision from './_sections/mission-vision.astro';
-import OurTeam from './_sections/our-team.astro';
 import WhatIsProfoundAutism from './_sections/what-is-profound-autism.astro';
 import { DEFAULT_IMAGES, DEFAULT_CONTENT } from './_constants';
 
@@ -93,7 +92,6 @@ const content = {
     <OurStory {...content.ourStory} />
     <LifelongLearning {...content.lifelongLearning} />
     <MissionVision {...content.missionVision} />
-    <OurTeam sectionHeading={content.ourTeam.sectionHeading} groups={content.ourTeam.groups} />
     <WhatIsProfoundAutism {...content.whatIsProfoundAutism} />
   </div>
 </PageLayout>

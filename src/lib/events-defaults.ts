@@ -13,8 +13,8 @@ export const DEFAULT_CONTENT = {
     headingHighlight: 'Updates',
     headingSuffix: '',
     subheading: 'Stay up to date with school events, calendar, and news.',
-    ctaText: 'View Calendar of Events',
-    ctaHref: '/events/#calendar-of-events',
+    ctaText: 'View School Calendar',
+    ctaHref: '/events/#school-calendar',
   },
   calendarOfEvents: {
     title: 'Calendar of Events',

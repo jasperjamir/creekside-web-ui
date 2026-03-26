@@ -48,7 +48,7 @@ export const DEFAULT_CONTENT = {
     items: [
       { title: 'Admission Process', icon: 'FileText', link: '/families/admissions-process' },
       { title: 'Community Partnerships', icon: 'Users', link: '/what-we-do/#community-partnerships' },
-      { title: 'Donating To Creekside', icon: 'Heart', link: '/support/donate' },
+      { title: 'Donating To Creekside', icon: 'Heart', link: '/support' },
       { title: 'Job Opportunities', icon: 'Briefcase', link: '/join-us/' },
     ],
   },

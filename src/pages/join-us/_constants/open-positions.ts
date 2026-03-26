@@ -1,3 +1,8 @@
+/** Legacy Wix employment page with full job listings and application flow. */
+export const MORE_OPEN_ROLES_URL = 'https://www.creeksideschool.org/employment';
+
+export const MORE_OPEN_ROLES_LABEL = 'See more open roles';
+
 export const OPEN_POSITIONS = [
   {
     title: "Occupational Therapist Assistant",

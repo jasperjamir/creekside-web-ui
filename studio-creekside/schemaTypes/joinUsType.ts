@@ -104,6 +104,18 @@ export default defineType({
             }),
           ],
         }),
+        defineField({
+          name: 'moreRolesUrl',
+          type: 'url',
+          title: 'See more open roles (URL)',
+          description: 'Optional. Defaults to the legacy employment page if empty.',
+        }),
+        defineField({
+          name: 'moreRolesLabel',
+          type: 'string',
+          title: 'See more open roles (button label)',
+          initialValue: 'See more open roles',
+        }),
       ],
     }),
     defineField({

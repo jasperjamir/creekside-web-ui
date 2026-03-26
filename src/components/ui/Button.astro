@@ -4,9 +4,11 @@ interface Props {
   className?: string;
   class?: string;
   href?: string;
+  target?: string;
+  rel?: string;
 }
 
-const { variant = 'primary', className = '', class: classProp = '', href } = Astro.props;
+const { variant = 'primary', className = '', class: classProp = '', href, target, rel } = Astro.props;
 const combinedClass = className || classProp;
 const { COLORS } = await import('../../constants');
 
@@ -25,6 +27,8 @@ const Tag = href ? 'a' : 'button';
   class={`${baseStyle} ${variant === 'outline' ? 'border-2' : ''} ${variant === 'white' ? 'hover:bg-gray-100' : 'hover:brightness-110'} ${combinedClass}`}
   style={variantStyles[variant]}
   href={href}
+  target={href ? target : undefined}
+  rel={href ? rel : undefined}
 >
   <slot />
 </Tag>

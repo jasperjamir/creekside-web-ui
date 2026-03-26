@@ -57,7 +57,11 @@ const heroSrc = imageUrl || heroImage.src;
       </p>
       {ctaText && ctaHref && (
         <div class="flex justify-start">
-          <Button variant="primary" href={ctaHref} class="text-lg px-10 py-4">
+          <Button
+            variant="primary"
+            href={ctaHref}
+            className="text-lg px-10 py-4 no-underline hover:no-underline shadow-lg"
+          >
             {ctaText}
           </Button>
         </div>

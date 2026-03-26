@@ -1,6 +1,7 @@
 ---
 import { ASSETS_BASE_URL, COLORS } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
+import Button from '../../../components/ui/Button.astro';
 
 interface Props {
   content: {
@@ -28,6 +29,16 @@ const paragraphs = content.description.split(/\n\n+/).filter(Boolean);
         {paragraphs.map((p) => (
           <p set:html={p} />
         ))}
+      </div>
+
+      <div class="mt-8">
+        <Button
+          variant="primary"
+          href="/families/admissions-process/"
+          className="no-underline hover:no-underline shadow-lg transform hover:-translate-y-0.5"
+        >
+          Learn more
+        </Button>
       </div>
     </div>
 

@@ -1,7 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHeader from '../../components/sections/PageHeader.astro';
-import { ASSETS_BASE_URL } from '../../constants';
+import { ASSETS_BASE_URL, MAILING_LIST_SIGNUP_URL } from '../../constants';
 
 const contactBannerImage = `${ASSETS_BASE_URL}/images/contact-us--banner.jpg`;
 ---
@@ -35,6 +35,19 @@ const contactBannerImage = `${ASSETS_BASE_URL}/images/contact-us--banner.jpg`;
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
           <a href="mailto:info@creeksideschool.org" class="contact-info-link">info@creeksideschool.org</a>
+        </div>
+        <div class="contact-info-item">
+          <svg class="contact-info-icon" width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+          <a
+            href={MAILING_LIST_SIGNUP_URL}
+            class="contact-info-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Sign up to receive our updates
+          </a>
         </div>
       </div>
     </PageHeader>

@@ -1,5 +1,6 @@
 ---
 import ImageTextSection from '../../../components/sections/ImageTextSection.astro';
+import Button from '../../../components/ui/Button.astro';
 
 interface Props {
   headline: string;
@@ -25,4 +26,8 @@ const imageAlt = image?.alt ?? '';
   <p class="text-lg leading-relaxed">
     {body}
   </p>
+  <div class="flex flex-wrap gap-4 mt-6">
+    <Button variant="primary" href="/who-we-are/our-story/">Our Story</Button>
+    <Button variant="outline" href="/who-we-are/our-team/">Our Team</Button>
+  </div>
 </ImageTextSection>

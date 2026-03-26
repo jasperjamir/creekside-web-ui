@@ -42,15 +42,7 @@ export const NAV_LINKS: readonly NavLink[] = [
       { name: 'Admissions', href: '/families/#about-admission' },
     ],
   },
-  {
-    name: 'Support',
-    id: 'support',
-    href: '/support/',
-    children: [
-      { name: 'Donate', href: '/support/donate/' },
-      { name: 'In-Kind Donations', href: '/support/in-kind-donations/' },
-    ],
-  },
+  { name: 'Support', id: 'support', href: '/support/' },
   { name: 'Join Our Team', id: 'join', href: '/join-us/' },
   { name: 'Events', id: 'events', href: '/events/' },
 ];
@@ -58,6 +50,7 @@ export const NAV_LINKS: readonly NavLink[] = [
 export const QUICK_LINKS = [
   { name: 'Admissions', href: '/families/admissions-process' },
   { name: 'Careers', href: '/join-us/join-our-team' },
-  { name: 'Donate', href: '/support/donate' },
+  { name: 'Donate', href: '/support' },
+  { name: 'Support', href: '/support/' },
   { name: 'School Calendar', href: '/events/school-calendar' },
 ];

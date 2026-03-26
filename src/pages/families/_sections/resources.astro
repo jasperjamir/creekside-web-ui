@@ -1,6 +1,5 @@
 ---
 import { ASSETS_BASE_URL, COLORS } from '../../../constants';
-import Button from '../../../components/ui/Button.astro';
 
 interface Props {
   content: {
@@ -52,9 +51,6 @@ const imageUrl =
             </span>
           ))}
         </div>
-        <Button variant="primary" href={content.button.link}>
-          {content.button.label}
-        </Button>
       </div>
     </div>
   </div>

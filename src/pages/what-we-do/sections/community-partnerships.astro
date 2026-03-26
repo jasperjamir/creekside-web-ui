@@ -1,6 +1,7 @@
 ---
 import { COLORS } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
+import Button from '../../../components/ui/Button.astro';
 
 interface Partner {
   name: string;
@@ -27,6 +28,15 @@ const bodyText = cbiBody || defaultCbiBody;
       <h3 class="text-lg text-gray-600 mt-4 leading-relaxed">
         {bodyText}
       </h3>
+      <div class="mt-8 flex justify-center">
+        <Button
+          variant="primary"
+          href="/what-we-do/community-based-instruction/#community-partners"
+          className="shadow-lg transform hover:-translate-y-0.5 no-underline hover:no-underline"
+        >
+          Learn more
+        </Button>
+      </div>
     </div>
 
     {partners.length > 0 && (

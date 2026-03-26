@@ -1,83 +1,66 @@
 ---
+import { COLORS } from '../../../constants';
+
 interface Props {
-  title?: string;
   bodyHtml?: string;
 }
 
-const { title = '', bodyHtml = '' } = Astro.props;
+const { bodyHtml = '' } = Astro.props;
 ---
 
-<section class="credibility-section font-sans">
-  <div class="container">
-    {title && <h2 class="credibility-title">{title}</h2>}
-    {bodyHtml && (
-      <p class="credibility-body">
-        <span set:html={bodyHtml} />
-      </p>
-    )}
+<section
+  class="credibility-section font-sans py-16 lg:py-20"
+  style={{ backgroundColor: COLORS.white }}
+>
+  <div class="container mx-auto max-w-6xl px-6 lg:px-12">
+    <div class="credibility-inner">
+      {bodyHtml && <div class="credibility-body" set:html={bodyHtml} />}
+    </div>
   </div>
 </section>
 
-<style>
-  .credibility-section {
-    background-color: #000000;
-    color: #ffffff;
-    padding: 5rem 5%;
-  }
-
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-  .credibility-title {
-    font-size: 2rem;
-    font-weight: 800;
-    margin: 0 0 1.25rem 0;
-    letter-spacing: -0.02em;
-    color: #ffffff;
+<style define:vars={{ navy: COLORS.blue.navy, royal: COLORS.blue.royal }}>
+  /* Match readable width / rhythm with other support narrative blocks (e.g. other ways intro). */
+  .credibility-inner {
+    max-width: 48rem;
+    margin-inline: auto;
+    text-align: center;
   }
 
   .credibility-body {
-    font-size: 1.125rem;
-    line-height: 1.6;
-    font-weight: 300;
-    color: #ffffff;
+    font-size: 1rem;
+    line-height: 1.65;
+    font-weight: 400;
+    color: var(--navy);
     margin: 0;
   }
 
-  .credibility-body a {
-    color: #ffffff;
-    text-decoration: none;
+  .credibility-body :global(p) {
+    margin: 0 0 1rem;
+  }
+
+  .credibility-body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .credibility-body :global(strong) {
+    font-weight: 600;
+  }
+
+  .credibility-body :global(a) {
+    color: var(--royal);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .credibility-body :global(a:hover) {
+    text-decoration-thickness: 2px;
   }
 
   @media (min-width: 768px) {
-    .credibility-section {
-      padding: 6rem 5%;
-    }
-
-    .credibility-title {
-      font-size: 2.25rem;
-      margin-bottom: 1.5rem;
-    }
-
     .credibility-body {
-      font-size: 1.25rem;
-    }
-  }
-
-  @media (max-width: 767px) {
-    .credibility-section {
-      padding: 4rem 1.5rem;
-    }
-
-    .credibility-title {
-      font-size: 1.75rem;
-      margin-bottom: 1rem;
-    }
-
-    .credibility-body {
-      font-size: 1rem;
+      font-size: 1.0625rem;
+      line-height: 1.65;
     }
   }
 </style>
