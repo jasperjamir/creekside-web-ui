@@ -36,7 +36,11 @@ const QUERY = /* groq */ `*[_type == "ourTeam"][0] {
   },
   staffLeadershipText {
     title,
-    members[] { name, role }
+    members[] {
+      name,
+      role,
+      photo { asset->{ _id, url }, alt }
+    }
   },
   boardOfDirectorsText {
     title,

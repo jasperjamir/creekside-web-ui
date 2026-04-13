@@ -50,6 +50,13 @@ export default defineType({
               fields: [
                 defineField({ name: 'name', type: 'string', title: 'Name' }),
                 defineField({ name: 'role', type: 'string', title: 'Role' }),
+                defineField({
+                  name: 'photo',
+                  type: 'image',
+                  title: 'Photo',
+                  options: { hotspot: true },
+                  fields: [defineField({ name: 'alt', type: 'string', title: 'Alt text' })],
+                }),
               ],
             }),
           ],

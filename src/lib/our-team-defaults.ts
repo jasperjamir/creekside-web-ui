@@ -112,6 +112,8 @@ export function buildSanityDocument(): Record<string, unknown> {
         _key: `staff-${i}`,
         name: m.name,
         role: m.role,
+        // Photo is managed in Studio uploads; seed keeps this empty.
+        photo: undefined,
       })),
     },
     boardOfDirectorsText: {

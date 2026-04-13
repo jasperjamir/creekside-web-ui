@@ -3,16 +3,20 @@ import { COLORS } from '../../../constants';
 import SectionHeading from '../../../components/ui/SectionHeading.astro';
 
 interface Member {
-  name: string;
-  role: string;
+  name?: string;
+  role?: string;
+  photo?: {
+    asset?: { url?: string };
+    alt?: string;
+  };
 }
 
 interface Props {
-  title: string;
-  members: readonly Member[];
+  title?: string;
+  members?: readonly Member[];
 }
 
-const { title, members } = Astro.props;
+const { title = '', members = [] } = Astro.props;
 ---
 
 <section
@@ -21,14 +25,36 @@ const { title, members } = Astro.props;
   style={{ backgroundColor: COLORS?.white ?? '#ffffff' }}
 >
   <div class="container mx-auto px-4 lg:px-8">
-    <SectionHeading>{title}</SectionHeading>
-    <ul class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl">
+    {title && <SectionHeading>{title}</SectionHeading>}
+    <ul class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl">
       {members.map((member) => (
-        <li class="flex flex-col py-3">
-          <span class="font-semibold text-lg" style={{ color: COLORS?.blue?.navy ?? '#052049' }}>
-            {member.name}
-          </span>
-          <span class="text-gray-600 text-base mt-0.5">{member.role}</span>
+        <li class="rounded-2xl overflow-hidden bg-white">
+          {member.photo?.asset?.url ? (
+            <img
+              src={member.photo.asset.url}
+              alt={member.photo.alt ?? member.name ?? 'Staff member photo'}
+              class="w-full aspect-[4/5] object-cover object-center"
+              loading="lazy"
+            />
+          ) : (
+            <div
+              class="w-full aspect-[4/5] flex items-center justify-center text-4xl font-bold rounded-2xl"
+              style={{ backgroundColor: COLORS?.blue?.light ?? '#dbeafe', color: COLORS?.blue?.navy ?? '#052049' }}
+            >
+              {(member.name ?? '')
+                .split(' ')
+                .filter(Boolean)
+                .slice(0, 2)
+                .map((n) => n[0]?.toUpperCase())
+                .join('')}
+            </div>
+          )}
+          <div class="p-4">
+            <span class="font-semibold text-lg block" style={{ color: COLORS?.blue?.navy ?? '#052049' }}>
+              {member.name ?? ''}
+            </span>
+            <span class="text-gray-600 text-base mt-0.5 block">{member.role ?? ''}</span>
+          </div>
         </li>
       ))}
     </ul>
