@@ -124,6 +124,8 @@ export function buildSanityDocument(): Record<string, unknown> {
         name: m.name,
         role: m.role,
         bio: m.bio,
+        // Photo is managed in Studio uploads; seed keeps this empty.
+        photo: undefined,
       })),
     },
     ourTeamGroupsText: {
