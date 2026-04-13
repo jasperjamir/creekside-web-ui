@@ -54,10 +54,23 @@ export default defineType({
         defineField({ name: 'heading', type: 'string', title: 'Heading' }),
         defineField({ name: 'body', type: 'text', title: 'Body' }),
         defineField({
-          name: 'image',
+          name: 'video',
+          type: 'file',
+          title: 'Video',
+          options: {
+            accept: 'video/*',
+          },
+        }),
+        defineField({
+          name: 'videoPoster',
           type: 'image',
-          title: 'Image',
+          title: 'Video Poster (optional)',
           options: { hotspot: true },
+        }),
+        defineField({
+          name: 'videoAlt',
+          type: 'string',
+          title: 'Video Description (optional)',
         }),
       ],
     }),

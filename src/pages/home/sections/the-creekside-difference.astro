@@ -6,11 +6,12 @@ import Button from '../../../components/ui/Button.astro';
 interface Props {
   heading: string;
   body: string;
-  image?: { asset?: { url: string } };
+  videoUrl?: string;
+  posterUrl?: string;
+  videoAlt?: string;
 }
 
-const { heading = '', body = '', image } = Astro.props;
-const imageUrl = image?.asset?.url ?? '';
+const { heading = '', body = '', videoUrl = '', posterUrl = '', videoAlt = '' } = Astro.props;
 ---
 
 <section class="py-20" style={{ backgroundColor: COLORS.cream }}>
@@ -19,7 +20,7 @@ const imageUrl = image?.asset?.url ?? '';
       <div class="max-w-2xl">
         <SectionHeading>{heading}</SectionHeading>
         <p class="text-xl md:text-2xl text-gray-700 leading-relaxed font-light mt-8">
-          "{body}"
+          {body}
         </p>
         <div class="h-1 w-24 mt-8 rounded-full" style={{ backgroundColor: COLORS.blue.royal }}></div>
         <div class="mt-8">
@@ -28,16 +29,20 @@ const imageUrl = image?.asset?.url ?? '';
           </Button>
         </div>
       </div>
-      {imageUrl && (
+      {videoUrl && (
         <div class="flex justify-center lg:justify-end">
           <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md aspect-[5/3]">
-            <img
-              src={imageUrl}
-              alt="Creekside School campus"
+            <video
+              src={videoUrl}
+              poster={posterUrl}
+              aria-label={videoAlt}
               class="w-full h-full object-cover object-center"
-              loading="lazy"
-              width="600"
-              height="360"
+              autoplay
+              muted
+              loop
+              playsinline
+              controls
+              preload="metadata"
             />
           </div>
         </div>

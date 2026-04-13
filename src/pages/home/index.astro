@@ -15,8 +15,9 @@ const DEFAULT_IMAGES = {
     alt: 'Adult and child engaged in art activity at Creekside School',
   },
   creeksideDifference: {
-    url: `${ASSETS_BASE_URL}/images/home--the-creekside-difference.jpg`,
-    alt: 'Creekside School campus',
+    videoUrl: `${ASSETS_BASE_URL}/videos/home--the-creekside-difference.mp4`,
+    posterUrl: `${ASSETS_BASE_URL}/images/home--the-creekside-difference.jpg`,
+    alt: 'Creekside School campus video',
   },
   communityImage: {
     url: `${ASSETS_BASE_URL}/images/home--community.jpg`,
@@ -34,6 +35,19 @@ function withDefaultImage(
   return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
 }
 
+function withDefaultVideo(
+  cmsVideo: { asset?: { url: string } } | undefined,
+  cmsPoster: { asset?: { url: string } } | undefined,
+  cmsAlt: string | undefined,
+  defaults: { videoUrl: string; posterUrl: string; alt: string }
+) {
+  return {
+    videoUrl: cmsVideo?.asset?.url ?? defaults.videoUrl,
+    posterUrl: cmsPoster?.asset?.url ?? defaults.posterUrl,
+    videoAlt: cmsAlt ?? defaults.alt,
+  };
+}
+
 const QUERY = /* groq */ `*[_type == "home"][0] {
   title,
   heroText {
@@ -46,7 +60,9 @@ const QUERY = /* groq */ `*[_type == "home"][0] {
   creeksideDifferenceText {
     heading,
     body,
-    image { asset->{ _id, url } }
+    video { asset->{ _id, url } },
+    videoPoster { asset->{ _id, url } },
+    videoAlt
   },
   ourPillarsText {
     heading,
@@ -101,7 +117,12 @@ const heroText = {
 const creeksideDifferenceText = {
   heading: data?.creeksideDifferenceText?.heading ?? '',
   body: data?.creeksideDifferenceText?.body ?? '',
-  image: withDefaultImage(data?.creeksideDifferenceText?.image, DEFAULT_IMAGES.creeksideDifference),
+  ...withDefaultVideo(
+    data?.creeksideDifferenceText?.video,
+    data?.creeksideDifferenceText?.videoPoster,
+    data?.creeksideDifferenceText?.videoAlt,
+    DEFAULT_IMAGES.creeksideDifference
+  ),
 };
 
 const ourPillarsText = {
