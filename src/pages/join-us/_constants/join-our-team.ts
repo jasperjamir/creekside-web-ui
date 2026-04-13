@@ -1,3 +1,16 @@
+import { ASSETS_BASE_URL } from '../../../constants';
+
+/** Staff recruitment video block: uses the home campus story asset; prose is hiring-focused. */
+export const STAFF_RECRUITMENT_VIDEO_CONTENT = {
+  heading: 'What makes working with us a unique experience?',
+  body: 'Our six-acre Blossom Hill campus, small classes, and deeply collaborative team give educators room to focus on students—and on growing as professionals alongside colleagues who care about the work.',
+  videoUrl: `${ASSETS_BASE_URL}/videos/home--the-creekside-difference.mp4`,
+  posterUrl: `${ASSETS_BASE_URL}/images/home--the-creekside-difference.jpg`,
+  videoAlt: 'Creekside School campus and learning environment',
+  buttonHref: '#open-positions',
+  buttonLabel: 'Open positions',
+} as const;
+
 export const JOIN_TEAM_CONTENT = {
   title: "Join Our Team",
   description:
