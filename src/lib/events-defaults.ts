@@ -16,8 +16,13 @@ export const DEFAULT_CONTENT = {
     ctaText: 'View School Calendar',
     ctaHref: '/events/#school-calendar',
   },
-  calendarOfEvents: {
-    title: 'Calendar of Events',
+  updates: {
+    sectionTitle: 'Updates',
+    items: [
+      {
+        title: 'Calendar of Events',
+      },
+    ],
   },
   schoolCalendar: {
     title: 'School Calendar',
@@ -52,8 +57,13 @@ export function buildSanityDocument(): Record<string, unknown> {
       ctaText: d.hero.ctaText,
       ctaHref: d.hero.ctaHref,
     },
-    calendarOfEventsText: {
-      title: d.calendarOfEvents.title,
+    updatesText: {
+      sectionTitle: d.updates.sectionTitle,
+      items: d.updates.items.map((item, i) => ({
+        _type: 'object',
+        _key: `update-${i}`,
+        title: item.title,
+      })),
     },
     schoolCalendarText: {
       title: d.schoolCalendar.title,

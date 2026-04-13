@@ -2,6 +2,7 @@
 import { sanityClient } from 'sanity:client';
 import PageLayout from '../../layouts/PageLayout.astro';
 import HeroSection from './_sections/hero.astro';
+import CalendarOfEventsSection from './_sections/calendar-of-events.astro';
 import SchoolCalendarSection from './_sections/school-calendar.astro';
 import { EVENTS_HERO } from './_constants/hero';
 import { ASSETS_BASE_URL } from '../../constants';
@@ -14,6 +15,10 @@ const DEFAULT_IMAGES = {
   schoolCalendar: {
     url: `${ASSETS_BASE_URL}/images/support--why-support-matters.png`,
     alt: 'Student playing basketball on an outdoor school court',
+  },
+  updates: {
+    url: `${ASSETS_BASE_URL}/images/calendar-of-events.jpg`,
+    alt: 'Update image',
   },
 };
 
@@ -38,6 +43,14 @@ const QUERY = /* groq */ `*[_type == "events"][0] {
     ctaHref,
     image { asset->{ _id, url } }
   },
+  updatesText {
+    sectionTitle,
+    items[] {
+      _key,
+      title,
+      image { asset->{ _id, url } }
+    }
+  },
   schoolCalendarText {
     title,
     details[] {
@@ -56,6 +69,16 @@ const data = await sanityClient.fetch(QUERY);
 const pageTitle = data?.title ?? '';
 const heroImg = withDefaultImage(data?.heroText?.image, DEFAULT_IMAGES.hero);
 const schoolCalendarImg = withDefaultImage(data?.schoolCalendarText?.image, DEFAULT_IMAGES.schoolCalendar);
+const updateItems = (data?.updatesText?.items ?? []).map(
+  (item: { title?: string; image?: { asset?: { url: string }; alt?: string } }) => {
+    const image = withDefaultImage(item?.image, DEFAULT_IMAGES.updates);
+    return {
+      title: item?.title ?? '',
+      imageUrl: image.url,
+      imageAlt: image.alt,
+    };
+  }
+);
 
 const content = {
   hero: {
@@ -67,6 +90,10 @@ const content = {
     subheading: data?.heroText?.subheading ?? '',
     ctaText: (data?.heroText?.ctaText ?? '').trim() || EVENTS_HERO.ctaText,
     ctaHref: (data?.heroText?.ctaHref ?? '').trim() || EVENTS_HERO.ctaHref,
+  },
+  updates: {
+    sectionTitle: data?.updatesText?.sectionTitle ?? '',
+    items: updateItems,
   },
   schoolCalendar: {
     title: data?.schoolCalendarText?.title ?? '',
@@ -81,6 +108,10 @@ const content = {
 <PageLayout title={pageTitle ? `${pageTitle} - The Creekside School` : 'Events & Updates - The Creekside School'}>
   <div class="animate-fade-in font-sans">
     <HeroSection {...content.hero} />
+    <CalendarOfEventsSection
+      sectionTitle={content.updates.sectionTitle}
+      items={content.updates.items}
+    />
     <SchoolCalendarSection
       title={content.schoolCalendar.title}
       details={content.schoolCalendar.details}

@@ -43,16 +43,29 @@ export default defineType({
       ],
     }),
     defineField({
-      name: 'calendarOfEventsText',
+      name: 'updatesText',
       type: 'object',
-      title: 'Calendar of Events Section',
+      title: 'Updates Section',
       fields: [
-        defineField({ name: 'title', type: 'string', title: 'Section Title' }),
+        defineField({ name: 'sectionTitle', type: 'string', title: 'Section Title' }),
         defineField({
-          name: 'image',
-          type: 'image',
-          title: 'Image',
-          options: { hotspot: true },
+          name: 'items',
+          type: 'array',
+          title: 'Updates',
+          of: [
+            defineArrayMember({
+              type: 'object',
+              fields: [
+                defineField({ name: 'title', type: 'string', title: 'Update Title' }),
+                defineField({
+                  name: 'image',
+                  type: 'image',
+                  title: 'Image',
+                  options: { hotspot: true },
+                }),
+              ],
+            }),
+          ],
         }),
       ],
     }),
