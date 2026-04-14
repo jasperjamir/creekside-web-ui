@@ -1,7 +1,7 @@
 /** Jotform: Sign Up for Updates (mailing list). */
 export const MAILING_LIST_SIGNUP_URL = 'https://form.jotform.com/260777856117064';
 
-export type SocialNetworkId = 'facebook' | 'linkedin' | 'instagram';
+export type SocialNetworkId = 'facebook' | 'linkedin' | 'instagram' | 'youtube';
 
 export interface SocialLink {
   id: SocialNetworkId;
@@ -25,5 +25,10 @@ export const SOCIAL_LINKS: readonly SocialLink[] = [
     id: 'instagram',
     href: 'https://www.instagram.com/thecreeksideschool/',
     ariaLabel: 'The Creekside School on Instagram',
+  },
+  {
+    id: 'youtube',
+    href: 'https://www.youtube.com/@TheCreeksideSchool',
+    ariaLabel: 'The Creekside School on YouTube',
   },
 ];
