@@ -35,7 +35,7 @@ const navyRgba = (a: number) => `rgba(5, 32, 73, ${a})`;
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
       {donationAmounts.map((amount) => {
         const isOther = amount === 'Other';
-        const href = isOther ? donateBaseUrl : `${donateBaseUrl}?amount=${amount.replace(/[$,]/g, '')}`;
+        const href = isOther ? `${donateBaseUrl}?amount=other` : `${donateBaseUrl}?amount=${amount.replace(/[$,]/g, '')}`;
         return (
           <a
             href={href}
@@ -49,7 +49,7 @@ const navyRgba = (a: number) => `rgba(5, 32, 73, ${a})`;
       })}
       {monthlyLabel && (
         <a
-          href={donateBaseUrl}
+          href={`${donateBaseUrl}?default_interval=monthly`}
           class="give-card group flex flex-col items-center justify-center px-4 py-3 rounded-2xl border transition-all duration-300 text-center sm:col-span-2 md:col-span-3 hover:bg-[rgba(5,32,73,0.14)]"
           style={{ backgroundColor: navyRgba(0.1), borderColor: navyRgba(0.15) }}
           data-default-border={navyRgba(0.15)}

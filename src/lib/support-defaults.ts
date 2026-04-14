@@ -48,7 +48,7 @@ export const DEFAULT_CONTENT = {
     ],
   },
   waysToGive: {
-    sectionTitle: 'Ways to Give',
+    sectionTitle: 'Donate Now',
     donationAmounts: ['$50', '$100', '$250', '$500', '$1,000', 'Other'],
     monthlyLabel: 'Monthly',
     inKindTitle: 'In-Kind Donations',

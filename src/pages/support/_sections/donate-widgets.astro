@@ -1,0 +1,84 @@
+---
+import { COLORS } from '../../../constants';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
+
+const DONORBOX_EMBED_URL = 'https://donorbox.org/embed/the-creekside-school';
+const MATCHING_EMBED_URL = 'https://donorbox.org/company_matching/the-creekside-school/embed';
+---
+
+<section id="donate-now" class="py-16 lg:py-20 font-sans" style={{ backgroundColor: COLORS.white }}>
+  <div class="container mx-auto px-4 lg:px-8">
+    <div class="text-center mb-12">
+      <SectionHeading>Donate Now</SectionHeading>
+      <p class="mt-4 text-base md:text-lg text-gray-600 max-w-3xl mx-auto">
+        Make a direct gift or see if your employer can match your donation.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 xl:gap-10 items-start">
+      <article class="rounded-2xl border border-gray-200 p-5 md:p-6 bg-white">
+        <h3 class="text-xl font-semibold mb-2" style={{ color: COLORS.blue.navy }}>Make a Donation</h3>
+        <p class="text-sm text-gray-600 mb-5">
+          Give one-time or monthly through our secure Donorbox form.
+        </p>
+        <div class="w-full mx-auto">
+          <iframe
+            id="donorbox-embed-frame"
+            src={DONORBOX_EMBED_URL}
+            name="donorbox"
+            height="900px"
+            width="100%"
+            style="max-width: 100%; min-width: 250px; max-height:none!important"
+            allow="payment"
+            title="Donate to The Creekside School"
+          />
+        </div>
+      </article>
+
+      <article class="rounded-2xl border border-gray-200 p-5 md:p-6 bg-white">
+        <h3 class="text-xl font-semibold mb-2" style={{ color: COLORS.blue.navy }}>Double the Donation</h3>
+        <p class="text-sm text-gray-600 mb-5">
+          Search your employer to check matching gift and volunteer grant eligibility.
+        </p>
+        <div class="w-full mx-auto">
+          <iframe
+            src={MATCHING_EMBED_URL}
+            name="company-matching"
+            width="100%"
+            height="900px"
+            style="max-width: 100%; min-width: 250px; max-height:none!important"
+            title="Double the Donation matching gifts"
+          />
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  const donorboxIframe = document.getElementById('donorbox-embed-frame');
+  const params = new URLSearchParams(window.location.search);
+  const amount = params.get('amount')?.trim();
+  const defaultInterval = params.get('default_interval')?.trim().toLowerCase();
+  const useMonthlyInterval = defaultInterval === 'monthly';
+
+  if (donorboxIframe instanceof HTMLIFrameElement && (amount || useMonthlyInterval)) {
+    const src = donorboxIframe.getAttribute('src');
+    if (src) {
+      const url = new URL(src);
+      if (amount) {
+        url.searchParams.set('amount', amount);
+      }
+      if (useMonthlyInterval) {
+        url.searchParams.set('default_interval', 'm');
+      }
+      donorboxIframe.setAttribute('src', url.toString());
+    }
+  }
+
+  if (donorboxIframe && (amount || useMonthlyInterval)) {
+    requestAnimationFrame(() => {
+      donorboxIframe.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+</script>

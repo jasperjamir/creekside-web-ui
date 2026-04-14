@@ -2,6 +2,7 @@
 import { sanityClient } from 'sanity:client';
 import PageLayout from '../../layouts/PageLayout.astro';
 import HeroSection from './_sections/hero.astro';
+import DonateWidgets from './_sections/donate-widgets.astro';
 import WaysToGive from './_sections/ways-to-give.astro';
 import GivingOptions from './_sections/giving-options.astro';
 import Transparency from './_sections/transparency.astro';
@@ -84,16 +85,8 @@ const content = {
 
 <PageLayout title={pageTitle ? `${pageTitle} - The Creekside School` : 'Donate - The Creekside School'}>
   <HeroSection {...content.hero} />
-  <section id="donate-now" aria-label="Donate Now">
-    <WaysToGive
-      sectionTitle={content.waysToGive.sectionTitle}
-      donationAmounts={content.waysToGive.donationAmounts}
-      monthlyLabel={content.waysToGive.monthlyLabel}
-      inKindTitle={content.waysToGive.inKindTitle}
-      inKindSubtitle={content.waysToGive.inKindSubtitle}
-      donateBaseUrl="/support/donate"
-      hideInKind
-    />
+  <section aria-label="Ways to Give">
+    <DonateWidgets />
   </section>
   <GivingOptions options={content.givingOptions} />
   <Transparency title={content.transparency.title} body={content.transparency.body} />
