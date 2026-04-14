@@ -4,10 +4,10 @@ import { ASSETS_BASE_URL } from '../../../constants';
 export const STAFF_RECRUITMENT_VIDEO_CONTENT = {
   heading: 'What makes working with us a unique experience?',
   body: 'Our six-acre Blossom Hill campus, small classes, and deeply collaborative team give educators room to focus on students—and on growing as professionals alongside colleagues who care about the work.',
-  videoUrl: `${ASSETS_BASE_URL}/videos/home--the-creekside-difference.mp4`,
+  videoUrl: `https://www.youtube.com/watch?si=P5VN6_IYJbcaJAkx&v=lxtw5oI46tI&feature=youtu.be&themeRefresh=1`,
   posterUrl: `${ASSETS_BASE_URL}/images/home--the-creekside-difference.jpg`,
   videoAlt: 'Creekside School campus and learning environment',
-  buttonHref: '#open-positions',
+  buttonHref: '/join-us/#open-positions',
   buttonLabel: 'Open positions',
 } as const;
 

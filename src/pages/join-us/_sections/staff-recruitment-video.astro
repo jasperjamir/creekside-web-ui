@@ -22,6 +22,29 @@ const {
   buttonHref = '#open-positions',
   buttonLabel = 'Open positions',
 } = Astro.props;
+
+function getYouTubeEmbedUrl(url: string) {
+  if (!url) return '';
+
+  try {
+    const parsedUrl = new URL(url);
+    const host = parsedUrl.hostname.replace('www.', '');
+    let videoId = '';
+
+    if (host === 'youtube.com' || host === 'm.youtube.com') {
+      videoId = parsedUrl.searchParams.get('v') ?? '';
+    } else if (host === 'youtu.be') {
+      videoId = parsedUrl.pathname.replace('/', '');
+    }
+
+    if (!videoId) return '';
+    return `https://www.youtube.com/embed/${videoId}?rel=0`;
+  } catch {
+    return '';
+  }
+}
+
+const youtubeEmbedUrl = getYouTubeEmbedUrl(videoUrl);
 ---
 
 <section id="staff-recruitment-video" class="py-20" style={{ backgroundColor: COLORS.cream }}>
@@ -42,18 +65,30 @@ const {
       {videoUrl && (
         <div class="flex justify-center lg:justify-end">
           <div class="w-full max-w-lg overflow-hidden rounded-2xl shadow-md aspect-[5/3]">
-            <video
-              src={videoUrl}
-              poster={posterUrl}
-              aria-label={videoAlt}
-              class="w-full h-full object-cover object-center"
-              autoplay
-              muted
-              loop
-              playsinline
-              controls
-              preload="metadata"
-            />
+            {youtubeEmbedUrl ? (
+              <iframe
+                src={youtubeEmbedUrl}
+                title={videoAlt || 'Staff recruitment video'}
+                class="w-full h-full"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+            ) : (
+              <video
+                src={videoUrl}
+                poster={posterUrl}
+                aria-label={videoAlt}
+                class="w-full h-full object-cover object-center"
+                autoplay
+                muted
+                loop
+                playsinline
+                controls
+                preload="metadata"
+              />
+            )}
           </div>
         </div>
       )}
