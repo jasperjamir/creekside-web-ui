@@ -4,7 +4,6 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import HeroSection from './_sections/hero.astro';
 import CalendarOfEventsSection from './_sections/calendar-of-events.astro';
 import SchoolCalendarSection from './_sections/school-calendar.astro';
-import { EVENTS_HERO } from './_constants/hero';
 import { ASSETS_BASE_URL } from '../../constants';
 
 const DEFAULT_IMAGES = {
@@ -45,9 +44,11 @@ const QUERY = /* groq */ `*[_type == "events"][0] {
   },
   updatesText {
     sectionTitle,
+    sectionBody,
     items[] {
       _key,
       title,
+      body,
       image { asset->{ _id, url } }
     }
   },
@@ -70,10 +71,11 @@ const pageTitle = data?.title ?? '';
 const heroImg = withDefaultImage(data?.heroText?.image, DEFAULT_IMAGES.hero);
 const schoolCalendarImg = withDefaultImage(data?.schoolCalendarText?.image, DEFAULT_IMAGES.schoolCalendar);
 const updateItems = (data?.updatesText?.items ?? []).map(
-  (item: { title?: string; image?: { asset?: { url: string }; alt?: string } }) => {
+  (item: { title?: string; body?: string; image?: { asset?: { url: string }; alt?: string } }) => {
     const image = withDefaultImage(item?.image, DEFAULT_IMAGES.updates);
     return {
       title: item?.title ?? '',
+      body: item?.body ?? '',
       imageUrl: image.url,
       imageAlt: image.alt,
     };
@@ -88,11 +90,12 @@ const content = {
     headingHighlight: data?.heroText?.headingHighlight ?? '',
     headingSuffix: data?.heroText?.headingSuffix ?? '',
     subheading: data?.heroText?.subheading ?? '',
-    ctaText: (data?.heroText?.ctaText ?? '').trim() || EVENTS_HERO.ctaText,
-    ctaHref: (data?.heroText?.ctaHref ?? '').trim() || EVENTS_HERO.ctaHref,
+    ctaText: data?.heroText?.ctaText ?? '',
+    ctaHref: data?.heroText?.ctaHref ?? '',
   },
   updates: {
     sectionTitle: data?.updatesText?.sectionTitle ?? '',
+    sectionBody: data?.updatesText?.sectionBody ?? '',
     items: updateItems,
   },
   schoolCalendar: {
@@ -110,6 +113,7 @@ const content = {
     <HeroSection {...content.hero} />
     <CalendarOfEventsSection
       sectionTitle={content.updates.sectionTitle}
+      sectionBody={content.updates.sectionBody}
       items={content.updates.items}
     />
     <SchoolCalendarSection

@@ -48,6 +48,7 @@ export default defineType({
       title: 'Updates Section',
       fields: [
         defineField({ name: 'sectionTitle', type: 'string', title: 'Section Title' }),
+        defineField({ name: 'sectionBody', type: 'text', title: 'Section Paragraph' }),
         defineField({
           name: 'items',
           type: 'array',
@@ -57,6 +58,7 @@ export default defineType({
               type: 'object',
               fields: [
                 defineField({ name: 'title', type: 'string', title: 'Update Title' }),
+                defineField({ name: 'body', type: 'text', title: 'Update Paragraph' }),
                 defineField({
                   name: 'image',
                   type: 'image',

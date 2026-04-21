@@ -4,23 +4,31 @@ import SectionHeading from '../../../components/ui/SectionHeading.astro';
 
 interface Props {
   sectionTitle?: string;
+  sectionBody?: string;
   items?: Array<{
     title?: string;
+    body?: string;
     imageUrl?: string;
     imageAlt?: string;
   }>;
 }
 
-const { sectionTitle = '', items = [] } = Astro.props;
+const { sectionTitle = '', sectionBody = '', items = [] } = Astro.props;
 ---
 
 <section id="updates" class="calendar-of-events-section font-sans" style={{ backgroundColor: COLORS.white }}>
   <div class="container mx-auto px-4 lg:px-8">
     {sectionTitle && <SectionHeading>{sectionTitle}</SectionHeading>}
+    {sectionBody && (
+      <p class="mt-4 text-lg md:text-xl leading-relaxed" style={{ color: COLORS.blue.navy }}>
+        {sectionBody}
+      </p>
+    )}
     <div class="mt-8 w-full space-y-10">
       {items.map((item) => (
         <article class="w-full">
           {item.title && <h3 class="text-2xl font-semibold mb-4" style={{ color: COLORS.blue.navy }}>{item.title}</h3>}
+          {item.body && <p class="text-lg leading-relaxed mb-6 text-gray-700">{item.body}</p>}
           {item.imageUrl && (
             <div class="mx-auto block w-fit max-w-full overflow-hidden rounded-2xl shadow-lg">
               <img

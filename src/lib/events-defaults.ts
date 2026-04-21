@@ -18,9 +18,11 @@ export const DEFAULT_CONTENT = {
   },
   updates: {
     sectionTitle: 'Updates',
+    sectionBody: 'Stay informed with the latest highlights and important dates from Creekside.',
     items: [
       {
         title: 'Calendar of Events',
+        body: 'Review upcoming school activities, celebrations, and events happening throughout the year.',
       },
     ],
   },
@@ -59,10 +61,12 @@ export function buildSanityDocument(): Record<string, unknown> {
     },
     updatesText: {
       sectionTitle: d.updates.sectionTitle,
+      sectionBody: d.updates.sectionBody,
       items: d.updates.items.map((item, i) => ({
         _type: 'object',
         _key: `update-${i}`,
         title: item.title,
+        body: item.body ?? '',
       })),
     },
     schoolCalendarText: {
