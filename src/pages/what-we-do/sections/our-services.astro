@@ -1,7 +1,7 @@
 ---
-import SectionHeading from '../../../components/ui/SectionHeading.astro';
-import ServiceCard from '../../../components/ui/ServiceCard.astro';
-import { COLORS } from '../../../constants';
+import SectionHeading from "../../../components/ui/SectionHeading.astro";
+import ServiceCard from "../../../components/ui/ServiceCard.astro";
+import { COLORS } from "../../../constants";
 
 interface Service {
   title: string;
@@ -14,29 +14,35 @@ interface Props {
   services: readonly Service[];
 }
 
-const { sectionHeading = '', body = '', services = [] } = Astro.props;
+const { sectionHeading = "", body = "", services = [] } = Astro.props;
 ---
 
-<section id="our-services" class="py-16" style={{ backgroundColor: COLORS.cream }}>
-  <div class="container mx-auto px-4 lg:px-8">
+<section
+  id="our-services"
+  class="py-16"
+  style={{ backgroundColor: COLORS.cream }}
+>
+  <div class="container mx-auto px-4 lg:px-8" id="the-creekside-school">
     <div class="max-w-3xl mx-auto text-center mb-12">
       <div class="flex justify-center mb-6">
         <SectionHeading>{sectionHeading}</SectionHeading>
       </div>
-      {body && (
-        <p class="text-lg text-gray-600 leading-relaxed">
-          {body}
-        </p>
-      )}
+      {body && <p class="text-lg text-gray-600 leading-relaxed">{body}</p>}
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
-      {services.filter((s) => s?.image?.asset?.url).map((service) => (
-        <ServiceCard
-          title={service.title}
-          imageUrl={service.image?.asset?.url ?? ''}
-          imageAlt={`${service.title} at Creekside School`}
-        />
-      ))}
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8"
+    >
+      {
+        services
+          .filter((s) => s?.image?.asset?.url)
+          .map((service) => (
+            <ServiceCard
+              title={service.title}
+              imageUrl={service.image?.asset?.url ?? ""}
+              imageAlt={`${service.title} at Creekside School`}
+            />
+          ))
+      }
     </div>
   </div>
 </section>

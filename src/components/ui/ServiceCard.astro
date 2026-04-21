@@ -4,9 +4,10 @@ interface Props {
   imageUrl: string;
   imageAlt: string;
   href?: string;
+  id?: string;
 }
 
-const { title, imageUrl, imageAlt, href } = Astro.props;
+const { title, imageUrl, imageAlt, href, id } = Astro.props;
 const cardClass = 'group overflow-hidden rounded-2xl shadow-md bg-white hover:shadow-lg transition-shadow block';
 const isExternal = href?.startsWith('http');
 ---
@@ -29,7 +30,7 @@ const isExternal = href?.startsWith('http');
       />
     </div>
     <div class="px-4 py-3">
-      <h3 class="text-xl font-bold leading-tight" style="color: var(--color-navy, #052049)">
+      <h3 id={id} class="text-xl font-bold leading-tight" style="color: var(--color-navy, #052049)">
         {title}
       </h3>
     </div>
@@ -47,7 +48,7 @@ const isExternal = href?.startsWith('http');
       />
     </div>
     <div class="px-4 py-3">
-      <h3 class="text-xl font-bold leading-tight" style="color: var(--color-navy, #052049)">
+      <h3 id={id} class="text-xl font-bold leading-tight" style="color: var(--color-navy, #052049)">
         {title}
       </h3>
     </div>
