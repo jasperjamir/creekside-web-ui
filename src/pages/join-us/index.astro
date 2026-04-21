@@ -5,7 +5,6 @@ import PageHeader from '../../components/sections/PageHeader.astro';
 import WhyWorkAtCreekside from './_sections/why-work-at-creekside.astro';
 import JoinOurTeamSection from './_sections/join-our-team.astro';
 import StaffRecruitmentVideo from './_sections/staff-recruitment-video.astro';
-import ApplyInstructions from './_sections/apply-instructions.astro';
 import QuestionsEmail from './_sections/questions-email.astro';
 import EqualOpportunity from './_sections/equal-opportunity.astro';
 import HowWeHire from './_sections/how-we-hire.astro';
@@ -53,7 +52,6 @@ const QUERY = /* groq */ `*[_type == "joinUs"][0] {
     image { asset->{ _id, url } },
     benefits[]
   },
-  applyInstructionsText { text, email },
   openPositionsText {
     heading,
     subheading,
@@ -86,10 +84,6 @@ const content = {
     description: data?.joinOurTeamText?.description ?? '',
     image: withDefaultImage(data?.joinOurTeamText?.image, DEFAULT_IMAGES.joinOurTeam),
     benefits: data?.joinOurTeamText?.benefits ?? [],
-  },
-  applyInstructions: {
-    text: data?.applyInstructionsText?.text ?? '',
-    email: data?.applyInstructionsText?.email ?? '',
   },
   openPositions: {
     heading: data?.openPositionsText?.heading ?? '',
@@ -136,7 +130,6 @@ const content = {
       benefits={content.joinOurTeam.benefits}
     />
     <StaffRecruitmentVideo {...STAFF_RECRUITMENT_VIDEO_CONTENT} />
-    <ApplyInstructions text={content.applyInstructions.text} email={content.applyInstructions.email} />
     <OpenPositions
       heading={content.openPositions.heading}
       subheading={content.openPositions.subheading}

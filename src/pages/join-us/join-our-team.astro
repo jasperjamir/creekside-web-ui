@@ -1,7 +1,6 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import JoinOurTeamSection from './_sections/join-our-team.astro';
-import ApplyInstructions from './_sections/apply-instructions.astro';
 import OpenPositions from './_sections/open-positions.astro';
 import {
   JOIN_TEAM_CONTENT,
@@ -14,12 +13,16 @@ import {
 
 <PageLayout title="Join Our Team - The Creekside School">
   <div class="animate-fade-in font-sans">
-    <JoinOurTeamSection content={JOIN_TEAM_CONTENT} benefits={BENEFITS} />
+    <JoinOurTeamSection
+      title={JOIN_TEAM_CONTENT.title}
+      description={JOIN_TEAM_CONTENT.description}
+      image={{ asset: { url: JOIN_TEAM_CONTENT.image }, alt: JOIN_TEAM_CONTENT.imageAlt }}
+      benefits={BENEFITS}
+    />
     <OpenPositions
       positions={OPEN_POSITIONS}
       moreRolesHref={MORE_OPEN_ROLES_URL}
       moreRolesLabel={MORE_OPEN_ROLES_LABEL}
     />
-    <ApplyInstructions text="To apply, read through any of the job descriptions listed above and send your resume to " email="jobs@creeksideschool.org" />
   </div>
 </PageLayout>
