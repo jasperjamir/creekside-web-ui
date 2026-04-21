@@ -72,6 +72,20 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'staffRecruitmentVideoText',
+      type: 'object',
+      title: 'Staff Recruitment Video Section',
+      fields: [
+        defineField({ name: 'heading', type: 'string', title: 'Heading' }),
+        defineField({ name: 'body', type: 'text', title: 'Body' }),
+        defineField({ name: 'videoUrl', type: 'url', title: 'Video URL' }),
+        defineField({ name: 'posterUrl', type: 'url', title: 'Poster URL' }),
+        defineField({ name: 'videoAlt', type: 'string', title: 'Video Alt Text' }),
+        defineField({ name: 'buttonHref', type: 'string', title: 'Button URL or Hash' }),
+        defineField({ name: 'buttonLabel', type: 'string', title: 'Button Label' }),
+      ],
+    }),
+    defineField({
       name: 'applyInstructionsText',
       type: 'object',
       title: 'Apply Instructions Section',

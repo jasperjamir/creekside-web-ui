@@ -8,8 +8,6 @@ import StaffRecruitmentVideo from './_sections/staff-recruitment-video.astro';
 import QuestionsEmail from './_sections/questions-email.astro';
 import EqualOpportunity from './_sections/equal-opportunity.astro';
 import HowWeHire from './_sections/how-we-hire.astro';
-import OpenPositions from './_sections/open-positions.astro';
-import { MORE_OPEN_ROLES_LABEL, MORE_OPEN_ROLES_URL, STAFF_RECRUITMENT_VIDEO_CONTENT } from './_constants';
 import { ASSETS_BASE_URL } from '../../constants';
 
 const DEFAULT_IMAGES = {
@@ -20,6 +18,10 @@ const DEFAULT_IMAGES = {
   joinOurTeam: {
     url: `${ASSETS_BASE_URL}/images/join-us--join-our-team.jpg`,
     alt: 'A Creekside teacher working one-on-one with a student on a learning activity.',
+  },
+  staffRecruitmentVideoPoster: {
+    url: `${ASSETS_BASE_URL}/images/home--the-creekside-difference.jpg`,
+    alt: 'Creekside School campus and learning environment',
   },
 };
 
@@ -52,12 +54,14 @@ const QUERY = /* groq */ `*[_type == "joinUs"][0] {
     image { asset->{ _id, url } },
     benefits[]
   },
-  openPositionsText {
+  staffRecruitmentVideoText {
     heading,
-    subheading,
-    moreRolesUrl,
-    moreRolesLabel,
-    positions[] { title, type, description, link, tagColor }
+    body,
+    videoUrl,
+    posterUrl,
+    videoAlt,
+    buttonHref,
+    buttonLabel
   },
   howWeHireText { heading, steps[] { title, description } },
   questionsEmailText { text, email },
@@ -85,18 +89,20 @@ const content = {
     image: withDefaultImage(data?.joinOurTeamText?.image, DEFAULT_IMAGES.joinOurTeam),
     benefits: data?.joinOurTeamText?.benefits ?? [],
   },
-  openPositions: {
-    heading: data?.openPositionsText?.heading ?? '',
-    subheading: data?.openPositionsText?.subheading ?? '',
-    positions: data?.openPositionsText?.positions ?? [],
-    moreRolesHref:
-      (typeof data?.openPositionsText?.moreRolesUrl === 'string' &&
-        data.openPositionsText.moreRolesUrl.trim()) ||
-      MORE_OPEN_ROLES_URL,
-    moreRolesLabel:
-      (typeof data?.openPositionsText?.moreRolesLabel === 'string' &&
-        data.openPositionsText.moreRolesLabel.trim()) ||
-      MORE_OPEN_ROLES_LABEL,
+  staffRecruitmentVideo: {
+    heading: data?.staffRecruitmentVideoText?.heading ?? '',
+    body: data?.staffRecruitmentVideoText?.body ?? '',
+    videoUrl: data?.staffRecruitmentVideoText?.videoUrl ?? '',
+    posterUrl:
+      (typeof data?.staffRecruitmentVideoText?.posterUrl === 'string' &&
+        data.staffRecruitmentVideoText.posterUrl.trim()) ||
+      DEFAULT_IMAGES.staffRecruitmentVideoPoster.url,
+    videoAlt:
+      (typeof data?.staffRecruitmentVideoText?.videoAlt === 'string' &&
+        data.staffRecruitmentVideoText.videoAlt.trim()) ||
+      DEFAULT_IMAGES.staffRecruitmentVideoPoster.alt,
+    buttonHref: data?.staffRecruitmentVideoText?.buttonHref ?? '',
+    buttonLabel: data?.staffRecruitmentVideoText?.buttonLabel ?? '',
   },
   howWeHire: {
     heading: data?.howWeHireText?.heading ?? '',
@@ -129,14 +135,7 @@ const content = {
       image={content.joinOurTeam.image}
       benefits={content.joinOurTeam.benefits}
     />
-    <StaffRecruitmentVideo {...STAFF_RECRUITMENT_VIDEO_CONTENT} />
-    <OpenPositions
-      heading={content.openPositions.heading}
-      subheading={content.openPositions.subheading}
-      positions={content.openPositions.positions}
-      moreRolesHref={content.openPositions.moreRolesHref}
-      moreRolesLabel={content.openPositions.moreRolesLabel}
-    />
+    <StaffRecruitmentVideo {...content.staffRecruitmentVideo} />
     <HowWeHire heading={content.howWeHire.heading} steps={content.howWeHire.steps} />
     <QuestionsEmail text={content.questionsEmail.text} email={content.questionsEmail.email} />
     <EqualOpportunity title={content.equalOpportunity.title} text={content.equalOpportunity.text} />

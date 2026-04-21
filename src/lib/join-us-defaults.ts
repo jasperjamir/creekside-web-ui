@@ -46,6 +46,16 @@ export const DEFAULT_CONTENT = {
       'Incredibly friendly, fun, and supportive staff',
     ],
   },
+  staffRecruitmentVideo: {
+    heading: 'What makes working with us a unique experience?',
+    body:
+      'Our six-acre Blossom Hill campus, small classes, and deeply collaborative team give educators room to focus on students-and on growing as professionals alongside colleagues who care about the work.',
+    videoUrl: 'https://www.youtube.com/watch?si=P5VN6_IYJbcaJAkx&v=lxtw5oI46tI&feature=youtu.be&themeRefresh=1',
+    posterUrl: 'https://images.prismic.io/creekside-school/0e95b809-5f6f-4fb3-86a7-f4db8df57bde_home--the-creekside-difference.jpg',
+    videoAlt: 'Creekside School campus and learning environment',
+    buttonHref: 'https://www.indeed.com/cmp/The-Creekside-School/jobs',
+    buttonLabel: 'Apply for open positions',
+  },
   applyInstructions: {
     text: 'To apply, read through any of the job descriptions listed below and send your resume to ',
     email: 'jobs@creeksideschool.org',
@@ -136,6 +146,15 @@ export function buildSanityDocument(): Record<string, unknown> {
       title: d.joinOurTeam.title,
       description: d.joinOurTeam.description,
       benefits: d.joinOurTeam.benefits,
+    },
+    staffRecruitmentVideoText: {
+      heading: d.staffRecruitmentVideo.heading,
+      body: d.staffRecruitmentVideo.body,
+      videoUrl: d.staffRecruitmentVideo.videoUrl,
+      posterUrl: d.staffRecruitmentVideo.posterUrl,
+      videoAlt: d.staffRecruitmentVideo.videoAlt,
+      buttonHref: d.staffRecruitmentVideo.buttonHref,
+      buttonLabel: d.staffRecruitmentVideo.buttonLabel,
     },
     applyInstructionsText: {
       text: d.applyInstructions.text,
