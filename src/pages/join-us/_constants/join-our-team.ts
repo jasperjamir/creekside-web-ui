@@ -7,8 +7,8 @@ export const STAFF_RECRUITMENT_VIDEO_CONTENT = {
   videoUrl: `https://www.youtube.com/watch?si=P5VN6_IYJbcaJAkx&v=lxtw5oI46tI&feature=youtu.be&themeRefresh=1`,
   posterUrl: `${ASSETS_BASE_URL}/images/home--the-creekside-difference.jpg`,
   videoAlt: 'Creekside School campus and learning environment',
-  buttonHref: '/join-us/#open-positions',
-  buttonLabel: 'Open positions',
+  buttonHref: 'https://www.indeed.com/cmp/The-Creekside-School/jobs',
+  buttonLabel: 'Apply for open positions',
 } as const;
 
 export const JOIN_TEAM_CONTENT = {
