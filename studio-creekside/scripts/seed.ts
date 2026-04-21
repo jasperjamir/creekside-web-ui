@@ -8,7 +8,7 @@
  * Each page has a defaults file at src/lib/<page>-defaults.ts that must export:
  *   buildSanityDocument(): Record<string, unknown>
  *
- * Loads .env from studio-creekside if present. Requires SANITY_AUTH_TOKEN with Editor access.
+ * Loads .env from studio-creekside if present. Requires SANITY_SEED_TOKEN with Editor access.
  */
 
 import 'dotenv/config'
@@ -23,7 +23,7 @@ const client = createClient({
   dataset,
   apiVersion,
   useCdn: false,
-  token: process.env.SANITY_AUTH_TOKEN,
+  token: process.env.SANITY_SEED_TOKEN,
 })
 
 const PAGE_MODULES: Record<
@@ -62,9 +62,9 @@ async function main() {
     process.exit(1)
   }
 
-  if (!process.env.SANITY_AUTH_TOKEN) {
+  if (!process.env.SANITY_SEED_TOKEN) {
     console.error(
-      'Missing SANITY_AUTH_TOKEN. Create a token with Editor access at https://www.sanity.io/manage/project/zu0udp1i/api#tokens'
+      'Missing SANITY_SEED_TOKEN. Create a token with Editor access at https://www.sanity.io/manage/project/zu0udp1i/api#tokens'
     )
     process.exit(1)
   }
