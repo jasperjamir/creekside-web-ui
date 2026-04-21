@@ -1,0 +1,198 @@
+---
+import { COLORS } from '../../../constants';
+import SectionHeading from '../../../components/ui/SectionHeading.astro';
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface ParagraphBlock {
+  type: 'paragraph';
+  text: string;
+}
+
+interface ListBlock {
+  type: 'list';
+  items: string[];
+}
+
+type AnswerBlock = ParagraphBlock | ListBlock;
+
+interface Props {
+  content: {
+    title?: string;
+    items?: FaqItem[];
+  };
+}
+
+const { content = { title: '', items: [] } } = Astro.props;
+const items = content.items ?? [];
+
+function parseAnswerBlocks(answer: string): AnswerBlock[] {
+  const blocks: AnswerBlock[] = [];
+  const lines = answer.split('\n');
+  let paragraphLines: string[] = [];
+  let listItems: string[] = [];
+
+  const flushParagraph = () => {
+    if (!paragraphLines.length) return;
+    blocks.push({ type: 'paragraph', text: paragraphLines.join(' ') });
+    paragraphLines = [];
+  };
+
+  const flushList = () => {
+    if (!listItems.length) return;
+    blocks.push({ type: 'list', items: [...listItems] });
+    listItems = [];
+  };
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) {
+      flushParagraph();
+      flushList();
+      continue;
+    }
+
+    const bulletMatch = line.match(/^[-*]\s+(.+)/);
+    if (bulletMatch) {
+      flushParagraph();
+      listItems.push(bulletMatch[1].trim());
+      continue;
+    }
+
+    flushList();
+    paragraphLines.push(line);
+  }
+
+  flushParagraph();
+  flushList();
+
+  return blocks;
+}
+---
+
+<section id="frequently-asked-questions" class="faq-section font-sans" style={{ backgroundColor: COLORS.white }}>
+  <div class="container">
+    <div class="heading-wrap">
+      <SectionHeading>{content.title || 'Frequently Asked Questions'}</SectionHeading>
+    </div>
+
+    <div class="faq-list">
+      {items.map((item) => (
+        <details class="faq-item">
+          <summary>
+            <span>{item.question}</span>
+            <span class="chevron" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-answer">
+            {parseAnswerBlocks(item.answer).map((block) =>
+              block.type === 'paragraph' ? (
+                <p class="faq-paragraph">{block.text}</p>
+              ) : (
+                <ul class="faq-bullets">
+                  {block.items.map((bullet) => (
+                    <li>{bullet}</li>
+                  ))}
+                </ul>
+              )
+            )}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-section {
+    padding: 0 5% 4rem;
+    font-family: inherit;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .heading-wrap {
+    margin-bottom: 1.5rem;
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .faq-item {
+    border: 1px solid #d7deea;
+    border-radius: 0.9rem;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .faq-item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    list-style: none;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1f3f7f;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::marker {
+    display: none;
+    content: '';
+  }
+
+  .faq-answer {
+    padding: 0 1.25rem 1.1rem;
+    color: #223;
+    line-height: 1.6;
+  }
+
+  .faq-paragraph {
+    margin: 0 0 0.85rem;
+  }
+
+  .faq-paragraph:last-child {
+    margin-bottom: 0;
+  }
+
+  .faq-bullets {
+    margin: 0 0 0.85rem;
+    padding-left: 1.25rem;
+  }
+
+  .faq-bullets:last-child {
+    margin-bottom: 0;
+  }
+
+  .faq-bullets li {
+    margin-bottom: 0.35rem;
+  }
+
+  .faq-bullets li:last-child {
+    margin: 0;
+  }
+
+  .chevron {
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1;
+    transition: transform 0.2s ease;
+  }
+
+  .faq-item[open] .chevron {
+    transform: rotate(45deg);
+  }
+</style>

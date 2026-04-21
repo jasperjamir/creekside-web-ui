@@ -55,6 +55,28 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'faqText',
+      type: 'object',
+      title: 'Frequently Asked Questions',
+      fields: [
+        defineField({ name: 'title', type: 'string', title: 'Section Title' }),
+        defineField({
+          name: 'items',
+          type: 'array',
+          title: 'FAQ Items',
+          of: [
+            defineArrayMember({
+              type: 'object',
+              fields: [
+                defineField({ name: 'question', type: 'string', title: 'Question' }),
+                defineField({ name: 'answer', type: 'text', title: 'Answer' }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }),
+    defineField({
       name: 'sarcText',
       type: 'object',
       title: 'SARC Section',
