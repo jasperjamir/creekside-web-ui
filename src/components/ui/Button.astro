@@ -6,9 +6,10 @@ interface Props {
   href?: string;
   target?: string;
   rel?: string;
+  download?: boolean | string;
 }
 
-const { variant = 'primary', className = '', class: classProp = '', href, target, rel } = Astro.props;
+const { variant = 'primary', className = '', class: classProp = '', href, target, rel, download } = Astro.props;
 const combinedClass = className || classProp;
 const { COLORS } = await import('../../constants');
 
@@ -29,6 +30,7 @@ const Tag = href ? 'a' : 'button';
   href={href}
   target={href ? target : undefined}
   rel={href ? rel : undefined}
+  download={href ? download : undefined}
 >
   <slot />
 </Tag>

@@ -38,6 +38,15 @@ export default defineType({
         defineField({ name: 'title', type: 'string', title: 'Title' }),
         defineField({ name: 'description', type: 'text', title: 'Description' }),
         defineField({
+          name: 'downloadFlyerFile',
+          type: 'file',
+          title: 'Download File',
+          description: 'Upload flyer file (PDF or image). This file is hosted by Sanity and used by the Download Flyer button.',
+          options: {
+            accept: '.pdf,image/*',
+          },
+        }),
+        defineField({
           name: 'image',
           type: 'image',
           title: 'Image',

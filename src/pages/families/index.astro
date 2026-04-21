@@ -36,6 +36,18 @@ function withDefaultImage(
   return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
 }
 
+function toDownloadHref(assetUrl: string | undefined) {
+  if (!assetUrl) return '';
+  try {
+    const url = new URL(assetUrl);
+    const fileName = url.pathname.split('/').pop() || 'creekside-flyer';
+    url.searchParams.set('dl', fileName);
+    return url.toString();
+  } catch {
+    return assetUrl;
+  }
+}
+
 const QUERY = /* groq */ `*[_type == "families"][0] {
   title,
   heroText {
@@ -50,6 +62,7 @@ const QUERY = /* groq */ `*[_type == "families"][0] {
   aboutAdmissionText {
     title,
     description,
+    downloadFlyerFile { asset->{ url } },
     image { asset->{ _id, url } }
   },
   sarcText {
@@ -74,6 +87,7 @@ const sarcImage = withDefaultImage(data?.sarcText?.image, DEFAULT_IMAGES.sarc);
 const resourcesImage = withDefaultImage(data?.resourcesText?.image, DEFAULT_IMAGES.resources);
 
 const pageTitle = data?.title ?? ''
+const aboutAdmissionDownloadHref = toDownloadHref(data?.aboutAdmissionText?.downloadFlyerFile?.asset?.url)
 
 const content = {
   hero: {
@@ -89,6 +103,7 @@ const content = {
     title: data?.aboutAdmissionText?.title ?? '',
     description: data?.aboutAdmissionText?.description ?? '',
     image: aboutAdmissionImage.asset.url,
+    downloadFlyerHref: aboutAdmissionDownloadHref,
   },
   sarc: {
     title: data?.sarcText?.title ?? '',

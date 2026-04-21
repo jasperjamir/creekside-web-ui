@@ -8,6 +8,7 @@ interface Props {
     title: string;
     description: string;
     image: string;
+    downloadFlyerHref?: string;
   };
 }
 
@@ -31,14 +32,28 @@ const paragraphs = content.description.split(/\n\n+/).filter(Boolean);
         ))}
       </div>
 
-      <div class="mt-8">
+      <div class="mt-8 flex flex-wrap gap-4">
         <Button
           variant="primary"
-          href="/families/admissions-process/"
+          href="https://docs.google.com/document/d/1dEnIyQJWDE0q9AiAHAC4fQ6QYoqBx2kDht0sHojI8zU/edit?tab=t.0"
+          target="_blank"
+          rel="noopener noreferrer"
           className="no-underline hover:no-underline shadow-lg transform hover:-translate-y-0.5"
         >
           Learn more
         </Button>
+        {content.downloadFlyerHref && (
+          <Button
+            variant="outline"
+            href={content.downloadFlyerHref}
+            download
+            target="_blank"
+            rel="noopener noreferrer"
+            className="no-underline hover:no-underline shadow-lg transform hover:-translate-y-0.5"
+          >
+            Download Flyer
+          </Button>
+        )}
       </div>
     </div>
 
