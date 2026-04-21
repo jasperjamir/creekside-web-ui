@@ -35,7 +35,8 @@ function withDefaultImage(
   return { asset: { url: defaultImage.url }, alt: defaultImage.alt };
 }
 
-const QUERY = /* groq */ `*[_type == "joinUs"][0] {
+const QUERY = /* groq */ `*[_type == "joinUs" && _id in ["joinUs", "drafts.joinUs"]]
+  | order(_updatedAt desc)[0] {
   title,
   heroText {
     heading,
