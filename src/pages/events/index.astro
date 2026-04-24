@@ -6,17 +6,19 @@ import CalendarOfEventsSection from './_sections/calendar-of-events.astro';
 import SchoolCalendarSection from './_sections/school-calendar.astro';
 import { ASSETS_BASE_URL } from '../../constants';
 
+const DEFAULT_IMAGE_URL = 'https://assets.creekside.banyuhay.ph/images/default-photo.jpg';
+
 const DEFAULT_IMAGES = {
   hero: {
-    url: `${ASSETS_BASE_URL}/images/hero-image.png`,
+    url: DEFAULT_IMAGE_URL,
     alt: 'Events at Creekside School',
   },
   schoolCalendar: {
-    url: `${ASSETS_BASE_URL}/images/support--why-support-matters.png`,
+    url: DEFAULT_IMAGE_URL,
     alt: 'Student playing basketball on an outdoor school court',
   },
   updates: {
-    url: `${ASSETS_BASE_URL}/images/calendar-of-events.jpg`,
+    url: DEFAULT_IMAGE_URL,
     alt: 'Update image',
   },
 };
