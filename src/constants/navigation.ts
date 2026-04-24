@@ -53,5 +53,5 @@ export const QUICK_LINKS = [
   { name: 'Careers', href: '/join-us/join-our-team' },
   { name: 'Donate', href: '/support' },
   { name: 'Support', href: '/support/' },
-  { name: 'School Calendar', href: '/events/school-calendar' },
+  { name: 'School Calendar', href: '/events/' },
 ];
