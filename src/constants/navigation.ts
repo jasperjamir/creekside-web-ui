@@ -49,8 +49,8 @@ export const NAV_LINKS: readonly NavLink[] = [
 ];
 
 export const QUICK_LINKS = [
-  { name: 'Admissions', href: '/families/admissions-process' },
-  { name: 'Careers', href: '/join-us/join-our-team' },
+  { name: 'Admissions', href: '/families/#about-admission' },
+  { name: 'Careers', href: '/join-us/' },
   { name: 'Donate', href: '/support' },
   { name: 'Support', href: '/support/' },
   { name: 'School Calendar', href: '/events/' },
